@@ -1,7 +1,7 @@
-[![BlockOverlays: 2026.2-2026.9.123](https://img.shields.io/badge/BlockOverlays-2026.2--2026.9.123-blueviolet?style=flat-square)](#)
+[![BlockOverlays: 2026.9.123](https://img.shields.io/badge/BlockOverlays-2026.9.123-blueviolet?style=flat-square)](#)
 [![MCreator: 2026.2](https://img.shields.io/badge/MCreator-2026.2-orange?style=flat-square)](#)
-[![neoforge-26.1.2](https://img.shields.io/badge/neoforge--26.1.2-neoforge--26.1.2-green?style=flat-square)](#)
-[![neoforge-26.2](https://img.shields.io/badge/neoforge--26.2-neoforge--26.2-green?style=flat-square)](#)
+[![neoforge: 26.1.2](https://img.shields.io/badge/neoforge-26.1.2-26.1.2-green?style=flat-square)](#)
+[![neoforge: 26.2](https://img.shields.io/badge/neoforge-26.2-26.2-green?style=flat-square)](#)
 
 # Block Overlays
 
@@ -54,4 +54,5 @@ Run `./build.ps1`. Like BlockDirections, it compiles Java, stages plugin resourc
 `build/distribution/BlockOverlays-{mcreatorVersion}-{year}.{month}.{increment}.zip`
 
 The build updates `plugin.json`, then increments `version.properties` for the next build.
+
 
