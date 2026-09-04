@@ -2,3 +2,6 @@
 /.gradle
 /build
 /bin
+# Stray build output that MCreator occasionally drops at the project root
+# (not under /build or /bin). Treat as build artifacts.
+/net/
