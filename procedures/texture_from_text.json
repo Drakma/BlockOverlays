@@ -1,0 +1,13 @@
+{
+	"message0": "texture from resource location %1",
+	"args0": [{ "type": "input_value", "name": "text", "check": "String" }],
+	"output": "Texture",
+	"colour": 20,
+	"mcreator": {
+		"toolbox_id": "blockoverlays",
+		"toolbox_init": [
+			"<value name=\"text\"><block type=\"text\"><field name=\"TEXT\">minecraft:textures/block/stone.png</field></block></value>"
+		],
+		"inputs": ["text"]
+	}
+}

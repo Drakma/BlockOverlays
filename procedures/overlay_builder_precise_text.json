@@ -1,0 +1,52 @@
+{
+	"message0": "render precise text %1 on %2 face at x %3 y %4 alignment %5 color %6 scale %7 transparency %8 padding %9 on shape bounds %10",
+	"args0": [
+		{ "type": "input_value", "name": "text", "check": "String" },
+		{ "type": "input_value", "name": "side", "check": "Direction" },
+		{ "type": "input_value", "name": "coord_x", "check": "Number" },
+		{ "type": "input_value", "name": "coord_y", "check": "Number" },
+		{
+			"type": "field_dropdown",
+			"name": "alignment",
+			"options": [
+				["left", "LEFT"],
+				["center", "CENTER"],
+				["right", "RIGHT"]
+			]
+		},
+		{ "type": "field_color_selector", "name": "color", "color": "#ffffff" },
+		{ "type": "input_value", "name": "scale", "check": "Number" },
+		{ "type": "input_value", "name": "transparency", "check": "Number" },
+		{ "type": "input_value", "name": "padding", "check": "Number" },
+		{ "type": "input_value", "name": "bounds", "check": "Boolean" }
+	],
+	"inputsInline": true,
+	"previousStatement": null,
+	"nextStatement": null,
+	"colour": 20,
+	"tooltip": "Renders text on a block face at precise coordinates with transparency (0 to 1). Padding (pixels) shifts the text inward from the nearest block edge.",
+	"mcreator": {
+		"toolbox_id": "blockoverlays",
+		"toolbox_init": [
+			"<value name=\"text\"><block type=\"text\"><field name=\"TEXT\">Text</field></block></value>",
+			"<value name=\"side\"><block type=\"direction_constant\"></block></value>",
+			"<value name=\"coord_x\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value>",
+			"<value name=\"coord_y\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value>",
+			"<value name=\"scale\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value>",
+			"<value name=\"transparency\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value>",
+			"<value name=\"padding\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value>",
+			"<value name=\"bounds\"><block type=\"logic_boolean\"><field name=\"BOOL\">FALSE</field></block></value>"
+		],
+		"inputs": [
+			"text",
+			"side",
+			"coord_x",
+			"coord_y",
+			"scale",
+			"transparency",
+			"padding",
+			"bounds"
+		],
+		"fields": ["alignment", "color"]
+	}
+}

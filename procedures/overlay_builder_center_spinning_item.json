@@ -1,0 +1,41 @@
+{
+	"message0": "render center spinning item %1 scale %2 rotation x %3 y %4 z %5 bob height %6 spin speed %7 padding %8",
+	"args0": [
+		{ "type": "input_value", "name": "item", "check": "MCItem" },
+		{ "type": "input_value", "name": "scale", "check": "Number" },
+		{ "type": "input_value", "name": "angle_x", "check": "Number" },
+		{ "type": "input_value", "name": "angle_y", "check": "Number" },
+		{ "type": "input_value", "name": "angle_z", "check": "Number" },
+		{ "type": "input_value", "name": "bob_height", "check": "Number" },
+		{ "type": "input_value", "name": "spin_speed", "check": "Number" },
+		{ "type": "input_value", "name": "padding", "check": "Number" }
+	],
+	"inputsInline": true,
+	"previousStatement": null,
+	"nextStatement": null,
+	"colour": 20,
+	"tooltip": "Renders an item spinning and bobbing in the center of this Block Overlay element's target block with custom base rotation angles. Padding is accepted for consistency with other overlay builders but has no visual effect here (item is always centered).",
+	"mcreator": {
+		"toolbox_id": "blockoverlays",
+		"toolbox_init": [
+			"<value name=\"item\"><block type=\"mcitem_all\"><field name=\"value\">Items.AIR</field></block></value>",
+			"<value name=\"scale\"><block type=\"math_number\"><field name=\"NUM\">0.5</field></block></value>",
+			"<value name=\"angle_x\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value>",
+			"<value name=\"angle_y\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value>",
+			"<value name=\"angle_z\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value>",
+			"<value name=\"bob_height\"><block type=\"math_number\"><field name=\"NUM\">0.1</field></block></value>",
+			"<value name=\"spin_speed\"><block type=\"math_number\"><field name=\"NUM\">4</field></block></value>",
+			"<value name=\"padding\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value>"
+		],
+		"inputs": [
+			"item",
+			"scale",
+			"angle_x",
+			"angle_y",
+			"angle_z",
+			"bob_height",
+			"spin_speed",
+			"padding"
+		]
+	}
+}

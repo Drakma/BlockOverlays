@@ -1,0 +1,32 @@
+{
+	"message0": "select %1 texture %2",
+	"args0": [
+		{
+			"type": "field_dropdown",
+			"name": "texture_type",
+			"options": [
+				["block", "BLOCK"],
+				["item", "ITEM"],
+				["entity", "ENTITY"],
+				["effect", "EFFECT"],
+				["particle", "PARTICLE"],
+				["screen", "SCREEN"],
+				["armor", "ARMOR"],
+				["other", "OTHER"]
+			]
+		},
+		{
+			"type": "field_texture_selector",
+			"name": "texture"
+		}
+	],
+	"inputsInline": true,
+	"output": "Texture",
+	"colour": 20,
+	"tooltip": "Double-click the image to select a workspace texture.",
+	"extensions": ["block_overlays_texture_type_onchange"],
+	"mcreator": {
+		"toolbox_id": "blockoverlays",
+		"fields": ["texture_type", "texture"]
+	}
+}

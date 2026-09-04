@@ -1,0 +1,2 @@
+﻿type: ResourceLocation
+init: new ResourceLocation("", "textures/screens/empty.png")

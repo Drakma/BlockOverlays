@@ -1,0 +1,27 @@
+if (event instanceof SubmitCustomGeometryEvent _overlayEvent) {
+	String _text = ${input$text};
+	Direction _side = ${input$side};
+	double _coordX = ((Number) ${input$coord_x}).doubleValue();
+	double _coordY = ((Number) ${input$coord_y}).doubleValue();
+	Font _font = Minecraft.getInstance().font;
+	float _scale = (float) ${input$scale} * 0.02f;
+	int _alphaInt = (int) (Math.max(0.0f, Math.min(1.0f, (float) ${(input$transparency!"1.0")})) * 255.0f);
+	int _textColor = (_alphaInt << 24) | (0x00FFFFFF & 0xFF${(field$color!"#ffffff")?substring(1)});
+	PoseStack _poseStack = _overlayEvent.getPoseStack();
+	Vec3 _camera = _overlayEvent.getLevelRenderState().cameraRenderState.pos;
+	double _padding = ((Number) ${(input$padding!"0")}).doubleValue() / 16.0;
+	Vec3 _position = ${(input$bounds!"false")} ? shapeBoundsPrecise(world.getBlockState(BlockPos.containing(x, y, z)), world, BlockPos.containing(x, y, z), _side, _coordX, _coordY, _padding) : new Vec3(0.5 - (_coordX / 16.0) + (_coordX < 8.0 ? -_padding : _coordX > 8.0 ? _padding : 0.0), -0.5 + (_coordY / 16.0) + (_coordY > 8.0 ? -_padding : _coordY < 8.0 ? _padding : 0.0), -0.501);
+	float _alignOffset = switch ("${field$alignment!"LEFT"}") {
+		case "CENTER" -> -_font.width(_text) / 2.0f;
+		case "RIGHT" -> -_font.width(_text);
+		default -> 0.0f;
+	};
+	float _verticalOffset = -_font.lineHeight;
+	_poseStack.pushPose();
+	_poseStack.translate(x - _camera.x + 0.5, y - _camera.y + 0.5, z - _camera.z + 0.5);
+	_poseStack.mulPose(faceRotation(_side));
+	_poseStack.translate(_position.x, _position.y, _position.z);
+	_poseStack.scale(-_scale, -_scale, _scale);
+	_overlayEvent.getSubmitNodeCollector().submitText(_poseStack, _alignOffset, _verticalOffset, Component.literal(_text).getVisualOrderText(), false, Font.DisplayMode.NORMAL, net.minecraft.client.renderer.LevelRenderer.getLightCoords(Minecraft.getInstance().level, net.minecraft.core.BlockPos.containing(x, y, z).relative(_side)), _textColor, 0, 0);
+	_poseStack.popPose();
+}

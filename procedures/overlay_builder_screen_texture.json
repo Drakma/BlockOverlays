@@ -1,0 +1,40 @@
+{
+	"message0": "render screen texture %1 at %2 on %3 face scale %4 color %5 transparency %6 padding %7 on shape bounds %8",
+	"args0": [
+		{ "type": "input_value", "name": "texture", "check": "Texture" },
+		{ "type": "input_value", "name": "placement", "check": "OverlayPlacement" },
+		{ "type": "input_value", "name": "side", "check": "Direction" },
+		{ "type": "input_value", "name": "scale", "check": "Number" },
+		{ "type": "field_color_selector", "name": "color", "color": "#ffffff" },
+		{ "type": "input_value", "name": "transparency", "check": "Number" },
+		{ "type": "input_value", "name": "padding", "check": "Number" },
+		{ "type": "input_value", "name": "bounds", "check": "Boolean" }
+	],
+	"inputsInline": true,
+	"previousStatement": null,
+	"nextStatement": null,
+	"colour": 20,
+	"tooltip": "Renders a screen/GUI texture on this Block Overlay element's target block with transparency (0 to 1). Padding (pixels) shifts the texture inward from the anchored edges.",
+	"mcreator": {
+		"toolbox_id": "blockoverlays",
+		"toolbox_init": [
+			"<value name=\"texture\"><block type=\"screen_texture_selector\"><field name=\"texture\"></field></block></value>",
+			"<value name=\"placement\"><block type=\"overlay_placement\"><field name=\"placement\">MIDDLE_CENTER</field></block></value>",
+			"<value name=\"side\"><block type=\"direction_constant\"></block></value>",
+			"<value name=\"scale\"><block type=\"math_number\"><field name=\"NUM\">0.5</field></block></value>",
+			"<value name=\"transparency\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value>",
+			"<value name=\"padding\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value>",
+			"<value name=\"bounds\"><block type=\"logic_boolean\"><field name=\"BOOL\">FALSE</field></block></value>"
+		],
+		"inputs": [
+			"texture",
+			"placement",
+			"side",
+			"scale",
+			"transparency",
+			"padding",
+			"bounds"
+		],
+		"fields": ["color"]
+	}
+}

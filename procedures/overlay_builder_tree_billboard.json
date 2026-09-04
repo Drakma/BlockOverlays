@@ -1,0 +1,26 @@
+{
+	"message0": "render tree billboard %1 height %2 width %3 transparency %4 spin speed %5",
+	"args0": [
+		{ "type": "input_value", "name": "texture", "check": "Texture" },
+		{ "type": "input_value", "name": "height", "check": "Number" },
+		{ "type": "input_value", "name": "width", "check": "Number" },
+		{ "type": "input_value", "name": "transparency", "check": "Number" },
+		{ "type": "input_value", "name": "spin_speed", "check": "Number" }
+	],
+	"inputsInline": true,
+	"previousStatement": null,
+	"nextStatement": null,
+	"colour": 20,
+	"tooltip": "Renders a 2D billboard sprite in front of the target block (a flat representation of a tree). Height and width are in blocks. Spin speed is degrees per second (0 keeps it facing the camera).",
+	"mcreator": {
+		"toolbox_id": "blockoverlays",
+		"toolbox_init": [
+			"<value name=\"texture\"><block type=\"texture_selector\"><field name=\"texture_type\">other</field><field name=\"texture\">tree</field></block></value>",
+			"<value name=\"height\"><block type=\"math_number\"><field name=\"NUM\">4</field></block></value>",
+			"<value name=\"width\"><block type=\"math_number\"><field name=\"NUM\">3</field></block></value>",
+			"<value name=\"transparency\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value>",
+			"<value name=\"spin_speed\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value>"
+		],
+		"inputs": ["texture", "height", "width", "transparency", "spin_speed"]
+	}
+}

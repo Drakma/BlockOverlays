@@ -1,0 +1,27 @@
+import java.time.LocalDate
+
+plugins {
+	id 'java'
+}
+
+group = 'net.drakma.blockoverlays'
+
+def versionProperties = new Properties()
+file('version.properties').withInputStream { versionProperties.load(it) }
+def today = LocalDate.now()
+version = "${versionProperties.getProperty('mcreator_version', '2026.2')}-${today.year}.${today.monthValue}.${versionProperties.getProperty('build_increment', '1')}"
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
+}
+
+dependencies {
+	compileOnly fileTree(dir: 'C:/Program Files/Pylo/MCreator-2026.2/lib', include: ['*.jar'])
+	compileOnly files('C:/Users/casey/AppData/Local/Temp/mcreator_clean.jar')
+}
+
+tasks.withType(JavaCompile).configureEach {
+	options.encoding = 'UTF-8'
+}

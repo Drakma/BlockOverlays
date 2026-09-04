@@ -1,0 +1,14 @@
+{
+	"message0": "{left} for facing %1",
+	"args0": [{ "type": "input_value", "name": "facing", "check": "Direction" }],
+	"output": "Direction",
+	"colour": 20,
+	"tooltip": "Returns the horizontal direction 90 degrees counter-clockwise from facing.",
+	"mcreator": {
+		"toolbox_id": "blockoverlays",
+		"toolbox_init": [
+			"<value name=\"facing\"><block type=\"direction_constant\"></block></value>"
+		],
+		"inputs": ["facing"]
+	}
+}

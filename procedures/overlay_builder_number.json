@@ -1,0 +1,42 @@
+{
+	"message0": "render number %1 at %2 on %3 face color %4 scale %5 decimals %6 transparency %7 padding %8 on shape bounds %9",
+	"args0": [
+		{ "type": "input_value", "name": "number", "check": "Number" },
+		{ "type": "input_value", "name": "placement", "check": "OverlayPlacement" },
+		{ "type": "input_value", "name": "side", "check": "Direction" },
+		{ "type": "field_color_selector", "name": "color", "color": "#ffffff" },
+		{ "type": "input_value", "name": "scale", "check": "Number" },
+		{ "type": "input_value", "name": "decimals", "check": "Number" },
+		{ "type": "input_value", "name": "transparency", "check": "Number" },
+		{ "type": "input_value", "name": "padding", "check": "Number" },
+		{ "type": "input_value", "name": "bounds", "check": "Boolean" }
+	],
+	"previousStatement": null,
+	"nextStatement": null,
+	"colour": 20,
+	"tooltip": "Renders a formatted number on this Block Overlay element's target block with transparency (0 to 1). Padding (pixels) shifts the number inward from the anchored edges.",
+	"mcreator": {
+		"toolbox_id": "blockoverlays",
+		"toolbox_init": [
+			"<value name=\"number\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value>",
+			"<value name=\"placement\"><block type=\"overlay_placement\"><field name=\"placement\">MIDDLE_CENTER</field></block></value>",
+			"<value name=\"side\"><block type=\"direction_constant\"></block></value>",
+			"<value name=\"scale\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value>",
+			"<value name=\"decimals\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value>",
+			"<value name=\"transparency\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value>",
+			"<value name=\"padding\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value>",
+			"<value name=\"bounds\"><block type=\"logic_boolean\"><field name=\"BOOL\">FALSE</field></block></value>"
+		],
+		"inputs": [
+			"number",
+			"placement",
+			"side",
+			"scale",
+			"decimals",
+			"transparency",
+			"padding",
+			"bounds"
+		],
+		"fields": ["color"]
+	}
+}

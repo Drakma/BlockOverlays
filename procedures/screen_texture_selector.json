@@ -1,0 +1,17 @@
+{
+	"message0": "screen texture %1",
+	"args0": [
+		{
+			"type": "field_texture_selector",
+			"name": "texture",
+			"texture_type": "SCREEN"
+		}
+	],
+	"output": "Texture",
+	"colour": 20,
+	"tooltip": "Double-click the image to select a screen/GUI texture from the workspace.",
+	"mcreator": {
+		"toolbox_id": "blockoverlays",
+		"fields": ["texture"]
+	}
+}

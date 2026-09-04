@@ -1,0 +1,13 @@
+{
+	"message0": "resource location of texture %1",
+	"args0": [{ "type": "input_value", "name": "texture", "check": "Texture" }],
+	"output": "String",
+	"colour": 20,
+	"mcreator": {
+		"toolbox_id": "blockoverlays",
+		"toolbox_init": [
+			"<value name=\"texture\"><block type=\"texture_selector\"><field name=\"texture_type\">BLOCK</field><field name=\"texture\"></field></block></value>"
+		],
+		"inputs": ["texture"]
+	}
+}

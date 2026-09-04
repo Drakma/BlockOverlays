@@ -1,0 +1,27 @@
+{
+	"message0": "overlay placement %1",
+	"args0": [
+		{
+			"type": "field_dropdown",
+			"name": "placement",
+			"options": [
+				["top-left", "TOP_LEFT"],
+				["top-center", "TOP_CENTER"],
+				["top-right", "TOP_RIGHT"],
+				["middle-left", "MIDDLE_LEFT"],
+				["middle-center", "MIDDLE_CENTER"],
+				["middle-right", "MIDDLE_RIGHT"],
+				["bottom-left", "BOTTOM_LEFT"],
+				["bottom-center", "BOTTOM_CENTER"],
+				["bottom-right", "BOTTOM_RIGHT"]
+			]
+		}
+	],
+	"output": "OverlayPlacement",
+	"colour": 20,
+	"tooltip": "Selects one of nine anchor positions on a block or block face.",
+	"mcreator": {
+		"toolbox_id": "blockoverlays",
+		"fields": ["placement"]
+	}
+}
