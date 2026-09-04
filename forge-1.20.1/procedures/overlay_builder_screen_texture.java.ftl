@@ -1,10 +1,10 @@
-if (event instanceof RenderLevelStageEvent _overlayEvent) {
+if (event instanceof RenderLevelStageEvent) {
 	String _placement = ${input$placement};
 	Direction _side = ${input$side};
 	float _scale = (float) ${input$scale};
 	ResourceLocation _texture = ${input$texture};
-	PoseStack _poseStack = _overlayEvent.getPoseStack();
-	Vec3 _camera = _overlayEvent.getCamera().getPosition();
+	PoseStack _poseStack = event.getPoseStack();
+	Vec3 _camera = event.getCamera().getPosition();
 	double _padding = ((Number) ${(input$padding!"0")}).doubleValue() / 16.0;
 	Vec3 _position = ${(input$bounds!"false")} ? shapeBoundsPlacement(world.getBlockState(BlockPos.containing(x, y, z)), world, BlockPos.containing(x, y, z), _side, _placement, _scale, _scale, _padding) : new Vec3(itemPlacementX(_placement, _scale) + placementOffsetX(_placement, _padding), itemPlacementY(_placement, _scale) + placementOffsetY(_placement, _padding), -0.501);
 	_poseStack.pushPose();
@@ -12,7 +12,10 @@ if (event instanceof RenderLevelStageEvent _overlayEvent) {
 	_poseStack.mulPose(faceRotation(_side));
 	_poseStack.translate(_position.x, _position.y, _position.z);
 	_poseStack.scale(_scale, _scale, 1.0f);
-	int _light = LevelRenderer.getLightCoords(Minecraft.getInstance().level, BlockPos.containing(x, y, z).relative(_side));
+	int _light = net.minecraft.client.renderer.LightTexture.pack(
+		Minecraft.getInstance().level.getBrightness(net.minecraft.world.level.LightLayer.SKY, BlockPos.containing(x, y, z).relative(_side)),
+		Minecraft.getInstance().level.getBrightness(net.minecraft.world.level.LightLayer.BLOCK, BlockPos.containing(x, y, z).relative(_side))
+	);
 	var _bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
 	var _consumer = _bufferSource.getBuffer(RenderType.entityTranslucent(_texture));
 	var _pose = _poseStack.last().pose();

@@ -27,7 +27,7 @@ import java.util.Map;
 import java.util.Set;
 
 @EventBusSubscriber(value = Dist.CLIENT)
-public class ${name} {
+public class ${className} {
 	<#if data.visibilityScope == "NEARBY_MATCHING">
 	private static final Map<Long, Set<Long>> VISIBLE_SECTION_POSITIONS = new HashMap<>();
 	private static long lastVisibleSectionRefresh = -20;
@@ -69,7 +69,7 @@ public class ${name} {
 
 	private static net.minecraft.nbt.CompoundTag parseNbt(String snbt) {
 		try {
-			return net.minecraft.nbt.TagParser.parseCompoundFully(snbt);
+			return net.minecraft.nbt.TagParser.parseTag(snbt);
 		} catch (com.mojang.brigadier.exceptions.CommandSyntaxException exception) {
 			return null;
 		}

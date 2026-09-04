@@ -1,4 +1,4 @@
 ﻿templates:
   - template: blockoverlay/block_overlay.java.ftl
-    name: "@SRCROOT/@PACKAGEPATH/client/renderer/@NAMEBlockOverlay.java"
+    name: '@SRCROOT/@BASEPACKAGEPATH/client/renderer/@NAMEBlockOverlay.java'
     can_reformat: true

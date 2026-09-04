@@ -73,6 +73,7 @@ public class BlockOverlayElement extends GeneratableElement {
       List<String> ids = targetBlockIds();
       templateData.put("targetBlockIds", ids);
       templateData.put("targetBlockId", ids.isEmpty() ? "minecraft:stone" : ids.get(0));
+      templateData.put("className", getModElement().getName());
       if (overlayxml != null && !overlayxml.isBlank()) {
         Procedure procedure = new Procedure(getModElement());
         procedure.procedurexml = overlayxml;

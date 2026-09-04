@@ -1,27 +1,76 @@
 {
-	"message0": "render target block outline color %1 line width %2 transparency %3 through walls %4 padding %5 on shape bounds %6",
+	"message0": "render target block outline color %1 line width %2 transparency %3 through walls %4 on shape bounds %5 pulse %6 rainbow %7 glow %8 wave %9 marquee %10 wave phase %11 speed %12 intensity %13 marquee speed %14 glow color %15 wave color %16 glow falloff %17",
 	"args0": [
 		{ "type": "field_color_selector", "name": "color", "color": "#ff0000" },
 		{ "type": "input_value", "name": "width", "check": "Number" },
 		{ "type": "input_value", "name": "transparency", "check": "Number" },
 		{ "type": "input_value", "name": "through_walls", "check": "Boolean" },
-		{ "type": "input_value", "name": "padding", "check": "Number" },
-		{ "type": "input_value", "name": "bounds", "check": "Boolean" }
+		{ "type": "input_value", "name": "bounds", "check": "Boolean" },
+		{ "type": "input_value", "name": "pulse", "check": "Boolean" },
+		{ "type": "input_value", "name": "rainbow", "check": "Boolean" },
+		{ "type": "input_value", "name": "glow", "check": "Boolean" },
+		{ "type": "input_value", "name": "wave", "check": "Boolean" },
+		{ "type": "input_value", "name": "marquee", "check": "Boolean" },
+		{ "type": "input_value", "name": "wave_phase", "check": "Number" },
+		{ "type": "input_value", "name": "speed", "check": "Number" },
+		{ "type": "input_value", "name": "intensity", "check": "Number" },
+		{ "type": "input_value", "name": "marquee_speed", "check": "Number" },
+		{
+			"type": "field_color_selector",
+			"name": "glow_color",
+			"color": "#ffffff"
+		},
+		{
+			"type": "field_color_selector",
+			"name": "wave_color",
+			"color": "#ffffff"
+		},
+		{
+			"type": "field_dropdown",
+			"name": "glow_falloff",
+			"options": [
+				["linear", "linear"],
+				["exponential", "exponential"],
+				["steep", "steep"]
+			]
+		}
 	],
 	"previousStatement": null,
 	"nextStatement": null,
 	"colour": 20,
-	"tooltip": "Renders an outline around this Block Overlay element's target block with transparency (0 to 1). Padding is accepted for consistency with other overlay builders but has no visual effect on outlines (it would require rendering an inset version of the shape).",
+	"tooltip": "Renders an outline around this Block Overlay element's target block. Effects (each independently toggleable): pulse (alpha breathes), rainbow (hue cycles), glow (halo passes with increasing width, separate glow color, three falloff curves), wave (bright band traveling around the shape, separate wave color; marquee crawls it continuously at its own marquee speed). Speed scales time-based effects except marquee; intensity (0-1) controls depth.",
 	"mcreator": {
 		"toolbox_id": "blockoverlays",
 		"toolbox_init": [
 			"<value name=\"width\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value>",
 			"<value name=\"transparency\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value>",
 			"<value name=\"through_walls\"><block type=\"logic_boolean\"><field name=\"BOOL\">FALSE</field></block></value>",
-			"<value name=\"padding\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value>",
-			"<value name=\"bounds\"><block type=\"logic_boolean\"><field name=\"BOOL\">FALSE</field></block></value>"
+			"<value name=\"bounds\"><block type=\"logic_boolean\"><field name=\"BOOL\">FALSE</field></block></value>",
+			"<value name=\"pulse\"><block type=\"logic_boolean\"><field name=\"BOOL\">FALSE</field></block></value>",
+			"<value name=\"rainbow\"><block type=\"logic_boolean\"><field name=\"BOOL\">FALSE</field></block></value>",
+			"<value name=\"glow\"><block type=\"logic_boolean\"><field name=\"BOOL\">FALSE</field></block></value>",
+			"<value name=\"wave\"><block type=\"logic_boolean\"><field name=\"BOOL\">FALSE</field></block></value>",
+			"<value name=\"marquee\"><block type=\"logic_boolean\"><field name=\"BOOL\">FALSE</field></block></value>",
+			"<value name=\"wave_phase\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value>",
+			"<value name=\"speed\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value>",
+			"<value name=\"intensity\"><block type=\"math_number\"><field name=\"NUM\">0.5</field></block></value>",
+			"<value name=\"marquee_speed\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value>"
 		],
-		"inputs": ["width", "transparency", "through_walls", "padding", "bounds"],
-		"fields": ["color"]
+		"inputs": [
+			"width",
+			"transparency",
+			"through_walls",
+			"bounds",
+			"pulse",
+			"rainbow",
+			"glow",
+			"wave",
+			"marquee",
+			"wave_phase",
+			"speed",
+			"intensity",
+			"marquee_speed"
+		],
+		"fields": ["color", "glow_color", "wave_color", "glow_falloff"]
 	}
 }

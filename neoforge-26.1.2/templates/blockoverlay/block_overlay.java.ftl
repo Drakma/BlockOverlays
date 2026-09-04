@@ -43,7 +43,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @EventBusSubscriber(value = Dist.CLIENT)
-public class ${name} {
+public class ${className} {
 	<#if data.visibilityScope == "NEARBY_MATCHING">
 	private static final Map<Long, Set<Long>> VISIBLE_SECTION_POSITIONS = new HashMap<>();
 	private static long lastVisibleSectionRefresh = -20;
@@ -85,7 +85,7 @@ public class ${name} {
 
 	private static net.minecraft.nbt.CompoundTag parseNbt(String snbt) {
 		try {
-			return net.minecraft.nbt.TagParser.parseCompoundFully(snbt);
+			return net.minecraft.nbt.TagParser.parseTag(snbt);
 		} catch (com.mojang.brigadier.exceptions.CommandSyntaxException exception) {
 			return null;
 		}
@@ -198,6 +198,41 @@ public class ${name} {
 		double offsetX = coordX < 8.0 ? -padding : coordX > 8.0 ? padding : 0.0;
 		double offsetY = coordY > 8.0 ? -padding : coordY < 8.0 ? padding : 0.0;
 		return new Vec3(h - 0.5 + offsetX, v - 0.5 + offsetY, depth);
+	}
+
+	// Helper for overlay_builder_outline: emit N parallel copies of one shape edge, each offset
+	// along the face plane(s) the edge sits on. Width=1 -> single edge on the original line.
+	// Width>1 -> additional parallel edges extending INTO the faces it touches (not outwards
+	// from the block). Caller is responsible for translating the pose stack into shape space.
+	private static void blockOverlayOutlineDrawEdgeBand(com.mojang.blaze3d.vertex.VertexConsumer consumer,
+			org.joml.Matrix4f pose, org.joml.Matrix3f normal,
+			int color, int width, float step,
+			double x1, double y1, double z1, double x2, double y2, double z2) {
+		double dx = x2 - x1;
+		double dy = y2 - y1;
+		double dz = z2 - z1;
+		// Dominant axis -> which way the edge runs.
+		int edgeAxis;
+		if (Math.abs(dx) >= Math.abs(dy) && Math.abs(dx) >= Math.abs(dz)) edgeAxis = 0;
+		else if (Math.abs(dy) >= Math.abs(dx) && Math.abs(dy) >= Math.abs(dz)) edgeAxis = 1;
+		else edgeAxis = 2;
+		double mx = (x1 + x2) * 0.5;
+		double my = (y1 + y2) * 0.5;
+		double mz = (z1 + z2) * 0.5;
+		float nx = 0, ny = 0, nz = 0;
+		switch (edgeAxis) {
+			case 0: ny = (my < 0.5) ? -1.0f : 1.0f; nz = (mz < 0.5) ? -1.0f : 1.0f; break;
+			case 1: nx = (mx < 0.5) ? -1.0f : 1.0f; nz = (mz < 0.5) ? -1.0f : 1.0f; break;
+			case 2: nx = (mx < 0.5) ? -1.0f : 1.0f; ny = (my < 0.5) ? -1.0f : 1.0f; break;
+		}
+		for (int k = 0; k < width; k++) {
+			float o = k * step;
+			float ox = nx * o, oy = ny * o, oz = nz * o;
+			float ax = (float) x1 + ox, ay = (float) y1 + oy, az = (float) z1 + oz;
+			float bx = (float) x2 + ox, by = (float) y2 + oy, bz = (float) z2 + oz;
+			consumer.addVertex(pose, ax, ay, az).setColor(color).setNormal(pose, (float) dx, (float) dy, (float) dz);
+			consumer.addVertex(pose, bx, by, bz).setColor(color).setNormal(pose, (float) dx, (float) dy, (float) dz);
+		}
 	}
 
 	<#if data.overlayxml?has_content>

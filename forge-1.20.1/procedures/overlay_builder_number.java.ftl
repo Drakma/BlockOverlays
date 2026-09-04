@@ -1,12 +1,12 @@
-if (event instanceof RenderLevelStageEvent _overlayEvent) {
+if (event instanceof RenderLevelStageEvent) {
 	String _placement = ${input$placement};
 	Direction _side = ${input$side};
 	String _text = new java.text.DecimalFormat(((${input$number}) % 1 == 0) ? "##" : "##.##").format(${input$number});
 	float _scale = (float) ${input$scale};
 	int _alphaInt = (int) (Math.max(0.0f, Math.min(1.0f, (float) ${(input$transparency!"1.0")})) * 255.0f);
 	int _textColor = (_alphaInt << 24) | (0x00FFFFFF & 0xFF${(field$color!"#ffffff")?substring(1)});
-	PoseStack _poseStack = _overlayEvent.getPoseStack();
-	Vec3 _camera = _overlayEvent.getCamera().getPosition();
+	PoseStack _poseStack = event.getPoseStack();
+	Vec3 _camera = event.getCamera().getPosition();
 	Font _font = Minecraft.getInstance().font;
 	float _textScale = (float) (0.025f * _scale);
 	float _w = (float) (_font.width(_text) * _textScale);
@@ -18,7 +18,10 @@ if (event instanceof RenderLevelStageEvent _overlayEvent) {
 	_poseStack.mulPose(faceRotation(_side));
 	_poseStack.translate(_position.x, _position.y, _position.z);
 	_poseStack.scale(-_textScale, -_textScale, _textScale);
-	int _light = LevelRenderer.getLightCoords(Minecraft.getInstance().level, BlockPos.containing(x, y, z).relative(_side));
+	int _light = net.minecraft.client.renderer.LightTexture.pack(
+		Minecraft.getInstance().level.getBrightness(net.minecraft.world.level.LightLayer.SKY, BlockPos.containing(x, y, z).relative(_side)),
+		Minecraft.getInstance().level.getBrightness(net.minecraft.world.level.LightLayer.BLOCK, BlockPos.containing(x, y, z).relative(_side))
+	);
 	var _bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
 	_font.drawInBatch(_text, localX(_placement, _font.width(_text)), localY(_placement, _font.lineHeight), _textColor, false, _poseStack.last().pose(), _bufferSource, Font.DisplayMode.NORMAL, 0, _light);
 	_bufferSource.endBatch();

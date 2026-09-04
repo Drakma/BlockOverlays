@@ -1,4 +1,4 @@
-package ${package};
+package ${package}.client.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -26,22 +26,18 @@ import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 @OnlyIn(Dist.CLIENT)
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
-public class ${name} {
+public class ${className}BlockOverlay {
 	<#if data.visibilityScope == "NEARBY_MATCHING">
-	private static final Map<Long, Set<Long>> VISIBLE_SECTION_POSITIONS = new HashMap<>();
-	private static long lastVisibleSectionRefresh = -20;
 
 	<#if targetBlockIds?? && targetBlockIds?size gt 0>
 	private static final java.util.Set<ResourceLocation> TARGET_BLOCKS = java.util.Set.of(
 		<#list targetBlockIds as bid>
-		new ResourceLocation("${bid?j_string}")<#if bid_has_next>,</#if>
+		net.minecraft.resources.ResourceLocation.fromNamespaceAndPath("${bid?j_string?split(":")[0]}", "${bid?j_string?split(":")[1]}")<#if bid_has_next>,</#if>
 		</#list>
 	);
 
@@ -75,7 +71,7 @@ public class ${name} {
 
 	private static net.minecraft.nbt.CompoundTag parseNbt(String snbt) {
 		try {
-			return net.minecraft.nbt.TagParser.parseCompoundFully(snbt);
+			return net.minecraft.nbt.TagParser.parseTag(snbt);
 		} catch (com.mojang.brigadier.exceptions.CommandSyntaxException exception) {
 			return null;
 		}
@@ -190,6 +186,46 @@ public class ${name} {
 		return new Vec3(h - 0.5 + offsetX, v - 0.5 + offsetY, depth);
 	}
 
+	// Helper for overlay_builder_outline: emit N parallel copies of one shape edge, each offset
+	// along the face plane(s) the edge sits on. Width=1 -> single edge on the original line.
+	// Width>1 -> additional parallel edges extending INTO the faces it touches (not outwards
+	// from the block). Caller is responsible for translating the pose stack into shape space.
+	private static void blockOverlayOutlineDrawEdgeBand(com.mojang.blaze3d.vertex.VertexConsumer consumer,
+			org.joml.Matrix4f pose, org.joml.Matrix3f normal,
+			float r, float g, float b, float a, int width, float step,
+			double x1, double y1, double z1, double x2, double y2, double z2) {
+		double dx = x2 - x1;
+		double dy = y2 - y1;
+		double dz = z2 - z1;
+		// Dominant axis -> which way the edge runs.
+		int edgeAxis;
+		if (Math.abs(dx) >= Math.abs(dy) && Math.abs(dx) >= Math.abs(dz)) edgeAxis = 0;
+		else if (Math.abs(dy) >= Math.abs(dx) && Math.abs(dy) >= Math.abs(dz)) edgeAxis = 1;
+		else edgeAxis = 2;
+		double mx = (x1 + x2) * 0.5;
+		double my = (y1 + y2) * 0.5;
+		double mz = (z1 + z2) * 0.5;
+		float nx = 0, ny = 0, nz = 0;
+		switch (edgeAxis) {
+			case 0: ny = (my < 0.5) ? -1.0f : 1.0f; nz = (mz < 0.5) ? -1.0f : 1.0f; break;
+			case 1: nx = (mx < 0.5) ? -1.0f : 1.0f; nz = (mz < 0.5) ? -1.0f : 1.0f; break;
+			case 2: nx = (mx < 0.5) ? -1.0f : 1.0f; ny = (my < 0.5) ? -1.0f : 1.0f; break;
+		}
+		for (int k = 0; k < width; k++) {
+			float o = k * step;
+			float ox = nx * o, oy = ny * o, oz = nz * o;
+			float ax = (float) x1 + ox, ay = (float) y1 + oy, az = (float) z1 + oz;
+			float bx = (float) x2 + ox, by = (float) y2 + oy, bz = (float) z2 + oz;
+			consumer.vertex(pose, ax, ay, az).color(r, g, b, a).normal(normal, (float) dx, (float) dy, (float) dz).endVertex();
+			consumer.vertex(pose, bx, by, bz).color(r, g, b, a).normal(normal, (float) dx, (float) dy, (float) dz).endVertex();
+		}
+	}
+
+	<#if data.overlayxml?has_content>
+	${additional_code!""}
+	${extra_templates_code!""}
+	</#if>
+
 	@SubscribeEvent
 	public static void render(RenderLevelStageEvent event) {
 		if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_TRANSLUCENT_BLOCKS)
@@ -197,17 +233,7 @@ public class ${name} {
 		Minecraft minecraft = Minecraft.getInstance();
 		if (minecraft.player == null || minecraft.level == null)
 			return;
-		<#if data.heldItem?has_content>
-		ItemStack held = minecraft.player.getMainHandItem();
-		if (!BuiltInRegistries.ITEM.getKey(held.getItem()).toString().equals("${data.heldItem?j_string}"))
-			return;
-		</#if>
-		<#if data.heldItemNbt?has_content>
-		ItemStack heldNbt = minecraft.player.getMainHandItem();
-		if (HELD_ITEM_NBT == null || !heldNbt.hasTag() || !net.minecraft.nbt.NbtUtils.compareNbt(HELD_ITEM_NBT, heldNbt.getTag(), true))
-			return;
-		</#if>
-		<#if data.visibilityScope == "TARGETED_ONLY">
+		<#if data.visibilityScope == "LOOKED_AT">
 		net.minecraft.world.phys.HitResult hitResult = minecraft.hitResult;
 		if (!(hitResult instanceof net.minecraft.world.phys.BlockHitResult blockHitResult))
 			return;
@@ -215,28 +241,16 @@ public class ${name} {
 		if (!matchesTarget(minecraft.level.getBlockState(position)))
 			return;
 		renderAt(event, minecraft, position);
-		<#elseif data.visibilityScope == "ALL_VISIBLE_BLOCKS">
-		net.minecraft.world.phys.HitResult hitResult = minecraft.hitResult;
-		if (hitResult instanceof net.minecraft.world.phys.BlockHitResult blockHitResult) {
-			BlockPos position = blockHitResult.getBlockPos();
-			renderAt(event, minecraft, position);
-		}
 		<#else>
 		BlockPos playerBlockPos = minecraft.player.blockPosition();
 		int playerSectionX = playerBlockPos.getX() >> 4;
 		int playerSectionY = playerBlockPos.getY() >> 4;
 		int playerSectionZ = playerBlockPos.getZ() >> 4;
-		long currentGameTime = minecraft.level.getGameTime();
-		if (currentGameTime - lastVisibleSectionRefresh >= 20) {
-			VISIBLE_SECTION_POSITIONS.clear();
-			lastVisibleSectionRefresh = currentGameTime;
-		}
 		for (int x = -1; x <= 1; x++) {
 			for (int y = -1; y <= 1; y++) {
 				for (int z = -1; z <= 1; z++) {
-					long key = BlockPos.asLong(playerSectionX + x, playerSectionY + y, playerSectionZ + z);
-					Set<Long> positions = VISIBLE_SECTION_POSITIONS.computeIfAbsent(key, ignored -> findMatches(minecraft.level, new BlockPos((playerSectionX + x) << 4, (playerSectionY + y) << 4, (playerSectionZ + z) << 4)));
-					for (Long encoded : positions) {
+					BlockPos sectionOrigin = new BlockPos((playerSectionX + x) << 4, (playerSectionY + y) << 4, (playerSectionZ + z) << 4);
+					for (Long encoded : findMatches(minecraft.level, sectionOrigin)) {
 						BlockPos position = BlockPos.of(encoded);
 						renderAt(event, minecraft, position);
 					}
@@ -247,26 +261,40 @@ public class ${name} {
 	}
 
 	private static void renderAt(RenderLevelStageEvent event, Minecraft minecraft, BlockPos position) {
-		<#if data.layerType == "NONE">
+		<#if data.overlayxml?has_content>
+		var world = minecraft.level;
+		var entity = minecraft.player;
+		double x = position.getX();
+		double y = position.getY();
+		double z = position.getZ();
+		${procedurecode!""}
+		<#elseif data.layerType == "NONE">
 		return;
 		<#else>
 		if (minecraft.player == null || minecraft.level == null)
 			return;
-		if (minecraft.player.position().distanceTo(Vec3.atCenterOf(position)) > ${data.renderDistance})
-			return;
-		<#if data.onlyIfAirAbove>
-		if (!minecraft.level.getBlockState(position.above()).isAir())
+		<#if data.requiresCrouching>
+		if (!minecraft.player.isCrouching())
 			return;
 		</#if>
-		<#if data.requiresLookingAt>
-		net.minecraft.world.phys.HitResult hit = minecraft.hitResult;
-		if (!(hit instanceof net.minecraft.world.phys.BlockHitResult bhr) || !bhr.getBlockPos().equals(position) || bhr.getDirection() != Direction.${data.face})
+		<#if data.heldItemOrTag?has_content>
+		<#if data.heldItemOrTag?starts_with("#")>
+		if (!minecraft.player.getMainHandItem().is(net.minecraft.tags.TagKey.create(net.minecraft.core.registries.Registries.ITEM, net.minecraft.resources.ResourceLocation.parse("${data.heldItemOrTag?substring(1)?j_string}"))))
+			return;
+		<#else>
+		if (!BuiltInRegistries.ITEM.getKey(minecraft.player.getMainHandItem().getItem()).toString().equals("${data.heldItemOrTag?j_string}"))
 			return;
 		</#if>
-		<#if data.checkRaycast>
-		net.minecraft.world.level.ClipContext ctx = new net.minecraft.world.level.ClipContext(minecraft.player.getEyePosition(), Vec3.atCenterOf(position), net.minecraft.world.level.ClipContext.Block.COLLIDER, net.minecraft.world.level.ClipContext.Fluid.NONE, minecraft.player);
-		net.minecraft.world.phys.BlockHitResult ray = minecraft.level.clip(ctx);
-		if (ray.getType() == net.minecraft.world.phys.HitResult.Type.BLOCK && !ray.getBlockPos().equals(position))
+		</#if>
+		<#if data.heldItemNbt?has_content>
+		ItemStack heldNbt = minecraft.player.getMainHandItem();
+		if (HELD_ITEM_NBT == null || !heldNbt.hasTag() || !net.minecraft.nbt.NbtUtils.compareNbt(HELD_ITEM_NBT, heldNbt.getTag(), true))
+			return;
+		</#if>
+		if (minecraft.player.distanceToSqr(Vec3.atCenterOf(position)) > ${data.maximumDistance}D * ${data.maximumDistance}D)
+			return;
+		<#if data.blockStateProperty?has_content>
+		if (!minecraft.level.getBlockState(position).getValues().entrySet().stream().anyMatch(entry -> entry.getKey().getName().equals("${data.blockStateProperty?j_string}") && entry.getValue().toString().equals("${data.blockStateValue?j_string}")))
 			return;
 		</#if>
 		<#if data.blockEntityNbt?has_content>
@@ -347,7 +375,10 @@ public class ${name} {
 		double vertical = placement.startsWith("TOP_") ? verticalMaximum - halfH : placement.startsWith("BOTTOM_") ? verticalMinimum + halfH : (verticalMinimum + verticalMaximum) / 2.0;
 		Vec3 camera = event.getCamera().getPosition();
 		PoseStack poseStack = event.getPoseStack();
-		int light = LevelRenderer.getLightCoords(minecraft.level, position.relative(side));
+		int light = net.minecraft.client.renderer.LightTexture.pack(
+			minecraft.level.getBrightness(net.minecraft.world.level.LightLayer.SKY, position.relative(side)),
+			minecraft.level.getBrightness(net.minecraft.world.level.LightLayer.BLOCK, position.relative(side))
+		);
 		MultiBufferSource.BufferSource bufferSource = minecraft.renderBuffers().bufferSource();
 		poseStack.pushPose();
 		poseStack.translate(position.getX() - camera.x + 0.5, position.getY() - camera.y + 0.5, position.getZ() - camera.z + 0.5);
@@ -360,7 +391,7 @@ public class ${name} {
 		<#if data.layerType == "ITEM">
 		poseStack.translate(horizontal, vertical, faceDepth);
 		poseStack.scale((float) ${data.scale}, (float) ${data.scale}, 0.001f);
-		ItemStack itemStack = new ItemStack(BuiltInRegistries.ITEM.get(new ResourceLocation("${data.layerValue?j_string}")));
+		ItemStack itemStack = new ItemStack(BuiltInRegistries.ITEM.get(net.minecraft.resources.ResourceLocation.fromNamespaceAndPath("${data.layerValue?j_string?split(":")[0]}", "${data.layerValue?j_string?split(":")[1]}")));
 		if (itemStack.getItem() instanceof net.minecraft.world.item.BlockItem) {
 			poseStack.mulPose(Axis.XP.rotationDegrees(-30.0F));
 			poseStack.mulPose(Axis.YP.rotationDegrees(45.0F));
@@ -377,7 +408,7 @@ public class ${name} {
 		font.drawInBatch(text, localX(placement, font.width(text)), localY(placement, font.lineHeight), 0xFF${data.color?substring(1)}, false, poseStack.last().pose(), bufferSource, Font.DisplayMode.NORMAL, 0, light);
 		bufferSource.endBatch();
 		<#elseif data.layerType == "TEXTURE">
-		ResourceLocation texture = new ResourceLocation("${data.layerValue?j_string}");
+		ResourceLocation texture = net.minecraft.resources.ResourceLocation.fromNamespaceAndPath("${data.layerValue?j_string?split(":")[0]}", "${data.layerValue?j_string?split(":")[1]}");
 		poseStack.translate(horizontal, vertical, faceDepth);
 		poseStack.scale((float) ((horizontalMaximum - horizontalMinimum) / 3), (float) ((verticalMaximum - verticalMinimum) / 3), 1.0f);
 		var consumer = bufferSource.getBuffer(RenderType.entityTranslucent(texture));
