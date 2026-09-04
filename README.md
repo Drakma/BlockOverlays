@@ -1,4 +1,12 @@
+[![BlockOverlays: 2026.2-2026.9.123](https://img.shields.io/badge/BlockOverlays-2026.2--2026.9.123-blueviolet?style=flat-square)](#)
+[![MCreator: 2026.2](https://img.shields.io/badge/MCreator-2026.2-orange?style=flat-square)](#)
+[![neoforge-26.1.2](https://img.shields.io/badge/neoforge--26.1.2-neoforge--26.1.2-green?style=flat-square)](#)
+[![neoforge-26.2](https://img.shields.io/badge/neoforge--26.2-neoforge--26.2-green?style=flat-square)](#)
+
 # Block Overlays
+
+[![HOW_TO](https://img.shields.io/badge/HOW_TO-View-blue?style=flat-square)](HOW_TO.md)
+[![Changelog](https://img.shields.io/badge/Changelog-View-blue?style=flat-square)](CHANGE_LOG.md)
 
 MCreator procedure blocks for world-space overlays on NeoForge 26.1.2 and 26.2. Includes a native `Texture` Blockly datatype and workspace image selector.
 
@@ -46,3 +54,4 @@ Run `./build.ps1`. Like BlockDirections, it compiles Java, stages plugin resourc
 `build/distribution/BlockOverlays-{mcreatorVersion}-{year}.{month}.{increment}.zip`
 
 The build updates `plugin.json`, then increments `version.properties` for the next build.
+
