@@ -19,6 +19,8 @@ A guide on how to render world-space overlays (text, numbers, items, textures, a
 11. [Match Conditions (SNBT Gating)](#11-match-conditions-snbt-gating)
 12. [Setting Up a Block Overlay Workspace](#12-setting-up-a-block-overlay-workspace)
 13. [Biome Tint Colors](#13-biome-tint-colors)
+14. [Tree Structure Overlay](#14-tree-structure-overlay)
+15. [Utils: Capturing Tree Structures](#15-utils-capturing-tree-structures)
 
 ---
 
@@ -281,3 +283,86 @@ Typical uses:
 
 - Tint a texture overlay on a water-adjacent block so it visually matches the surrounding water color.
 - Color a leaves/foliage-themed overlay to match the current biome's foliage tint instead of a fixed green.
+
+---
+
+## 14. Tree Structure Overlay
+
+```
+render tree structure overlay %structure percentage %percentage (0 to 1) growth mode %growth_mode y-offset %offset_y scale %scale on shape bounds %bounds
+```
+
+Renders a captured multi-block tree — trunk, branches, and canopy, not just a single scaled block — as an in-world hologram on the Block Overlay element's target block.
+
+- `structure` — accepts the **structure selector** picker block, a plain text block, or any `String`-producing variable/expression, so the structure name can be chosen at design time or computed programmatically at runtime.
+- `percentage` — growth amount, `0` to `1`.
+- `growth_mode`:
+  - `uniform scale` — the whole structure grows and shrinks together as percentage changes.
+  - `bottom-up reveal` — the structure stays at full size, and more of it becomes visible from the ground up as percentage increases (a literal "growing out of the ground" look).
+- `scale` — the size of the structure's **longest axis**, in blocks. `scale 1` means the entire structure (all three dimensions) fits inside a single block's bounding cube; `scale 2` fits in two blocks, `scale 0.5` in half a block, and so on. This matches how `scale` already works on the single-block sapling tree overlay.
+- `offset_y` — vertical offset in pixels, same convention as the other overlay builders.
+- `bounds` — anchor to the target block's actual shape bounds instead of a full cube (useful for slabs/partial blocks acting as the ground).
+
+The hologram automatically centers itself on the target block regardless of how lopsided the tree's canopy is — centering is based on the structure's own declared capture size (always a symmetric footprint around the trunk), not the bounding box of the placed blocks, which random leaf spread would otherwise skew off-center. Leaves and other biome-tinted blocks (vanilla or modded, if the block registers a tint handler) render with the correct tint for the overlay's actual biome, not a flat default color.
+
+### The Structure Selector
+
+```
+structure %structure
+```
+
+A double-click picker (like the texture selector) listing every `.nbt` structure already imported into the workspace's Structures panel. Returns a `String` — the exact name to plug into the tree structure overlay's `structure` input, or into any of the Utils capture blocks below.
+
+---
+
+## 15. Utils: Capturing Tree Structures
+
+The **Utils** subcategory (under the main Block Overlays toolbox category) holds dev-time tools for building the `.nbt` structure files the tree structure overlay renders. These are meant to be wired into a **Command** mod element you create yourself in MCreator (Utils blocks take explicit `x`/`y`/`z` inputs rather than an implicit target block, since a command has no inherent target block) — they are not intended to ship as part of normal gameplay logic.
+
+### Grow Tree via Bonemeal
+
+```
+grow tree from %tree at x %pos_x y %pos_y z %pos_z max bonemeal attempts %max_attempts
+```
+
+Places the given sapling/fungus/propagule item and repeatedly applies the same growth logic real bonemeal uses until it becomes a tree or the attempt limit is reached. Returns `true` if it grew. Dark oak and pale oak are planted as a 2×2 group automatically, since vanilla only grows those from a 2×2 sapling arrangement — a single sapling of either type will never grow no matter how many attempts.
+
+### Capture Tree Structure
+
+```
+capture tree structure at x %pos_x y %pos_y z %pos_z radius %radius height %height save as %structure_name
+```
+
+Saves a `(radius*2+1)` square region centered on x/z, starting at y, as a `.nbt` structure — the same routine and file format a vanilla Structure Block's "Save" button uses. `height` is a **scan ceiling**, not the literal saved height: the block scans upward for the actual topmost non-air block within that ceiling and trims the capture to it, so no empty air is saved above the tree. The file lands in the current world save's `generated/<modid>/structure/<name>.nbt`; copy it into the workspace's Structures panel afterward to use it with the tree structure overlay.
+
+### Clear Tree Area
+
+```
+clear tree area at x %pos_x y %pos_y z %pos_z radius %radius height %height
+```
+
+Sets every block in the same region `capture tree structure` would use back to air. Run this before growing the next tree at the same spot, using the same x/y/z/radius/height values you captured with.
+
+### List All Tree Sapling Items
+
+```
+list all tree sapling items
+```
+
+Scans the item registry for everything that grows into a tree: any block extending `SaplingBlock` (covers vanilla saplings and the large majority of modded tree saplings too, since that's the standard base class for exactly this behavior), plus the handful of vanilla growers that don't extend it — mangrove propagule, azalea, flowering azalea, crimson fungus, warped fungus. Returns a list of one-count item stacks. Not included: bamboo and other continuously-growing blocks that don't produce a single discrete tree shape.
+
+### Auto-Capture All Tree Structures
+
+```
+auto-capture all tree structures at x %pos_x y %pos_y z %pos_z radius %radius height %height max bonemeal attempts %max_attempts
+```
+
+The one-block version of the whole pipeline: loops every item from **list all tree sapling items**, and for each one clears the area, grows it via bonemeal (2×2 group for dark oak/pale oak automatically), saves it as a structure if it grew, then clears the area again before moving to the next species. Each structure is filed under its own source mod — `generated/<modid>/structure/<sapling_modid>/<sapling_modid>_<sapling_item>.nbt` — so a Biomes O' Plenty mahogany sapling lands at `.../structure/biomesoplenty/biomesoplenty_mahogany_sapling.nbt`, sorting trees from different mods into their own folders automatically. Wire this into a single Command element to capture every tree species in a modpack in one run.
+
+### Typical Workflow
+
+1. Create a Command element in MCreator (e.g. `/generatetrees`).
+2. Wire in **auto-capture all tree structures** with a fixed x/y/z test spot, a radius/height generous enough for the tallest tree you expect, and a max attempt count (200 is a safe default).
+3. Run the command in a test world. Check the game log and the `generated/<modid>/structure/` folder in that world's save for the captured `.nbt` files.
+4. Import the ones you want into the workspace's Structures panel.
+5. Use **structure selector** (or a text/variable input) on a **render tree structure overlay** block to preview them.

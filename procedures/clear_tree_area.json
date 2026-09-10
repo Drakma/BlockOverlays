@@ -1,0 +1,48 @@
+{
+	"message0": "clear tree area at x %1 y %2 z %3 radius %4 height %5",
+	"args0": [
+		{
+			"type": "input_value",
+			"name": "pos_x",
+			"check": "Number"
+		},
+		{
+			"type": "input_value",
+			"name": "pos_y",
+			"check": "Number"
+		},
+		{
+			"type": "input_value",
+			"name": "pos_z",
+			"check": "Number"
+		},
+		{
+			"type": "input_value",
+			"name": "radius",
+			"check": "Number"
+		},
+		{
+			"type": "input_value",
+			"name": "height",
+			"check": "Number"
+		}
+	],
+	"inputsInline": false,
+	"output": "Boolean",
+	"colour": 20,
+	"tooltip": "Server-side only. Sets every block in the same (radius*2+1) square by (height+1) tall region used by 'capture tree structure' (centered on x,z, starting at y) back to air — use it right after capturing to clean up the grown tree before growing the next one. Use the same x/y/z/radius/height values you captured with.",
+	"mcreator": {
+		"toolbox_id": "blockoverlays_utils",
+		"toolbox_init": [
+			"<value name=\"radius\"><block type=\"math_number\"><field name=\"NUM\">4</field></block></value>",
+			"<value name=\"height\"><block type=\"math_number\"><field name=\"NUM\">10</field></block></value>"
+		],
+		"inputs": ["pos_x", "pos_y", "pos_z", "radius", "height"],
+		"dependencies": [
+			{
+				"name": "world",
+				"type": "world"
+			}
+		]
+	}
+}

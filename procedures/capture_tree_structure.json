@@ -1,0 +1,54 @@
+{
+	"message0": "capture tree structure at x %1 y %2 z %3 radius %4 height %5 save as %6",
+	"args0": [
+		{
+			"type": "input_value",
+			"name": "pos_x",
+			"check": "Number"
+		},
+		{
+			"type": "input_value",
+			"name": "pos_y",
+			"check": "Number"
+		},
+		{
+			"type": "input_value",
+			"name": "pos_z",
+			"check": "Number"
+		},
+		{
+			"type": "input_value",
+			"name": "radius",
+			"check": "Number"
+		},
+		{
+			"type": "input_value",
+			"name": "height",
+			"check": "Number"
+		},
+		{
+			"type": "input_value",
+			"name": "structure_name",
+			"check": "String"
+		}
+	],
+	"inputsInline": false,
+	"output": "Boolean",
+	"colour": 20,
+	"tooltip": "Server-side only. Saves a horizontal (radius*2+1) square region centered on x,z starting at y as a .nbt structure, written to this world save's generated/<modid>/structure/<name>.nbt folder — the same location and format a vanilla Structure Block writes to. 'height' is a scan ceiling, not the literal saved height: the block scans upward for the actual topmost non-air block within that ceiling and trims the capture to that height, so no empty air is saved above the tree. Copy the resulting file into your MCreator workspace's Structures panel afterward to use it with the tree structure overlay. Entities in the region are not captured.",
+	"mcreator": {
+		"toolbox_id": "blockoverlays_utils",
+		"toolbox_init": [
+			"<value name=\"radius\"><block type=\"math_number\"><field name=\"NUM\">4</field></block></value>",
+			"<value name=\"height\"><block type=\"math_number\"><field name=\"NUM\">10</field></block></value>",
+			"<value name=\"structure_name\"><block type=\"text\"><field name=\"TEXT\">oak_tree_full</field></block></value>"
+		],
+		"inputs": ["pos_x", "pos_y", "pos_z", "radius", "height", "structure_name"],
+		"dependencies": [
+			{
+				"name": "world",
+				"type": "world"
+			}
+		]
+	}
+}

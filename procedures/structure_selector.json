@@ -1,0 +1,16 @@
+{
+	"message0": "structure %1",
+	"args0": [
+		{
+			"type": "field_structure_selector",
+			"name": "structure"
+		}
+	],
+	"output": "String",
+	"colour": 20,
+	"tooltip": "Double-click to select a workspace structure (.nbt) resource.",
+	"mcreator": {
+		"toolbox_id": "blockoverlays",
+		"fields": ["structure"]
+	}
+}

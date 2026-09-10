@@ -7,7 +7,7 @@
                           ],
     "info":  {
                  "name":  "Block Overlays",
-                 "version":  "2026.2-2026.9.183",
+                 "version":  "2026.2-2026.9.215",
                  "description":  "Blockly Texture datatype, image selector, and blocks for rendering texture, item, text, number, and outline overlays at block positions.",
                  "author":  "Drakma"
              }

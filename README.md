@@ -25,9 +25,11 @@ MCreator procedure blocks for world-space overlays on NeoForge 26.1.2 and 26.2. 
 - Render an item, text, or number fixed to a selected block face with face lighting
 - Render a colored outline around a block, with optional pulse, rainbow, glow, wave, and marquee animated effects and a choice of pixel or 1/16-block line width units
 - Render crop growth and tree growth overlays for farmland/sapling-style blocks
+- Render a captured multi-block tree structure as a scaled, biome-tinted, growth-animated hologram
 - Read the current biome's smoothed water, grass, or foliage tint as a color input
 - Hide or restore every overlay on a block
 - Place item, text, number, and texture overlays on a reusable 3x3 anchor grid
+- **Utils**: dev-time tools to grow a sapling via real bonemeal logic, capture the result as a `.nbt` structure, clear the capture area, list every tree sapling item in the game, and batch-capture every tree species in one call
 
 ## Usage
 

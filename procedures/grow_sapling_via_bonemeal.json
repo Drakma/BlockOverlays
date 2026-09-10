@@ -1,0 +1,48 @@
+{
+	"message0": "grow tree from %1 at x %2 y %3 z %4 max bonemeal attempts %5",
+	"args0": [
+		{
+			"type": "input_value",
+			"name": "tree",
+			"check": "MCItem"
+		},
+		{
+			"type": "input_value",
+			"name": "pos_x",
+			"check": "Number"
+		},
+		{
+			"type": "input_value",
+			"name": "pos_y",
+			"check": "Number"
+		},
+		{
+			"type": "input_value",
+			"name": "pos_z",
+			"check": "Number"
+		},
+		{
+			"type": "input_value",
+			"name": "max_attempts",
+			"check": "Number"
+		}
+	],
+	"inputsInline": false,
+	"output": "Boolean",
+	"colour": 20,
+	"tooltip": "Places the given sapling/tree item at the given position (server-side only) and repeatedly applies real bonemeal growth logic until it becomes a full tree or the attempt limit is reached. Dark oak and pale oak are planted as a 2x2 group automatically, since vanilla only grows those from a 2x2 sapling arrangement. Returns true if it grew into a tree. Intended for dev-time structure capture, not gameplay.",
+	"mcreator": {
+		"toolbox_id": "blockoverlays_utils",
+		"toolbox_init": [
+			"<value name=\"tree\"><block type=\"mcitem_all\"><field name=\"value\">Items.OAK_SAPLING</field></block></value>",
+			"<value name=\"max_attempts\"><block type=\"math_number\"><field name=\"NUM\">200</field></block></value>"
+		],
+		"inputs": ["tree", "pos_x", "pos_y", "pos_z", "max_attempts"],
+		"dependencies": [
+			{
+				"name": "world",
+				"type": "world"
+			}
+		]
+	}
+}

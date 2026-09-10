@@ -7,6 +7,7 @@ import net.mcreator.plugin.events.PreGeneratorsLoadingEvent;
 import net.mcreator.plugin.events.ui.BlocklyPanelRegisterDOMData;
 import net.mcreator.plugin.events.ui.ModElementGUIEvent;
 import net.mcreator.ui.MCreator;
+import net.mcreator.ui.dialogs.StringSelectorDialog;
 import net.mcreator.ui.dialogs.TypedTextureSelectorDialog;
 import net.mcreator.ui.modgui.ProcedureGUI;
 import net.mcreator.ui.workspace.resources.TextureType;
@@ -32,6 +33,8 @@ public class BlockOverlaysPlugin extends JavaPlugin {
     addListener(BlocklyPanelRegisterDOMData.class, event -> {
       event.addJavaScriptBridge("texturebridge",
           new TextureBridge(event.getBlocklyPanel().getMCreator()));
+      event.addJavaScriptBridge("structurebridge",
+          new StructureBridge(event.getBlocklyPanel().getMCreator()));
     });
 
     // Migrate procedure XML lazily before ProcedureGUI loads it into BlocklyPanel
@@ -126,6 +129,24 @@ public class BlockOverlaysPlugin extends JavaPlugin {
       } catch (IllegalArgumentException | NullPointerException exception) {
         return TextureType.OTHER;
       }
+    }
+  }
+
+  public static final class StructureBridge {
+    private final MCreator mcreator;
+
+    public StructureBridge(MCreator mcreator) {
+      this.mcreator = mcreator;
+    }
+
+    public void openStructureSelector(Consumer<String> callback) {
+      SwingUtilities.invokeLater(() -> {
+        String selected = StringSelectorDialog.openSelectorDialog(mcreator,
+            workspace -> workspace.getFolderManager().getStructureList().toArray(new String[0]),
+            "Select structure", "Choose a structure resource (.nbt):");
+        if (selected != null && !selected.isBlank())
+          callback.accept(selected);
+      });
     }
   }
 }

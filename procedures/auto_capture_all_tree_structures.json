@@ -1,0 +1,55 @@
+{
+	"message0": "auto-capture all tree structures at x %1 y %2 z %3 radius %4 height %5 max bonemeal attempts %6",
+	"args0": [
+		{
+			"type": "input_value",
+			"name": "pos_x",
+			"check": "Number"
+		},
+		{
+			"type": "input_value",
+			"name": "pos_y",
+			"check": "Number"
+		},
+		{
+			"type": "input_value",
+			"name": "pos_z",
+			"check": "Number"
+		},
+		{
+			"type": "input_value",
+			"name": "radius",
+			"check": "Number"
+		},
+		{
+			"type": "input_value",
+			"name": "height",
+			"check": "Number"
+		},
+		{
+			"type": "input_value",
+			"name": "max_attempts",
+			"check": "Number"
+		}
+	],
+	"inputsInline": false,
+	"previousStatement": null,
+	"nextStatement": null,
+	"colour": 20,
+	"tooltip": "Server-side only. Loops over every tree sapling item (same set as 'list all tree sapling items'), and for each one: clears the capture area, plants it (as a 2x2 group for dark oak/pale oak, which vanilla only grows from a 2x2 sapling arrangement), grows it via bonemeal, saves it as a structure if it grew, then clears the area again before moving to the next sapling. Each sapling's structure is filed under its own source mod: generated/<modid>/structure/<sapling_modid>/<sapling_modid>_<sapling_item>.nbt (e.g. a Biomes O' Plenty mahogany sapling lands at .../structure/biomesoplenty/biomesoplenty_mahogany_sapling.nbt), so trees from different mods sort into their own folders automatically. 'height' is a scan ceiling, not the literal saved height: each capture is trimmed to the actual topmost non-air block found, so no empty air is saved above the tree. One block to capture every tree in the game at a single spot.",
+	"mcreator": {
+		"toolbox_id": "blockoverlays_utils",
+		"toolbox_init": [
+			"<value name=\"radius\"><block type=\"math_number\"><field name=\"NUM\">4</field></block></value>",
+			"<value name=\"height\"><block type=\"math_number\"><field name=\"NUM\">10</field></block></value>",
+			"<value name=\"max_attempts\"><block type=\"math_number\"><field name=\"NUM\">200</field></block></value>"
+		],
+		"inputs": ["pos_x", "pos_y", "pos_z", "radius", "height", "max_attempts"],
+		"dependencies": [
+			{
+				"name": "world",
+				"type": "world"
+			}
+		]
+	}
+}

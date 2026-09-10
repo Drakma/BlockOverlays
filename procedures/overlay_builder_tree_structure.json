@@ -1,0 +1,73 @@
+{
+	"message0": "render tree structure overlay %1 percentage %2 (0 to 1) growth mode %3 y-offset %4 scale %5 on shape bounds %6",
+	"args0": [
+		{
+			"type": "input_value",
+			"name": "structure",
+			"check": "String"
+		},
+		{
+			"type": "input_value",
+			"name": "percentage",
+			"check": "Number"
+		},
+		{
+			"type": "field_dropdown",
+			"name": "growth_mode",
+			"options": [
+				["uniform scale", "UNIFORM_SCALE"],
+				["bottom-up reveal", "BOTTOM_UP_REVEAL"]
+			]
+		},
+		{
+			"type": "input_value",
+			"name": "offset_y",
+			"check": "Number"
+		},
+		{
+			"type": "input_value",
+			"name": "scale",
+			"check": "Number"
+		},
+		{
+			"type": "input_value",
+			"name": "bounds",
+			"check": "Boolean"
+		}
+	],
+	"inputsInline": false,
+	"previousStatement": null,
+	"nextStatement": null,
+	"colour": 20,
+	"tooltip": "Renders an in-world 3D hologram of a captured tree structure (.nbt, imported via MCreator's Structures panel) scaled to growth percentage (0 to 1). The structure input accepts the structure picker block, a plain text block, or any String-producing variable/expression, so the structure name can be computed/changed programmatically. Uniform scale grows the whole structure evenly; bottom-up reveal shows more of the structure from the ground up as it grows. Supports shape bounds and Y-offset (pixels).",
+	"mcreator": {
+		"toolbox_id": "blockoverlays",
+		"toolbox_init": [
+			"<value name=\"structure\"><block type=\"structure_selector\"><field name=\"structure\"></field></block></value>",
+			"<value name=\"percentage\"><block type=\"math_number\"><field name=\"NUM\">0.5</field></block></value>",
+			"<value name=\"offset_y\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value>",
+			"<value name=\"scale\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value>",
+			"<value name=\"bounds\"><block type=\"logic_boolean\"><field name=\"BOOL\">FALSE</field></block></value>"
+		],
+		"inputs": ["structure", "percentage", "offset_y", "scale", "bounds"],
+		"fields": ["growth_mode"],
+		"dependencies": [
+			{
+				"name": "x",
+				"type": "number"
+			},
+			{
+				"name": "y",
+				"type": "number"
+			},
+			{
+				"name": "z",
+				"type": "number"
+			},
+			{
+				"name": "world",
+				"type": "world"
+			}
+		]
+	}
+}
