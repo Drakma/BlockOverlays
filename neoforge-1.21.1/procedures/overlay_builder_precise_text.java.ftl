@@ -5,8 +5,11 @@ if (event instanceof SubmitCustomGeometryEvent _overlayEvent) {
 	double _coordY = ((Number) ${input$coord_y}).doubleValue();
 	Font _font = Minecraft.getInstance().font;
 	float _scale = (float) ${input$scale} * 0.02f;
-	int _alphaInt = (int) (Math.max(0.0f, Math.min(1.0f, (float) ${(input$transparency!"1.0")})) * 255.0f);
-	int _textColor = (_alphaInt << 24) | (0x00FFFFFF & 0xFF${(field$color!"#ffffff")?substring(1)});
+	String _rawColor = "${(field$color!"#ffffff")?trim?replace("#", "")}";
+	long _parsedColor = Long.parseLong(_rawColor, 16);
+	int _colorAlpha = (_rawColor.length() == 8) ? (int) ((_parsedColor >> 24) & 0xFF) : 255;
+	int _alphaInt = (int) (Math.max(0.0f, Math.min(1.0f, (float) ${(input$transparency!"1.0")})) * (float) _colorAlpha);
+	int _textColor = (_alphaInt << 24) | (int) (_parsedColor & 0x00FFFFFF);
 	PoseStack _poseStack = _overlayEvent.getPoseStack();
 	Vec3 _camera = _overlayEvent.getLevelRenderState().cameraRenderState.pos;
 	double _padding = ((Number) ${(input$padding!"0")}).doubleValue() / 16.0;

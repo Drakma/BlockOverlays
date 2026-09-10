@@ -5,7 +5,7 @@ if (event instanceof SubmitCustomGeometryEvent _overlayEvent) {
 	float _scale = Math.max(0.0f, Math.min(1.0f, (float) ${input$value}));
 	float _distance = (float) ${(input$distance!"0")};
 	float _bobHeight = Math.max(0, (float) ${input$bob_height});
-	float _animTime = (float) (System.currentTimeMillis() % 36000000L) / 50.0f;
+	float _animTime = (float) (System.nanoTime() / 1_000_000L % 36000000L) / 50.0f;
 	float _spinDegrees = _animTime * (float) ${input$spin_speed};
 	float _bob = (float) Math.sin(_animTime * 0.075f) * _bobHeight;
 	if (_scale > 0.0f) {

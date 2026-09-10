@@ -1,13 +1,17 @@
 package net.drakma.blockoverlays;
 
+import net.mcreator.element.types.Procedure;
 import net.mcreator.plugin.JavaPlugin;
 import net.mcreator.plugin.Plugin;
 import net.mcreator.plugin.events.PreGeneratorsLoadingEvent;
 import net.mcreator.plugin.events.ui.BlocklyPanelRegisterDOMData;
+import net.mcreator.plugin.events.ui.ModElementGUIEvent;
 import net.mcreator.ui.MCreator;
 import net.mcreator.ui.dialogs.TypedTextureSelectorDialog;
+import net.mcreator.ui.modgui.ProcedureGUI;
 import net.mcreator.ui.workspace.resources.TextureType;
 import net.mcreator.workspace.resources.Texture;
+import net.drakma.blockoverlays.elements.BlockOverlayElementGUI;
 import net.drakma.blockoverlays.elements.BlockOverlayElementTypes;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,9 +28,26 @@ public class BlockOverlaysPlugin extends JavaPlugin {
   public BlockOverlaysPlugin(Plugin plugin) {
     super(plugin);
     addListener(PreGeneratorsLoadingEvent.class, event -> BlockOverlayElementTypes.load());
-    addListener(BlocklyPanelRegisterDOMData.class, event -> event.addJavaScriptBridge("texturebridge",
-        new TextureBridge(event.getBlocklyPanel().getMCreator())));
-    LOG.info("BlockOverlays texture selector initialized");
+
+    addListener(BlocklyPanelRegisterDOMData.class, event -> {
+      event.addJavaScriptBridge("texturebridge",
+          new TextureBridge(event.getBlocklyPanel().getMCreator()));
+    });
+
+    // Migrate procedure XML lazily before ProcedureGUI loads it into BlocklyPanel
+    addListener(ModElementGUIEvent.BeforeLoading.class, event -> {
+      if (event.getModElementGUI() instanceof ProcedureGUI procedureGUI) {
+        if (procedureGUI.getModElement().getGeneratableElement() instanceof Procedure procedure) {
+          if (BlockOverlayElementGUI.hasLegacyOverlayBlocks(procedure.procedurexml)) {
+            procedure.procedurexml = BlockOverlayElementGUI.migrateLegacyOverlayBlocks(procedure.procedurexml);
+            LOG.info("Migrated legacy overlay blocks in procedure before GUI load: {}",
+                procedureGUI.getModElement().getName());
+          }
+        }
+      }
+    });
+
+    LOG.info("BlockOverlays plugin initialized");
   }
 
   public static final class TextureBridge {

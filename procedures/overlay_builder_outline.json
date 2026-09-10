@@ -1,20 +1,84 @@
 {
-	"message0": "render target block outline color %1 line width %2 transparency %3 through walls %4 on shape bounds %5 pulse %6 rainbow %7 glow %8 wave %9 marquee %10 wave phase %11 speed %12 intensity %13 marquee speed %14 glow color %15 wave color %16 glow falloff %17",
+	"message0": "render target block outline color %1 line width %2 width units %3 transparency %4 through walls %5 on shape bounds %6 pulse %7 rainbow %8 glow %9 wave %10 marquee %11 wave phase %12 speed %13 intensity %14 marquee speed %15 glow color %16 wave color %17 glow falloff %18",
 	"args0": [
-		{ "type": "field_color_selector", "name": "color", "color": "#ff0000" },
-		{ "type": "input_value", "name": "width", "check": "Number" },
-		{ "type": "input_value", "name": "transparency", "check": "Number" },
-		{ "type": "input_value", "name": "through_walls", "check": "Boolean" },
-		{ "type": "input_value", "name": "bounds", "check": "Boolean" },
-		{ "type": "input_value", "name": "pulse", "check": "Boolean" },
-		{ "type": "input_value", "name": "rainbow", "check": "Boolean" },
-		{ "type": "input_value", "name": "glow", "check": "Boolean" },
-		{ "type": "input_value", "name": "wave", "check": "Boolean" },
-		{ "type": "input_value", "name": "marquee", "check": "Boolean" },
-		{ "type": "input_value", "name": "wave_phase", "check": "Number" },
-		{ "type": "input_value", "name": "speed", "check": "Number" },
-		{ "type": "input_value", "name": "intensity", "check": "Number" },
-		{ "type": "input_value", "name": "marquee_speed", "check": "Number" },
+		{
+			"type": "field_color_selector",
+			"name": "color",
+			"color": "#ff0000"
+		},
+		{
+			"type": "input_value",
+			"name": "width",
+			"check": "Number"
+		},
+		{
+			"type": "field_dropdown",
+			"name": "width_units",
+			"options": [
+				["1/16 block", "sixteenth"],
+				["pixel", "pixel"]
+			]
+		},
+		{
+			"type": "input_value",
+			"name": "transparency",
+			"check": "Number"
+		},
+		{
+			"type": "input_value",
+			"name": "through_walls",
+			"check": "Boolean"
+		},
+		{
+			"type": "input_value",
+			"name": "bounds",
+			"check": "Boolean"
+		},
+		{
+			"type": "input_value",
+			"name": "pulse",
+			"check": "Boolean"
+		},
+		{
+			"type": "input_value",
+			"name": "rainbow",
+			"check": "Boolean"
+		},
+		{
+			"type": "input_value",
+			"name": "glow",
+			"check": "Boolean"
+		},
+		{
+			"type": "input_value",
+			"name": "wave",
+			"check": "Boolean"
+		},
+		{
+			"type": "input_value",
+			"name": "marquee",
+			"check": "Boolean"
+		},
+		{
+			"type": "input_value",
+			"name": "wave_phase",
+			"check": "Number"
+		},
+		{
+			"type": "input_value",
+			"name": "speed",
+			"check": "Number"
+		},
+		{
+			"type": "input_value",
+			"name": "intensity",
+			"check": "Number"
+		},
+		{
+			"type": "input_value",
+			"name": "marquee_speed",
+			"check": "Number"
+		},
 		{
 			"type": "field_color_selector",
 			"name": "glow_color",
@@ -35,26 +99,27 @@
 			]
 		}
 	],
+	"inputsInline": false,
 	"previousStatement": null,
 	"nextStatement": null,
 	"colour": 20,
-	"tooltip": "Renders an outline around this Block Overlay element's target block. Effects (each independently toggleable): pulse (alpha breathes), rainbow (hue cycles), glow (halo passes with increasing width, separate glow color, three falloff curves), wave (bright band traveling around the shape, separate wave color; marquee crawls it continuously at its own marquee speed). Speed scales time-based effects except marquee; intensity (0-1) controls depth.",
+	"tooltip": "Renders an outline around this Block Overlay element\u0027s target block. Effects (each independently toggleable): pulse (alpha breathes), rainbow (hue cycles), glow (halo passes with increasing width, separate glow color, three falloff curves), wave (bright band traveling around the shape, separate wave color; marquee crawls it continuously at its own marquee speed). Width is in 1/16-block steps or screen pixels (per frame, computed from camera distance + FOV). Speed scales time-based effects except marquee; intensity (0-1) controls depth.",
 	"mcreator": {
 		"toolbox_id": "blockoverlays",
 		"toolbox_init": [
-			"<value name=\"width\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value>",
-			"<value name=\"transparency\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value>",
-			"<value name=\"through_walls\"><block type=\"logic_boolean\"><field name=\"BOOL\">FALSE</field></block></value>",
-			"<value name=\"bounds\"><block type=\"logic_boolean\"><field name=\"BOOL\">FALSE</field></block></value>",
-			"<value name=\"pulse\"><block type=\"logic_boolean\"><field name=\"BOOL\">FALSE</field></block></value>",
-			"<value name=\"rainbow\"><block type=\"logic_boolean\"><field name=\"BOOL\">FALSE</field></block></value>",
-			"<value name=\"glow\"><block type=\"logic_boolean\"><field name=\"BOOL\">FALSE</field></block></value>",
-			"<value name=\"wave\"><block type=\"logic_boolean\"><field name=\"BOOL\">FALSE</field></block></value>",
-			"<value name=\"marquee\"><block type=\"logic_boolean\"><field name=\"BOOL\">FALSE</field></block></value>",
-			"<value name=\"wave_phase\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value>",
-			"<value name=\"speed\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value>",
-			"<value name=\"intensity\"><block type=\"math_number\"><field name=\"NUM\">0.5</field></block></value>",
-			"<value name=\"marquee_speed\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value>"
+			"\u003cvalue name=\"width\"\u003e\u003cblock type=\"math_number\"\u003e\u003cfield name=\"NUM\"\u003e1\u003c/field\u003e\u003c/block\u003e\u003c/value\u003e",
+			"\u003cvalue name=\"transparency\"\u003e\u003cblock type=\"math_number\"\u003e\u003cfield name=\"NUM\"\u003e1\u003c/field\u003e\u003c/block\u003e\u003c/value\u003e",
+			"\u003cvalue name=\"through_walls\"\u003e\u003cblock type=\"logic_boolean\"\u003e\u003cfield name=\"BOOL\"\u003eFALSE\u003c/field\u003e\u003c/block\u003e\u003c/value\u003e",
+			"\u003cvalue name=\"bounds\"\u003e\u003cblock type=\"logic_boolean\"\u003e\u003cfield name=\"BOOL\"\u003eFALSE\u003c/field\u003e\u003c/block\u003e\u003c/value\u003e",
+			"\u003cvalue name=\"pulse\"\u003e\u003cblock type=\"logic_boolean\"\u003e\u003cfield name=\"BOOL\"\u003eFALSE\u003c/field\u003e\u003c/block\u003e\u003c/value\u003e",
+			"\u003cvalue name=\"rainbow\"\u003e\u003cblock type=\"logic_boolean\"\u003e\u003cfield name=\"BOOL\"\u003eFALSE\u003c/field\u003e\u003c/block\u003e\u003c/value\u003e",
+			"\u003cvalue name=\"glow\"\u003e\u003cblock type=\"logic_boolean\"\u003e\u003cfield name=\"BOOL\"\u003eFALSE\u003c/field\u003e\u003c/block\u003e\u003c/value\u003e",
+			"\u003cvalue name=\"wave\"\u003e\u003cblock type=\"logic_boolean\"\u003e\u003cfield name=\"BOOL\"\u003eFALSE\u003c/field\u003e\u003c/block\u003e\u003c/value\u003e",
+			"\u003cvalue name=\"marquee\"\u003e\u003cblock type=\"logic_boolean\"\u003e\u003cfield name=\"BOOL\"\u003eFALSE\u003c/field\u003e\u003c/block\u003e\u003c/value\u003e",
+			"\u003cvalue name=\"wave_phase\"\u003e\u003cblock type=\"math_number\"\u003e\u003cfield name=\"NUM\"\u003e0\u003c/field\u003e\u003c/block\u003e\u003c/value\u003e",
+			"\u003cvalue name=\"speed\"\u003e\u003cblock type=\"math_number\"\u003e\u003cfield name=\"NUM\"\u003e1\u003c/field\u003e\u003c/block\u003e\u003c/value\u003e",
+			"\u003cvalue name=\"intensity\"\u003e\u003cblock type=\"math_number\"\u003e\u003cfield name=\"NUM\"\u003e0.5\u003c/field\u003e\u003c/block\u003e\u003c/value\u003e",
+			"\u003cvalue name=\"marquee_speed\"\u003e\u003cblock type=\"math_number\"\u003e\u003cfield name=\"NUM\"\u003e1\u003c/field\u003e\u003c/block\u003e\u003c/value\u003e"
 		],
 		"inputs": [
 			"width",
@@ -71,6 +136,30 @@
 			"intensity",
 			"marquee_speed"
 		],
-		"fields": ["color", "glow_color", "wave_color", "glow_falloff"]
+		"fields": [
+			"color",
+			"width_units",
+			"glow_color",
+			"wave_color",
+			"glow_falloff"
+		],
+		"dependencies": [
+			{
+				"name": "x",
+				"type": "number"
+			},
+			{
+				"name": "y",
+				"type": "number"
+			},
+			{
+				"name": "z",
+				"type": "number"
+			},
+			{
+				"name": "world",
+				"type": "world"
+			}
+		]
 	}
 }

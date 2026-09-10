@@ -31,3 +31,8 @@
 - To make the block selection box fixed to a single row that expands horizontally as blocks are added:
   - Set `elementsList.setLayoutOrientation(JList.HORIZONTAL_WRAP)` and `elementsList.setVisibleRowCount(1)`.
   - Fix vertical height to 36px and dynamically stretch width up to 650px by modifying the internal `JScrollPane`'s preferred and minimum sizes.
+
+## 6. Plugin Installation & Deployment Rules
+
+- **CRITICAL: NEVER put files in `~/.mcreator/plugins/` (`C:\Users\casey\.mcreator\plugins\`) under ANY circumstances.**
+- Plugin packages must only be built into the project's local distribution folder (`build/distribution/`). Do not copy or deploy them to the user's `~/.mcreator/plugins/` directory.

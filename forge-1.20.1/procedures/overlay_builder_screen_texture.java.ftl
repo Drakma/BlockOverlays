@@ -12,17 +12,37 @@ if (event instanceof RenderLevelStageEvent) {
 	_poseStack.mulPose(faceRotation(_side));
 	_poseStack.translate(_position.x, _position.y, _position.z);
 	_poseStack.scale(_scale, _scale, 1.0f);
-	int _light = net.minecraft.client.renderer.LightTexture.pack(
-		Minecraft.getInstance().level.getBrightness(net.minecraft.world.level.LightLayer.SKY, BlockPos.containing(x, y, z).relative(_side)),
-		Minecraft.getInstance().level.getBrightness(net.minecraft.world.level.LightLayer.BLOCK, BlockPos.containing(x, y, z).relative(_side))
-	);
+	int _light = net.minecraft.client.renderer.LightTexture.FULL_BRIGHT;
 	var _bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
 	var _consumer = _bufferSource.getBuffer(RenderType.entityTranslucent(_texture));
 	var _pose = _poseStack.last().pose();
 	var _normal = _poseStack.last().normal();
-	int _color = 0xFF${(field$color!"#ffffff")?substring(1)};
+	String _rawColor = "" + <#if input$color??>${input$color}<#elseif field$color??>"${field$color}"<#else>"#ffffffff"</#if>;
+	_rawColor = _rawColor.trim().replace("#", "").replace("0x", "").replace("0X", "").replace("\"", "");
+	long _parsedColor = 0xFFFFFFFFL;
+	try {
+		_parsedColor = Long.parseLong(_rawColor, 16);
+	} catch (Exception _e) {
+		_parsedColor = 0xFFFFFFFFL;
+	}
+	int _rTint, _gTint, _bTint, _aTint;
+	if (_rawColor.length() == 8) {
+		_rTint = (int) ((_parsedColor >> 24) & 0xFF);
+		_gTint = (int) ((_parsedColor >> 16) & 0xFF);
+		_bTint = (int) ((_parsedColor >> 8) & 0xFF);
+		_aTint = (int) (_parsedColor & 0xFF);
+	} else {
+		_rTint = (int) ((_parsedColor >> 16) & 0xFF);
+		_gTint = (int) ((_parsedColor >> 8) & 0xFF);
+		_bTint = (int) (_parsedColor & 0xFF);
+		_aTint = 255;
+	}
+	boolean _useColor = ${(input$use_color!"true")};
+	float _tintAlpha = _useColor ? Math.max(0.0f, Math.min(1.0f, (float) _aTint / 255.0f)) : 0.0f;
+	int _r = Math.max(0, Math.min(255, Math.round(255.0f * (1.0f - _tintAlpha) + (float) _rTint * _tintAlpha)));
+	int _g = Math.max(0, Math.min(255, Math.round(255.0f * (1.0f - _tintAlpha) + (float) _gTint * _tintAlpha)));
+	int _b = Math.max(0, Math.min(255, Math.round(255.0f * (1.0f - _tintAlpha) + (float) _bTint * _tintAlpha)));
 	int _a = (int) (Math.max(0.0f, Math.min(1.0f, (float) ${(input$transparency!"1.0")})) * 255.0f);
-	int _r = (_color >> 16) & 0xFF, _g = (_color >> 8) & 0xFF, _b = _color & 0xFF;
 	_consumer.vertex(_pose, 0.5f, -0.5f, 0).color(_r, _g, _b, _a).uv(0, 1).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(_light).normal(_normal, 0, 0, -1).endVertex();
 	_consumer.vertex(_pose, 0.5f, 0.5f, 0).color(_r, _g, _b, _a).uv(0, 0).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(_light).normal(_normal, 0, 0, -1).endVertex();
 	_consumer.vertex(_pose, -0.5f, 0.5f, 0).color(_r, _g, _b, _a).uv(1, 0).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(_light).normal(_normal, 0, 0, -1).endVertex();

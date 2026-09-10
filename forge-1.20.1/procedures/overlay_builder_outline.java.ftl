@@ -17,6 +17,7 @@
 	float _marqueeSpeed = (float) ${(input$marquee_speed!"1.0")};
 	int _width = Math.max(1, (int) ${input$width});
 	String _glowFalloff = "${(field$glow_falloff!"linear")}";
+	String _widthUnits = "${(field$width_units!"sixteenth")}";
 
 	// --- Time ---
 	float _tScaled = (float) (world.getGameTime() * (double) _speed);
@@ -65,8 +66,24 @@
 	var _pose = _poseStack.last().pose();
 	var _normal = _poseStack.last().normal();
 
-	// Step size for face extension: 1/16 of a block, matching one face-texture pixel.
+	// Step size for face extension. 1/16 of a block matches one face-texture pixel.
+	// When width_units is "pixel", recompute from camera distance + FOV so each
+	// width step is one screen pixel at the shape's depth. Distance is measured
+	// from the camera to the block's near-face center.
 	float _step = 1.0f / 16.0f;
+	if ("pixel".equals(_widthUnits)) {
+		net.minecraft.world.phys.Vec3 _blockCenter = new net.minecraft.world.phys.Vec3(x + 0.5, y + 0.5, z + 0.5);
+		net.minecraft.world.phys.Vec3 _toCam = _camera.subtract(_blockCenter);
+		net.minecraft.world.phys.Vec3 _toCamN = _toCam.normalize();
+		net.minecraft.world.phys.Vec3 _nearFace = _blockCenter.add(_toCamN.scale(0.5));
+		double _dist = _camera.distanceTo(_nearFace);
+		double _fov = Minecraft.getInstance().options.fov().get();
+		int _viewH = Minecraft.getInstance().getWindow().getGuiScaledHeight();
+		if (_viewH <= 0) _viewH = 1;
+		double _heightInBlocks = 2.0 * _dist * Math.tan(Math.toRadians(_fov * 0.5));
+		double _blocksPerPixel = _heightInBlocks / (double) _viewH;
+		_step = (float) Math.max(1.0 / 16.0, _blocksPerPixel);
+	}
 	float _phaseShift = (float) Math.toRadians(_tMarquee * 90.0f);
 
 	// --- Glow passes (uses glow_color, only when glow toggle is on) ---

@@ -1,0 +1,64 @@
+{
+	"message0": "render crop overlay %1 percentage complete %2 (0 to 1) y-offset %3 scale %4 on shape bounds %5",
+	"args0": [
+		{
+			"type": "input_value",
+			"name": "crop",
+			"check": "MCItem"
+		},
+		{
+			"type": "input_value",
+			"name": "percentage",
+			"check": "Number"
+		},
+		{
+			"type": "input_value",
+			"name": "offset_y",
+			"check": "Number"
+		},
+		{
+			"type": "input_value",
+			"name": "scale",
+			"check": "Number"
+		},
+		{
+			"type": "input_value",
+			"name": "bounds",
+			"check": "Boolean"
+		}
+	],
+	"inputsInline": false,
+	"previousStatement": null,
+	"nextStatement": null,
+	"colour": 20,
+	"tooltip": "Renders an in-world crop overlay from the provided seed, stem, or item (e.g. wheat seeds, pumpkin seeds, melon seeds, carrots, sweet berries, flowers, saplings) automatically showing the correct growth stage for the given percentage complete (0 to 1). Supports shape bounds and Y-offset (pixels) for sitting on top of farmland, pots, slabs, or custom blocks.",
+	"mcreator": {
+		"toolbox_id": "blockoverlays",
+		"toolbox_init": [
+			"\u003cvalue name=\"crop\"\u003e\u003cblock type=\"mcitem_all\"\u003e\u003cfield name=\"value\"\u003eItems.WHEAT_SEEDS\u003c/field\u003e\u003c/block\u003e\u003c/value\u003e",
+			"\u003cvalue name=\"percentage\"\u003e\u003cblock type=\"math_number\"\u003e\u003cfield name=\"NUM\"\u003e0.5\u003c/field\u003e\u003c/block\u003e\u003c/value\u003e",
+			"\u003cvalue name=\"offset_y\"\u003e\u003cblock type=\"math_number\"\u003e\u003cfield name=\"NUM\"\u003e0\u003c/field\u003e\u003c/block\u003e\u003c/value\u003e",
+			"\u003cvalue name=\"scale\"\u003e\u003cblock type=\"math_number\"\u003e\u003cfield name=\"NUM\"\u003e1\u003c/field\u003e\u003c/block\u003e\u003c/value\u003e",
+			"\u003cvalue name=\"bounds\"\u003e\u003cblock type=\"logic_boolean\"\u003e\u003cfield name=\"BOOL\"\u003eFALSE\u003c/field\u003e\u003c/block\u003e\u003c/value\u003e"
+		],
+		"inputs": ["crop", "percentage", "offset_y", "scale", "bounds"],
+		"dependencies": [
+			{
+				"name": "x",
+				"type": "number"
+			},
+			{
+				"name": "y",
+				"type": "number"
+			},
+			{
+				"name": "z",
+				"type": "number"
+			},
+			{
+				"name": "world",
+				"type": "world"
+			}
+		]
+	}
+}

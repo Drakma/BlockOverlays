@@ -1,40 +1,99 @@
 {
-	"message0": "render screen texture %1 at %2 on %3 face scale %4 color %5 transparency %6 padding %7 on shape bounds %8",
+	"message0": "render screen texture %1 at %2 on %3 face scale %4 color %5 use color %6 transparency %7 padding %8 on shape bounds %9",
 	"args0": [
-		{ "type": "input_value", "name": "texture", "check": "Texture" },
-		{ "type": "input_value", "name": "placement", "check": "OverlayPlacement" },
-		{ "type": "input_value", "name": "side", "check": "Direction" },
-		{ "type": "input_value", "name": "scale", "check": "Number" },
-		{ "type": "field_color_selector", "name": "color", "color": "#ffffff" },
-		{ "type": "input_value", "name": "transparency", "check": "Number" },
-		{ "type": "input_value", "name": "padding", "check": "Number" },
-		{ "type": "input_value", "name": "bounds", "check": "Boolean" }
+		{
+			"type": "input_value",
+			"name": "texture",
+			"check": "Texture"
+		},
+		{
+			"type": "input_value",
+			"name": "placement",
+			"check": "OverlayPlacement"
+		},
+		{
+			"type": "input_value",
+			"name": "side",
+			"check": "Direction"
+		},
+		{
+			"type": "input_value",
+			"name": "scale",
+			"check": "Number"
+		},
+		{
+			"type": "input_value",
+			"name": "color",
+			"check": "String"
+		},
+		{
+			"type": "input_value",
+			"name": "use_color",
+			"check": "Boolean"
+		},
+		{
+			"type": "input_value",
+			"name": "transparency",
+			"check": "Number"
+		},
+		{
+			"type": "input_value",
+			"name": "padding",
+			"check": "Number"
+		},
+		{
+			"type": "input_value",
+			"name": "bounds",
+			"check": "Boolean"
+		}
 	],
-	"inputsInline": true,
+	"inputsInline": false,
 	"previousStatement": null,
 	"nextStatement": null,
 	"colour": 20,
-	"tooltip": "Renders a screen/GUI texture on this Block Overlay element's target block with transparency (0 to 1). Padding (pixels) shifts the texture inward from the anchored edges.",
+	"tooltip": "Renders a screen/GUI texture on this Block Overlay element's target block with transparency (0 to 1). Color accepts hex (e.g. #ffffffff or #80ffffff with alpha). Use color toggles the color tint on/off. Padding (pixels) shifts the texture inward from the anchored edges.",
 	"mcreator": {
 		"toolbox_id": "blockoverlays",
 		"toolbox_init": [
-			"<value name=\"texture\"><block type=\"screen_texture_selector\"><field name=\"texture\"></field></block></value>",
-			"<value name=\"placement\"><block type=\"overlay_placement\"><field name=\"placement\">MIDDLE_CENTER</field></block></value>",
-			"<value name=\"side\"><block type=\"direction_constant\"></block></value>",
-			"<value name=\"scale\"><block type=\"math_number\"><field name=\"NUM\">0.5</field></block></value>",
-			"<value name=\"transparency\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value>",
-			"<value name=\"padding\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value>",
-			"<value name=\"bounds\"><block type=\"logic_boolean\"><field name=\"BOOL\">FALSE</field></block></value>"
+			"\u003cvalue name=\"texture\"\u003e\u003cblock type=\"screen_texture_selector\"\u003e\u003cfield name=\"texture\"\u003e\u003c/field\u003e\u003c/block\u003e\u003c/value\u003e",
+			"\u003cvalue name=\"placement\"\u003e\u003cblock type=\"overlay_placement\"\u003e\u003cfield name=\"placement\"\u003eMIDDLE_CENTER\u003c/field\u003e\u003c/block\u003e\u003c/value\u003e",
+			"\u003cvalue name=\"side\"\u003e\u003cblock type=\"direction_constant\"\u003e\u003c/block\u003e\u003c/value\u003e",
+			"\u003cvalue name=\"scale\"\u003e\u003cblock type=\"math_number\"\u003e\u003cfield name=\"NUM\"\u003e0.5\u003c/field\u003e\u003c/block\u003e\u003c/value\u003e",
+			"\u003cvalue name=\"color\"\u003e\u003cblock type=\"text\"\u003e\u003cfield name=\"TEXT\"\u003e#ffffffff\u003c/field\u003e\u003c/block\u003e\u003c/value\u003e",
+			"\u003cvalue name=\"use_color\"\u003e\u003cblock type=\"logic_boolean\"\u003e\u003cfield name=\"BOOL\"\u003eTRUE\u003c/field\u003e\u003c/block\u003e\u003c/value\u003e",
+			"\u003cvalue name=\"transparency\"\u003e\u003cblock type=\"math_number\"\u003e\u003cfield name=\"NUM\"\u003e1\u003c/field\u003e\u003c/block\u003e\u003c/value\u003e",
+			"\u003cvalue name=\"padding\"\u003e\u003cblock type=\"math_number\"\u003e\u003cfield name=\"NUM\"\u003e0\u003c/field\u003e\u003c/block\u003e\u003c/value\u003e",
+			"\u003cvalue name=\"bounds\"\u003e\u003cblock type=\"logic_boolean\"\u003e\u003cfield name=\"BOOL\"\u003eFALSE\u003c/field\u003e\u003c/block\u003e\u003c/value\u003e"
 		],
 		"inputs": [
 			"texture",
 			"placement",
 			"side",
 			"scale",
+			"color",
+			"use_color",
 			"transparency",
 			"padding",
 			"bounds"
 		],
-		"fields": ["color"]
+		"fields": [],
+		"dependencies": [
+			{
+				"name": "x",
+				"type": "number"
+			},
+			{
+				"name": "y",
+				"type": "number"
+			},
+			{
+				"name": "z",
+				"type": "number"
+			},
+			{
+				"name": "world",
+				"type": "world"
+			}
+		]
 	}
 }

@@ -1,5 +1,13 @@
 $ErrorActionPreference = "Stop"
 
+# Auto-heal corrupted/truncated .git/index (< 12 bytes header)
+$gitIndex = Join-Path $PSScriptRoot ".git\index"
+if ((Test-Path $gitIndex) -and (Get-Item $gitIndex).Length -lt 12) {
+  Write-Warning "Corrupted .git/index detected (size < 12 bytes). Rebuilding index..."
+  Remove-Item $gitIndex -Force
+  & git reset --quiet
+}
+
 $propsFile = Join-Path $PSScriptRoot "version.properties"
 $props = @{}
 Get-Content $propsFile | ForEach-Object {

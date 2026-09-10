@@ -23,7 +23,9 @@ MCreator procedure blocks for world-space overlays on NeoForge 26.1.2 and 26.2. 
 - Render text at a block position
 - Render a number at a block position
 - Render an item, text, or number fixed to a selected block face with face lighting
-- Render a colored outline around a block
+- Render a colored outline around a block, with optional pulse, rainbow, glow, wave, and marquee animated effects and a choice of pixel or 1/16-block line width units
+- Render crop growth and tree growth overlays for farmland/sapling-style blocks
+- Read the current biome's smoothed water, grass, or foliage tint as a color input
 - Hide or restore every overlay on a block
 - Place item, text, number, and texture overlays on a reusable 3x3 anchor grid
 
@@ -31,7 +33,7 @@ MCreator procedure blocks for world-space overlays on NeoForge 26.1.2 and 26.2. 
 
 Create a **Block Overlay** workspace element and use its **Overlay logic** Blockly editor. The **Overlay Builder** category contains text, number, item, texture, and outline blocks that automatically render on that element's associated target block; they do not need coordinate inputs. Use normal Blockly logic to control when any number of render blocks run.
 
-Text, number, texture, and outline blocks use MCreator's visual color picker. Selected RGB colors render fully opaque.
+Text, number, texture, and outline blocks use MCreator's visual color picker. Selected RGB colors render fully opaque. The **biome tint** block returns a hex color string for the current biome's smoothed water, grass, or foliage tint and can be plugged directly into any color input in place of a fixed color; it reads its target block's position automatically, so it only works inside a Block Overlay element's Overlay logic procedure.
 
 Use the **select texture** block to open MCreator's native texture dialog. The selected workspace image becomes a typed `Texture` value. Choose the target face with any `Direction` block. A small expansion such as `0.002` prevents z-fighting with the block model.
 

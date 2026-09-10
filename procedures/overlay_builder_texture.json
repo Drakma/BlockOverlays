@@ -1,37 +1,119 @@
 {
-	"message0": "render block texture %1 at %2 on %3 face color %4 transparency %5 padding %6 on shape bounds %7",
+	"message0": "render block texture %1 side %2 at %3 on %4 face scale %5 color %6 use color %7 transparency %8 padding %9 y-offset %10 on shape bounds %11",
 	"args0": [
-		{ "type": "input_value", "name": "block", "check": "MCItemBlock" },
-		{ "type": "input_value", "name": "placement", "check": "OverlayPlacement" },
-		{ "type": "input_value", "name": "side", "check": "Direction" },
-		{ "type": "field_color_selector", "name": "color", "color": "#ffffff" },
-		{ "type": "input_value", "name": "transparency", "check": "Number" },
-		{ "type": "input_value", "name": "padding", "check": "Number" },
-		{ "type": "input_value", "name": "bounds", "check": "Boolean" }
+		{
+			"type": "input_value",
+			"name": "block",
+			"check": "MCItemBlock"
+		},
+		{
+			"type": "field_dropdown",
+			"name": "block_side",
+			"options": [
+				["Particle / Default", "PARTICLE"],
+				["Top (Up)", "UP"],
+				["Bottom (Down)", "DOWN"],
+				["North", "NORTH"],
+				["South", "SOUTH"],
+				["West", "WEST"],
+				["East", "EAST"]
+			]
+		},
+		{
+			"type": "input_value",
+			"name": "placement",
+			"check": "OverlayPlacement"
+		},
+		{
+			"type": "input_value",
+			"name": "side",
+			"check": "Direction"
+		},
+		{
+			"type": "input_value",
+			"name": "scale",
+			"check": "Number"
+		},
+		{
+			"type": "input_value",
+			"name": "color",
+			"check": "String"
+		},
+		{
+			"type": "input_value",
+			"name": "use_color",
+			"check": "Boolean"
+		},
+		{
+			"type": "input_value",
+			"name": "transparency",
+			"check": "Number"
+		},
+		{
+			"type": "input_value",
+			"name": "padding",
+			"check": "Number"
+		},
+		{
+			"type": "input_value",
+			"name": "offset_y",
+			"check": "Number"
+		},
+		{
+			"type": "input_value",
+			"name": "bounds",
+			"check": "Boolean"
+		}
 	],
-	"inputsInline": true,
+	"inputsInline": false,
 	"previousStatement": null,
 	"nextStatement": null,
 	"colour": 20,
-	"tooltip": "Renders the selected block's particle texture on this Block Overlay element's target block with transparency (0 to 1). Padding (pixels) shifts the texture inward from the anchored edges.",
+	"tooltip": "Renders the selected block's texture on this Block Overlay element's target block with transparency (0 to 1). You can choose which side of the block to sample the texture from (or Particle / Default). Color accepts hex (e.g. #ffffffff or #80ffffff with alpha). Padding (pixels) shifts the texture inward from the anchored edges. Y-offset (pixels) allows moving the texture up or down.",
 	"mcreator": {
 		"toolbox_id": "blockoverlays",
 		"toolbox_init": [
-			"<value name=\"block\"><block type=\"mcitem_allblocks\"><field name=\"value\">Blocks.AIR</field></block></value>",
-			"<value name=\"placement\"><block type=\"overlay_placement\"><field name=\"placement\">MIDDLE_CENTER</field></block></value>",
-			"<value name=\"side\"><block type=\"direction_constant\"></block></value>",
-			"<value name=\"transparency\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value>",
-			"<value name=\"padding\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value>",
-			"<value name=\"bounds\"><block type=\"logic_boolean\"><field name=\"BOOL\">FALSE</field></block></value>"
+			"\u003cvalue name=\"block\"\u003e\u003cblock type=\"mcitem_allblocks\"\u003e\u003cfield name=\"value\"\u003eBlocks.AIR\u003c/field\u003e\u003c/block\u003e\u003c/value\u003e",
+			"\u003cvalue name=\"placement\"\u003e\u003cblock type=\"overlay_placement\"\u003e\u003cfield name=\"placement\"\u003eMIDDLE_CENTER\u003c/field\u003e\u003c/block\u003e\u003c/value\u003e",
+			"\u003cvalue name=\"side\"\u003e\u003cblock type=\"direction_constant\"\u003e\u003c/block\u003e\u003c/value\u003e",
+			"\u003cvalue name=\"scale\"\u003e\u003cblock type=\"math_number\"\u003e\u003cfield name=\"NUM\"\u003e0.5\u003c/field\u003e\u003c/block\u003e\u003c/value\u003e",
+			"\u003cvalue name=\"color\"\u003e\u003cblock type=\"text\"\u003e\u003cfield name=\"TEXT\"\u003e#ffffffff\u003c/field\u003e\u003c/block\u003e\u003c/value\u003e",
+			"\u003cvalue name=\"use_color\"\u003e\u003cblock type=\"logic_boolean\"\u003e\u003cfield name=\"BOOL\"\u003eTRUE\u003c/field\u003e\u003c/block\u003e\u003c/value\u003e",
+			"\u003cvalue name=\"transparency\"\u003e\u003cblock type=\"math_number\"\u003e\u003cfield name=\"NUM\"\u003e1\u003c/field\u003e\u003c/block\u003e\u003c/value\u003e",
+			"\u003cvalue name=\"padding\"\u003e\u003cblock type=\"math_number\"\u003e\u003cfield name=\"NUM\"\u003e0\u003c/field\u003e\u003c/block\u003e\u003c/value\u003e",
+			"\u003cvalue name=\"offset_y\"\u003e\u003cblock type=\"math_number\"\u003e\u003cfield name=\"NUM\"\u003e0\u003c/field\u003e\u003c/block\u003e\u003c/value\u003e",
+			"\u003cvalue name=\"bounds\"\u003e\u003cblock type=\"logic_boolean\"\u003e\u003cfield name=\"BOOL\"\u003eFALSE\u003c/field\u003e\u003c/block\u003e\u003c/value\u003e"
 		],
 		"inputs": [
 			"block",
 			"placement",
 			"side",
+			"scale",
+			"color",
+			"use_color",
 			"transparency",
 			"padding",
+			"offset_y",
 			"bounds"
 		],
-		"fields": ["color"]
+		"fields": ["block_side"],
+		"dependencies": [
+			{
+				"name": "x",
+				"type": "number"
+			},
+			{
+				"name": "y",
+				"type": "number"
+			},
+			{
+				"name": "z",
+				"type": "number"
+			},
+			{
+				"name": "world",
+				"type": "world"
+			}
+		]
 	}
 }

@@ -4,6 +4,9 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.renderer.block.BlockModelResolver;
+import net.minecraft.client.renderer.block.BlockModelRenderState;
+import net.minecraft.client.renderer.block.model.BlockDisplayContext;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -11,53 +14,97 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SaplingBlock;
+import net.minecraft.world.level.block.grower.TreeGrower;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.SubmitCustomGeometryEvent;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 @EventBusSubscriber(value = Dist.CLIENT)
 public class ${className} {
+	<#if targetBlockIds?? && targetBlockIds?size gt 0>
+	private static java.util.Set<net.minecraft.world.level.block.Block> TARGET_BLOCKS = null;
+
+	private static boolean matchesTarget(BlockState state) {
+		if (TARGET_BLOCKS == null) {
+			java.util.Set<net.minecraft.world.level.block.Block> set = new HashSet<>();
+			for (String bid : java.util.List.of(
+				<#list targetBlockIds as bid>
+				"${bid?j_string}"<#if bid_has_next>,</#if>
+				</#list>
+			)) {
+				var b = BuiltInRegistries.BLOCK.getValue(Identifier.parse(bid));
+				if (b != null) set.add(b);
+			}
+			TARGET_BLOCKS = set;
+		}
+		return TARGET_BLOCKS.contains(state.getBlock());
+	}
+	<#else>
+	private static net.minecraft.world.level.block.Block TARGET_BLOCK = null;
+
+	private static boolean matchesTarget(BlockState state) {
+		if (TARGET_BLOCK == null) {
+			TARGET_BLOCK = BuiltInRegistries.BLOCK.getValue(Identifier.parse("${targetBlockId?j_string}"));
+		}
+		return state.is(TARGET_BLOCK);
+	}
+	</#if>
+
 	<#if data.visibilityScope == "NEARBY_MATCHING">
 	private static final Map<Long, Set<Long>> VISIBLE_SECTION_POSITIONS = new HashMap<>();
 	private static long lastVisibleSectionRefresh = -20;
 
-	<#if targetBlockIds?? && targetBlockIds?size gt 0>
-	private static final java.util.Set<Identifier> TARGET_BLOCKS = java.util.Set.of(
-		<#list targetBlockIds as bid>
-		Identifier.parse("${bid?j_string}")<#if bid_has_next>,</#if>
-		</#list>
-	);
-
-	private static boolean matchesTarget(BlockState state) {
-		return TARGET_BLOCKS.contains(BuiltInRegistries.BLOCK.getKey(state.getBlock()));
-	}
-	<#else>
-	private static boolean matchesTarget(BlockState state) {
-		return BuiltInRegistries.BLOCK.getKey(state.getBlock()).toString().equals("${targetBlockId?j_string}");
-	}
-	</#if>
-
-	private static Set<Long> findMatches(Level level, BlockPos origin) {
+	private static Set<Long> findMatches(Level level, int secX, int secY, int secZ) {
+		if (!level.hasChunk(secX, secZ))
+			return java.util.Collections.emptySet();
+		net.minecraft.world.level.chunk.LevelChunk chunk = level.getChunk(secX, secZ);
+		if (chunk == null)
+			return java.util.Collections.emptySet();
+		int secIndex = chunk.getSectionIndexFromSectionY(secY);
+		if (secIndex < 0 || secIndex >= chunk.getSections().length)
+			return java.util.Collections.emptySet();
+		net.minecraft.world.level.chunk.LevelChunkSection section = chunk.getSection(secIndex);
+		if (section == null || section.hasOnlyAir())
+			return java.util.Collections.emptySet();
 		Set<Long> positions = new HashSet<>();
-		for (int x = origin.getX(); x < origin.getX() + 16; x++)
-			for (int y = origin.getY(); y < origin.getY() + 16; y++)
-				for (int z = origin.getZ(); z < origin.getZ() + 16; z++) {
-					BlockPos position = new BlockPos(x, y, z);
-					if (matchesTarget(level.getBlockState(position)))
-						positions.add(position.asLong());
+		BlockPos.MutableBlockPos mut = new BlockPos.MutableBlockPos();
+		int originX = secX << 4;
+		int originY = secY << 4;
+		int originZ = secZ << 4;
+		for (int x = 0; x < 16; x++) {
+			for (int y = 0; y < 16; y++) {
+				for (int z = 0; z < 16; z++) {
+					if (matchesTarget(section.getBlockState(x, y, z))) {
+						mut.set(originX + x, originY + y, originZ + z);
+						positions.add(mut.asLong());
+					}
 				}
-		return positions;
+			}
+		}
+		return positions.isEmpty() ? java.util.Collections.emptySet() : positions;
 	}
 	</#if>
 	<#if data.heldItemNbt?has_content>
@@ -69,7 +116,7 @@ public class ${className} {
 
 	private static net.minecraft.nbt.CompoundTag parseNbt(String snbt) {
 		try {
-			return net.minecraft.nbt.TagParser.parseTag(snbt);
+			return net.minecraft.nbt.TagParser.parseCompoundFully(snbt);
 		} catch (com.mojang.brigadier.exceptions.CommandSyntaxException exception) {
 			return null;
 		}
@@ -184,6 +231,41 @@ public class ${className} {
 		return new Vec3(h - 0.5 + offsetX, v - 0.5 + offsetY, depth);
 	}
 
+	// Helper for overlay_builder_outline: emit N parallel copies of one shape edge, each offset
+	// along the face plane(s) the edge sits on. Width=1 -> single edge on the original line.
+	// Width>1 -> additional parallel edges extending INTO the faces it touches (not outwards
+	// from the block). Caller is responsible for translating the pose stack into shape space.
+	private static void blockOverlayOutlineDrawEdgeBand(com.mojang.blaze3d.vertex.VertexConsumer consumer,
+			org.joml.Matrix4f pose, org.joml.Matrix3f normal,
+			int color, int width, float step,
+			double x1, double y1, double z1, double x2, double y2, double z2) {
+		double dx = x2 - x1;
+		double dy = y2 - y1;
+		double dz = z2 - z1;
+		// Dominant axis -> which way the edge runs.
+		int edgeAxis;
+		if (Math.abs(dx) >= Math.abs(dy) && Math.abs(dx) >= Math.abs(dz)) edgeAxis = 0;
+		else if (Math.abs(dy) >= Math.abs(dx) && Math.abs(dy) >= Math.abs(dz)) edgeAxis = 1;
+		else edgeAxis = 2;
+		double mx = (x1 + x2) * 0.5;
+		double my = (y1 + y2) * 0.5;
+		double mz = (z1 + z2) * 0.5;
+		float nx = 0, ny = 0, nz = 0;
+		switch (edgeAxis) {
+			case 0: ny = (my < 0.5) ? -1.0f : 1.0f; nz = (mz < 0.5) ? -1.0f : 1.0f; break;
+			case 1: nx = (mx < 0.5) ? -1.0f : 1.0f; nz = (mz < 0.5) ? -1.0f : 1.0f; break;
+			case 2: nx = (mx < 0.5) ? -1.0f : 1.0f; ny = (my < 0.5) ? -1.0f : 1.0f; break;
+		}
+		for (int k = 0; k < width; k++) {
+			float o = k * step;
+			float ox = nx * o, oy = ny * o, oz = nz * o;
+			float ax = (float) x1 + ox, ay = (float) y1 + oy, az = (float) z1 + oz;
+			float bx = (float) x2 + ox, by = (float) y2 + oy, bz = (float) z2 + oz;
+			consumer.addVertex(pose, ax, ay, az).setColor(color).setNormal((float) dx, (float) dy, (float) dz);
+			consumer.addVertex(pose, bx, by, bz).setColor(color).setNormal((float) dx, (float) dy, (float) dz);
+		}
+	}
+
 	<#if data.overlayxml?has_content>
 	${additional_code!""}
 	${extra_templates_code!""}
@@ -199,23 +281,45 @@ public class ${className} {
 			return;
 		renderAt(event, minecraft, hitResult.getBlockPos());
 		<#else>
-		if (minecraft.level.getGameTime() - lastVisibleSectionRefresh >= 20) {
-			VISIBLE_SECTION_POSITIONS.clear();
-			lastVisibleSectionRefresh = minecraft.level.getGameTime();
+		Vec3 playerPos = minecraft.player.position();
+		double maxDist = ${data.maximumDistance}D;
+		double maxDistSq = maxDist * maxDist;
+		int minSecX = (int) Math.floor((playerPos.x - maxDist) / 16.0);
+		int maxSecX = (int) Math.floor((playerPos.x + maxDist) / 16.0);
+		int minSecY = (int) Math.floor((playerPos.y - maxDist) / 16.0);
+		int maxSecY = (int) Math.floor((playerPos.y + maxDist) / 16.0);
+		int minSecZ = (int) Math.floor((playerPos.z - maxDist) / 16.0);
+		int maxSecZ = (int) Math.floor((playerPos.z + maxDist) / 16.0);
+
+		long now = minecraft.level.getGameTime();
+		boolean doRefresh = now - lastVisibleSectionRefresh >= 20;
+		if (doRefresh) {
+			lastVisibleSectionRefresh = now;
 		}
-		Set<Long> visibleSections = new HashSet<>();
-		for (net.neoforged.neoforge.client.IRenderableSection section : event.getRenderableSections()) {
-			BlockPos origin = section.getRenderOrigin();
-			long sectionKey = BlockPos.asLong(origin.getX() >> 4, origin.getY() >> 4, origin.getZ() >> 4);
-			visibleSections.add(sectionKey);
-			VISIBLE_SECTION_POSITIONS.computeIfAbsent(sectionKey, key -> findMatches(minecraft.level, origin));
-		}
-		for (long sectionKey : visibleSections)
-			for (long packedPosition : VISIBLE_SECTION_POSITIONS.get(sectionKey)) {
-				BlockPos position = BlockPos.of(packedPosition);
-				if (minecraft.player.distanceToSqr(Vec3.atCenterOf(position)) <= ${data.maximumDistance}D * ${data.maximumDistance}D)
-					renderAt(event, minecraft, position);
+
+		Set<Long> activeSectionKeys = new HashSet<>();
+		for (int sx = minSecX; sx <= maxSecX; sx++) {
+			for (int sy = minSecY; sy <= maxSecY; sy++) {
+				for (int sz = minSecZ; sz <= maxSecZ; sz++) {
+					long sectionKey = BlockPos.asLong(sx, sy, sz);
+					activeSectionKeys.add(sectionKey);
+					if (doRefresh || !VISIBLE_SECTION_POSITIONS.containsKey(sectionKey)) {
+						VISIBLE_SECTION_POSITIONS.put(sectionKey, findMatches(minecraft.level, sx, sy, sz));
+					}
+					Set<Long> positions = VISIBLE_SECTION_POSITIONS.get(sectionKey);
+					if (positions != null && !positions.isEmpty()) {
+						for (long packedPosition : positions) {
+							BlockPos position = BlockPos.of(packedPosition);
+							if (minecraft.player.distanceToSqr(Vec3.atCenterOf(position)) <= maxDistSq)
+								renderAt(event, minecraft, position);
+						}
+					}
+				}
 			}
+		}
+		if (doRefresh) {
+			VISIBLE_SECTION_POSITIONS.keySet().removeIf(k -> !activeSectionKeys.contains(k));
+		}
 		</#if>
 	}
 
@@ -365,10 +469,10 @@ public class ${className} {
 		poseStack.translate(horizontal, vertical, faceDepth);
 		poseStack.scale((float) ((horizontalMaximum - horizontalMinimum) / 3), (float) ((verticalMaximum - verticalMinimum) / 3), 1.0f);
 		event.getSubmitNodeCollector().submitCustomGeometry(poseStack, RenderTypes.entityTranslucent(texture), (pose, consumer) -> {
-			consumer.addVertex(pose, 0.5f, -0.5f, 0).setColor(0xFF${data.color?substring(1)}).setUv(0, 1).setOverlay(OverlayTexture.NO_OVERLAY).setLight(light).setNormal(pose, 0, 0, -1);
-			consumer.addVertex(pose, 0.5f, 0.5f, 0).setColor(0xFF${data.color?substring(1)}).setUv(0, 0).setOverlay(OverlayTexture.NO_OVERLAY).setLight(light).setNormal(pose, 0, 0, -1);
-			consumer.addVertex(pose, -0.5f, 0.5f, 0).setColor(0xFF${data.color?substring(1)}).setUv(1, 0).setOverlay(OverlayTexture.NO_OVERLAY).setLight(light).setNormal(pose, 0, 0, -1);
-			consumer.addVertex(pose, -0.5f, -0.5f, 0).setColor(0xFF${data.color?substring(1)}).setUv(1, 1).setOverlay(OverlayTexture.NO_OVERLAY).setLight(light).setNormal(pose, 0, 0, -1);
+			consumer.addVertex(pose, 0.5f, -0.5f, 0).setColor(0xFFFFFFFF).setUv(0, 1).setOverlay(OverlayTexture.NO_OVERLAY).setLight(light).setNormal(pose, 0, 0, -1);
+			consumer.addVertex(pose, 0.5f, 0.5f, 0).setColor(0xFFFFFFFF).setUv(0, 0).setOverlay(OverlayTexture.NO_OVERLAY).setLight(light).setNormal(pose, 0, 0, -1);
+			consumer.addVertex(pose, -0.5f, 0.5f, 0).setColor(0xFFFFFFFF).setUv(1, 0).setOverlay(OverlayTexture.NO_OVERLAY).setLight(light).setNormal(pose, 0, 0, -1);
+			consumer.addVertex(pose, -0.5f, -0.5f, 0).setColor(0xFFFFFFFF).setUv(1, 1).setOverlay(OverlayTexture.NO_OVERLAY).setLight(light).setNormal(pose, 0, 0, -1);
 		});
 		<#elseif data.layerType == "OUTLINE">
 		event.getSubmitNodeCollector().submitCustomGeometry(poseStack, ${data.throughWalls?c} ? RenderTypes.linesTranslucent() : RenderTypes.lines(), (pose, consumer) -> shape.forAllEdges((x1, y1, z1, x2, y2, z2) -> {

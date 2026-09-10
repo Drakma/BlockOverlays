@@ -1,13 +1,13 @@
 ﻿{
     "id":  "block_overlays",
-    "weight":  20,
+    "weight":  60,
     "javaplugin":  "net.drakma.blockoverlays.BlockOverlaysPlugin",
     "supportedversions":  [
                               2026002
                           ],
     "info":  {
                  "name":  "Block Overlays",
-                 "version":  "2026.2-2026.9.140",
+                 "version":  "2026.2-2026.9.183",
                  "description":  "Blockly Texture datatype, image selector, and blocks for rendering texture, item, text, number, and outline overlays at block positions.",
                  "author":  "Drakma"
              }

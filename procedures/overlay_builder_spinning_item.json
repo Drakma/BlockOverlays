@@ -1,29 +1,63 @@
 {
-	"message0": "render spinning item %1 at %2 on %3 face scale %4 bob height %5 spin speed %6 padding %7",
+	"message0": "render spinning item %1 at %2 on %3 face scale %4 bob height %5 spin speed %6 padding %7 y-offset %8",
 	"args0": [
-		{ "type": "input_value", "name": "item", "check": "MCItem" },
-		{ "type": "input_value", "name": "placement", "check": "OverlayPlacement" },
-		{ "type": "input_value", "name": "side", "check": "Direction" },
-		{ "type": "input_value", "name": "scale", "check": "Number" },
-		{ "type": "input_value", "name": "bob_height", "check": "Number" },
-		{ "type": "input_value", "name": "spin_speed", "check": "Number" },
-		{ "type": "input_value", "name": "padding", "check": "Number" }
+		{
+			"type": "input_value",
+			"name": "item",
+			"check": "MCItem"
+		},
+		{
+			"type": "input_value",
+			"name": "placement",
+			"check": "OverlayPlacement"
+		},
+		{
+			"type": "input_value",
+			"name": "side",
+			"check": "Direction"
+		},
+		{
+			"type": "input_value",
+			"name": "scale",
+			"check": "Number"
+		},
+		{
+			"type": "input_value",
+			"name": "bob_height",
+			"check": "Number"
+		},
+		{
+			"type": "input_value",
+			"name": "spin_speed",
+			"check": "Number"
+		},
+		{
+			"type": "input_value",
+			"name": "padding",
+			"check": "Number"
+		},
+		{
+			"type": "input_value",
+			"name": "offset_y",
+			"check": "Number"
+		}
 	],
-	"inputsInline": true,
+	"inputsInline": false,
 	"previousStatement": null,
 	"nextStatement": null,
 	"colour": 20,
-	"tooltip": "Renders a world-style item that spins and bobs outward from this Block Overlay element's target block. Padding (pixels) shifts the item inward from the anchored edges.",
+	"tooltip": "Renders a world-style item that spins and bobs outward from this Block Overlay element\u0027s target block with Y-offset. Padding (pixels) shifts the item inward from the anchored edges.",
 	"mcreator": {
 		"toolbox_id": "blockoverlays",
 		"toolbox_init": [
-			"<value name=\"item\"><block type=\"mcitem_all\"><field name=\"value\">Items.AIR</field></block></value>",
-			"<value name=\"placement\"><block type=\"overlay_placement\"><field name=\"placement\">MIDDLE_CENTER</field></block></value>",
-			"<value name=\"side\"><block type=\"direction_constant\"></block></value>",
-			"<value name=\"scale\"><block type=\"math_number\"><field name=\"NUM\">0.5</field></block></value>",
-			"<value name=\"bob_height\"><block type=\"math_number\"><field name=\"NUM\">0.1</field></block></value>",
-			"<value name=\"spin_speed\"><block type=\"math_number\"><field name=\"NUM\">4</field></block></value>",
-			"<value name=\"padding\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value>"
+			"\u003cvalue name=\"item\"\u003e\u003cblock type=\"mcitem_all\"\u003e\u003cfield name=\"value\"\u003eItems.AIR\u003c/field\u003e\u003c/block\u003e\u003c/value\u003e",
+			"\u003cvalue name=\"placement\"\u003e\u003cblock type=\"overlay_placement\"\u003e\u003cfield name=\"placement\"\u003eMIDDLE_CENTER\u003c/field\u003e\u003c/block\u003e\u003c/value\u003e",
+			"\u003cvalue name=\"side\"\u003e\u003cblock type=\"direction_constant\"\u003e\u003c/block\u003e\u003c/value\u003e",
+			"\u003cvalue name=\"scale\"\u003e\u003cblock type=\"math_number\"\u003e\u003cfield name=\"NUM\"\u003e0.5\u003c/field\u003e\u003c/block\u003e\u003c/value\u003e",
+			"\u003cvalue name=\"bob_height\"\u003e\u003cblock type=\"math_number\"\u003e\u003cfield name=\"NUM\"\u003e0.1\u003c/field\u003e\u003c/block\u003e\u003c/value\u003e",
+			"\u003cvalue name=\"spin_speed\"\u003e\u003cblock type=\"math_number\"\u003e\u003cfield name=\"NUM\"\u003e4\u003c/field\u003e\u003c/block\u003e\u003c/value\u003e",
+			"\u003cvalue name=\"padding\"\u003e\u003cblock type=\"math_number\"\u003e\u003cfield name=\"NUM\"\u003e0\u003c/field\u003e\u003c/block\u003e\u003c/value\u003e",
+			"\u003cvalue name=\"offset_y\"\u003e\u003cblock type=\"math_number\"\u003e\u003cfield name=\"NUM\"\u003e0\u003c/field\u003e\u003c/block\u003e\u003c/value\u003e"
 		],
 		"inputs": [
 			"item",
@@ -32,7 +66,26 @@
 			"scale",
 			"bob_height",
 			"spin_speed",
-			"padding"
+			"padding",
+			"offset_y"
+		],
+		"dependencies": [
+			{
+				"name": "x",
+				"type": "number"
+			},
+			{
+				"name": "y",
+				"type": "number"
+			},
+			{
+				"name": "z",
+				"type": "number"
+			},
+			{
+				"name": "world",
+				"type": "world"
+			}
 		]
 	}
 }

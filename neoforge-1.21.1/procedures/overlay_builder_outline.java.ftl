@@ -18,6 +18,7 @@ if (event instanceof SubmitCustomGeometryEvent _overlayEvent) {
 	float _marqueeSpeed = (float) ${(input$marquee_speed!"1.0")};
 	int _width = Math.max(1, (int) ${input$width});
 	String _glowFalloff = "${(field$glow_falloff!"linear")}";
+	String _widthUnits = "${(field$width_units!"sixteenth")}";
 
 	// --- Time ---
 	float _tScaled = (float) (world.getGameTime() * (double) _speed);
@@ -58,14 +59,34 @@ if (event instanceof SubmitCustomGeometryEvent _overlayEvent) {
 	// --- Wave ---
 	int _wavePasses = _waveOn ? (int) Math.max(0.0f, Math.min(8.0f, _wavePhase / 0.7853982f)) : 0;
 
-	// Step size for face extension: 1/16 of a block.
-	float _step = 1.0f / 16.0f;
 	float _phaseShift = (float) Math.toRadians(_tMarquee * 90.0f);
 
 	// --- Push the pose stack into shape-local space ---
 	_poseStack.pushPose();
 	_poseStack.translate(x - _camera.x, y - _camera.y, z - _camera.z);
 	var _renderType = ${input$through_walls} ? RenderTypes.linesTranslucent() : RenderTypes.lines();
+
+	// --- Step size for face extension ---
+	// Default 1/16 of a block (the texture-pixel size on a block face). When width_units
+	// is "pixel", recompute from camera distance + FOV so each width step is one
+	// screen pixel at the shape's depth. Distance is from the camera to the block's
+	// near-face center (the face with the smallest dot product against the camera
+	// direction), so a 1-pixel outline stays 1 pixel wide as you walk closer/further.
+	float _step = 1.0f / 16.0f;
+	if ("pixel".equals(_widthUnits)) {
+		net.minecraft.world.phys.Vec3 _blockCenter = new net.minecraft.world.phys.Vec3(x + 0.5, y + 0.5, z + 0.5);
+		net.minecraft.world.phys.Vec3 _toCam = _camera.subtract(_blockCenter);
+		net.minecraft.world.phys.Vec3 _toCamN = _toCam.normalize();
+		// Near-face center: block center offset by half a block toward the camera.
+		net.minecraft.world.phys.Vec3 _nearFace = _blockCenter.add(_toCamN.scale(0.5));
+		double _dist = _camera.distanceTo(_nearFace);
+		double _fov = Minecraft.getInstance().options.fov().get();
+		int _viewH = Minecraft.getInstance().getMainRenderTarget().height;
+		if (_viewH <= 0) _viewH = 1;
+		double _heightInBlocks = 2.0 * _dist * Math.tan(Math.toRadians(_fov * 0.5));
+		double _blocksPerPixel = _heightInBlocks / (double) _viewH;
+		_step = (float) Math.max(1.0 / 16.0, _blocksPerPixel);
+	}
 
 	// Single submission wrapper; the lambda below accumulates glow + main + wave passes
 	// via blockOverlayOutlineDrawEdgeBand, which emits parallel edges offset into the faces.

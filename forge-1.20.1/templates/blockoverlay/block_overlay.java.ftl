@@ -26,40 +26,75 @@ import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 @OnlyIn(Dist.CLIENT)
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class ${className}BlockOverlay {
-	<#if data.visibilityScope == "NEARBY_MATCHING">
-
 	<#if targetBlockIds?? && targetBlockIds?size gt 0>
-	private static final java.util.Set<ResourceLocation> TARGET_BLOCKS = java.util.Set.of(
-		<#list targetBlockIds as bid>
-		net.minecraft.resources.ResourceLocation.fromNamespaceAndPath("${bid?j_string?split(":")[0]}", "${bid?j_string?split(":")[1]}")<#if bid_has_next>,</#if>
-		</#list>
-	);
+	private static java.util.Set<net.minecraft.world.level.block.Block> TARGET_BLOCKS = null;
 
 	private static boolean matchesTarget(BlockState state) {
-		return TARGET_BLOCKS.contains(BuiltInRegistries.BLOCK.getKey(state.getBlock()));
+		if (TARGET_BLOCKS == null) {
+			java.util.Set<net.minecraft.world.level.block.Block> set = new HashSet<>();
+			for (String bid : java.util.List.of(
+				<#list targetBlockIds as bid>
+				"${bid?j_string}"<#if bid_has_next>,</#if>
+				</#list>
+			)) {
+				var b = BuiltInRegistries.BLOCK.get(new net.minecraft.resources.ResourceLocation(bid));
+				if (b != null) set.add(b);
+			}
+			TARGET_BLOCKS = set;
+		}
+		return TARGET_BLOCKS.contains(state.getBlock());
 	}
 	<#else>
+	private static net.minecraft.world.level.block.Block TARGET_BLOCK = null;
+
 	private static boolean matchesTarget(BlockState state) {
-		return BuiltInRegistries.BLOCK.getKey(state.getBlock()).toString().equals("${targetBlockId?j_string}");
+		if (TARGET_BLOCK == null) {
+			TARGET_BLOCK = BuiltInRegistries.BLOCK.get(new net.minecraft.resources.ResourceLocation("${targetBlockId?j_string}"));
+		}
+		return state.is(TARGET_BLOCK);
 	}
 	</#if>
 
-	private static Set<Long> findMatches(Level level, BlockPos origin) {
+	<#if data.visibilityScope == "NEARBY_MATCHING">
+	private static final Map<Long, Set<Long>> VISIBLE_SECTION_POSITIONS = new HashMap<>();
+	private static long lastVisibleSectionRefresh = -20;
+
+	private static Set<Long> findMatches(Level level, int secX, int secY, int secZ) {
+		if (!level.hasChunk(secX, secZ))
+			return java.util.Collections.emptySet();
+		net.minecraft.world.level.chunk.LevelChunk chunk = level.getChunk(secX, secZ);
+		if (chunk == null)
+			return java.util.Collections.emptySet();
+		int secIndex = chunk.getSectionIndexFromSectionY(secY);
+		if (secIndex < 0 || secIndex >= chunk.getSections().length)
+			return java.util.Collections.emptySet();
+		net.minecraft.world.level.chunk.LevelChunkSection section = chunk.getSection(secIndex);
+		if (section == null || section.hasOnlyAir())
+			return java.util.Collections.emptySet();
 		Set<Long> positions = new HashSet<>();
-		for (int x = origin.getX(); x < origin.getX() + 16; x++)
-			for (int y = origin.getY(); y < origin.getY() + 16; y++)
-				for (int z = origin.getZ(); z < origin.getZ() + 16; z++) {
-					BlockPos position = new BlockPos(x, y, z);
-					if (matchesTarget(level.getBlockState(position)))
-						positions.add(position.asLong());
+		BlockPos.MutableBlockPos mut = new BlockPos.MutableBlockPos();
+		int originX = secX << 4;
+		int originY = secY << 4;
+		int originZ = secZ << 4;
+		for (int x = 0; x < 16; x++) {
+			for (int y = 0; y < 16; y++) {
+				for (int z = 0; z < 16; z++) {
+					if (matchesTarget(section.getBlockState(x, y, z))) {
+						mut.set(originX + x, originY + y, originZ + z);
+						positions.add(mut.asLong());
+					}
 				}
-		return positions;
+			}
+		}
+		return positions.isEmpty() ? java.util.Collections.emptySet() : positions;
 	}
 	</#if>
 	<#if data.heldItemNbt?has_content>
@@ -242,20 +277,44 @@ public class ${className}BlockOverlay {
 			return;
 		renderAt(event, minecraft, position);
 		<#else>
-		BlockPos playerBlockPos = minecraft.player.blockPosition();
-		int playerSectionX = playerBlockPos.getX() >> 4;
-		int playerSectionY = playerBlockPos.getY() >> 4;
-		int playerSectionZ = playerBlockPos.getZ() >> 4;
-		for (int x = -1; x <= 1; x++) {
-			for (int y = -1; y <= 1; y++) {
-				for (int z = -1; z <= 1; z++) {
-					BlockPos sectionOrigin = new BlockPos((playerSectionX + x) << 4, (playerSectionY + y) << 4, (playerSectionZ + z) << 4);
-					for (Long encoded : findMatches(minecraft.level, sectionOrigin)) {
-						BlockPos position = BlockPos.of(encoded);
-						renderAt(event, minecraft, position);
+		Vec3 playerPos = minecraft.player.position();
+		double maxDist = ${data.maximumDistance}D;
+		double maxDistSq = maxDist * maxDist;
+		int minSecX = (int) Math.floor((playerPos.x - maxDist) / 16.0);
+		int maxSecX = (int) Math.floor((playerPos.x + maxDist) / 16.0);
+		int minSecY = (int) Math.floor((playerPos.y - maxDist) / 16.0);
+		int maxSecY = (int) Math.floor((playerPos.y + maxDist) / 16.0);
+		int minSecZ = (int) Math.floor((playerPos.z - maxDist) / 16.0);
+		int maxSecZ = (int) Math.floor((playerPos.z + maxDist) / 16.0);
+
+		long now = minecraft.level.getGameTime();
+		boolean doRefresh = now - lastVisibleSectionRefresh >= 20;
+		if (doRefresh) {
+			lastVisibleSectionRefresh = now;
+		}
+
+		Set<Long> activeSectionKeys = new HashSet<>();
+		for (int sx = minSecX; sx <= maxSecX; sx++) {
+			for (int sy = minSecY; sy <= maxSecY; sy++) {
+				for (int sz = minSecZ; sz <= maxSecZ; sz++) {
+					long sectionKey = BlockPos.asLong(sx, sy, sz);
+					activeSectionKeys.add(sectionKey);
+					if (doRefresh || !VISIBLE_SECTION_POSITIONS.containsKey(sectionKey)) {
+						VISIBLE_SECTION_POSITIONS.put(sectionKey, findMatches(minecraft.level, sx, sy, sz));
+					}
+					Set<Long> positions = VISIBLE_SECTION_POSITIONS.get(sectionKey);
+					if (positions != null && !positions.isEmpty()) {
+						for (long packedPosition : positions) {
+							BlockPos position = BlockPos.of(packedPosition);
+							if (minecraft.player.distanceToSqr(Vec3.atCenterOf(position)) <= maxDistSq)
+								renderAt(event, minecraft, position);
+						}
 					}
 				}
 			}
+		}
+		if (doRefresh) {
+			VISIBLE_SECTION_POSITIONS.keySet().removeIf(k -> !activeSectionKeys.contains(k));
 		}
 		</#if>
 	}
@@ -414,7 +473,7 @@ public class ${className}BlockOverlay {
 		var consumer = bufferSource.getBuffer(RenderType.entityTranslucent(texture));
 		var pose = poseStack.last().pose();
 		var normal = poseStack.last().normal();
-		int color = 0xFF${data.color?substring(1)};
+		int color = 0xFFFFFFFF;
 		int a = (color >> 24) & 0xFF, r = (color >> 16) & 0xFF, g = (color >> 8) & 0xFF, b = color & 0xFF;
 		consumer.vertex(pose, 0.5f, -0.5f, 0).color(r, g, b, a).uv(0, 1).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(light).normal(normal, 0, 0, -1).endVertex();
 		consumer.vertex(pose, 0.5f, 0.5f, 0).color(r, g, b, a).uv(0, 0).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(light).normal(normal, 0, 0, -1).endVertex();

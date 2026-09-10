@@ -18,6 +18,7 @@ A guide on how to render world-space overlays (text, numbers, items, textures, a
 10. [The 3×3 Anchor Grid](#10-the-3×3-anchor-grid)
 11. [Match Conditions (SNBT Gating)](#11-match-conditions-snbt-gating)
 12. [Setting Up a Block Overlay Workspace](#12-setting-up-a-block-overlay-workspace)
+13. [Biome Tint Colors](#13-biome-tint-colors)
 
 ---
 
@@ -159,10 +160,19 @@ Renders a workspace texture (block face, item, screen, etc.) on the chosen face.
 ### Render Outline
 
 ```
-render outline color %color transparency %transparency
+render target block outline color %color line width %width width units %units transparency %transparency through walls %through_walls on shape bounds %bounds pulse %pulse rainbow %rainbow glow %glow wave %wave marquee %marquee ...
 ```
 
-Renders a colored wireframe outline around the entire block bounds. `transparency` is `0`–`1` (1 = fully opaque).
+Renders a colored wireframe outline around the target block's bounds. `transparency` is `0`–`1` (1 = fully opaque). `width units` chooses whether `line width` is measured in `1/16 block` or `pixel` units. Optional toggles layer animated effects on top of the base outline — `pulse` (breathing opacity), `rainbow` (cycling hue), `glow` (soft additive glow with its own color/falloff), `wave` (traveling brightness wave with phase/speed/intensity and its own color), and `marquee` (a moving dashed/scanning band with its own speed) — each with its own color and tempo inputs so effects can be combined and tuned independently.
+
+### Render Crop Growth / Render Tree Growth
+
+```
+render crop growth ...
+render tree growth ...
+```
+
+Purpose-built overlay builders for showing a growth-stage indicator (e.g. a percent-complete texture or model) on farmland crops and sapling/tree-type blocks, without you having to hand-roll the growth-stage math yourself.
 
 ### Spinning Variants
 
@@ -254,3 +264,20 @@ Typical uses:
 7. Save and test in the MCreator test environment — overlays should appear in-world on the target block.
 
 That's it — no coordinates, no manual matrix math. The plugin handles the isometric extrusion, face alignment, and lighting.
+
+---
+
+## 13. Biome Tint Colors
+
+```
+biome [Water / Grass / Foliage (Leaves)] tint
+```
+
+Returns the current biome's smoothed tint color at the Block Overlay element's target block, as a hex color string (e.g. `#5f9c46`) — the same blended water/grass/foliage color vanilla uses when tinting those blocks, so it matches what the biome actually looks like at that spot instead of a flat per-biome constant.
+
+Plug this block directly into any **color** input on an overlay builder block (see §8) — no wiring needed, it reads the target block's `x`/`y`/`z` automatically. Because of that, it's only usable inside a Block Overlay element's **Overlay logic** procedure, where a target block position is defined; dropping it into an unrelated procedure will fail to generate.
+
+Typical uses:
+
+- Tint a texture overlay on a water-adjacent block so it visually matches the surrounding water color.
+- Color a leaves/foliage-themed overlay to match the current biome's foliage tint instead of a fixed green.

@@ -16,6 +16,9 @@ import net.mcreator.element.parts.MItemBlock;
 import net.mcreator.minecraft.DataListLoader;
 import net.mcreator.minecraft.MCItem;
 import net.mcreator.ui.minecraft.MCItemListField;
+import net.mcreator.ui.modgui.ModElementGUIPage;
+import net.mcreator.ui.validation.AggregatedValidationResult;
+import net.mcreator.ui.validation.ValidationResult;
 
 import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
@@ -87,6 +90,23 @@ public class BlockOverlayElementGUI extends ModElementGUI<BlockOverlayElement> {
       }
     };
     targetBlocks.addChangeListener(e -> updateTargetBlocksDynamicSize());
+    targetBlocks.setValidator(() -> {
+      List<MItemBlock> elements = targetBlocks.getListElements();
+      if (elements == null || elements.isEmpty()) {
+        return new ValidationResult(ValidationResult.Type.ERROR, "At least one target block must be selected.");
+      }
+      boolean hasValidBlock = false;
+      for (MItemBlock mb : elements) {
+        if (mb != null && mb.getUnmappedValue() != null && !mb.getUnmappedValue().trim().isEmpty()) {
+          hasValidBlock = true;
+          break;
+        }
+      }
+      if (!hasValidBlock) {
+        return new ValidationResult(ValidationResult.Type.ERROR, "At least one target block must be selected.");
+      }
+      return ValidationResult.PASSED;
+    });
     overlayBlockly = new BlocklyPanel(mcreator, BlocklyEditorType.PROCEDURE);
     overlayBlockly.addTaskToRunAfterLoaded(() -> {
       InternalBlocksLoader.loadBlocksAndCategoriesInPanel(overlayBlockly);
@@ -139,7 +159,8 @@ public class BlockOverlayElementGUI extends ModElementGUI<BlockOverlayElement> {
     editorHeader.add(overlayBlocklyToolbar, BorderLayout.SOUTH);
     editorPage.add(editorHeader, BorderLayout.NORTH);
     editorPage.add(overlayBlockly, BorderLayout.CENTER);
-    addPage("Block Overlay", editorPage);
+    ModElementGUIPage page = addPage("Block Overlay", editorPage);
+    page.validate(targetBlocks);
   }
 
   @Override
@@ -185,7 +206,9 @@ public class BlockOverlayElementGUI extends ModElementGUI<BlockOverlayElement> {
     panel.add(component, constraints);
   }
 
-  private static String migrateLegacyOverlayBlocks(String xml) {
+  public static String migrateLegacyOverlayBlocks(String xml) {
+    if (xml == null)
+      return null;
     return xml
         .replace("block_overlay_item_face", "overlay_builder_item")
         .replace("block_overlay_item", "overlay_builder_item")
@@ -193,8 +216,19 @@ public class BlockOverlayElementGUI extends ModElementGUI<BlockOverlayElement> {
         .replace("block_overlay_number", "overlay_builder_number")
         .replace("block_overlay_text_face", "overlay_builder_text")
         .replace("block_overlay_text", "overlay_builder_text")
+        .replace("block_overlay_texture_face", "overlay_builder_texture")
         .replace("block_overlay_texture", "overlay_builder_texture")
-        .replace("block_overlay_outline", "overlay_builder_outline");
+        .replace("block_overlay_outline_face", "overlay_builder_outline")
+        .replace("block_overlay_outline", "overlay_builder_outline")
+        .replace("block_overlay_precise_text_face", "overlay_builder_precise_text")
+        .replace("block_overlay_precise_text", "overlay_builder_precise_text")
+        .replace("block_overlay_screen_texture", "overlay_builder_screen_texture")
+        .replace("block_overlay_spinning_item", "overlay_builder_spinning_item")
+        .replace("block_overlay_center_spinning_item", "overlay_builder_center_spinning_item");
+  }
+
+  public static boolean hasLegacyOverlayBlocks(String xml) {
+    return xml != null && xml.contains("block_overlay_");
   }
 
   @Override
@@ -202,12 +236,12 @@ public class BlockOverlayElementGUI extends ModElementGUI<BlockOverlayElement> {
     List<MItemBlock> blocksList = new ArrayList<>();
     if (element.targetBlocks != null && !element.targetBlocks.isEmpty()) {
       for (String b : element.targetBlocks) {
-        blocksList.add(new MItemBlock(mcreator.getWorkspace(), b));
+        if (b != null && !b.isBlank()) {
+          blocksList.add(new MItemBlock(mcreator.getWorkspace(), b));
+        }
       }
     } else if (element.targetBlock != null && !element.targetBlock.isBlank()) {
       blocksList.add(new MItemBlock(mcreator.getWorkspace(), element.targetBlock));
-    } else {
-      blocksList.add(new MItemBlock(mcreator.getWorkspace(), "minecraft:stone"));
     }
     targetBlocks.setListElements(blocksList);
     updateTargetBlocksDynamicSize();
@@ -234,16 +268,24 @@ public class BlockOverlayElementGUI extends ModElementGUI<BlockOverlayElement> {
   }
 
   @Override
+  protected AggregatedValidationResult getAdditionalValidationResult(BlockOverlayElement element) {
+    if (element.targetBlocks == null || element.targetBlocks.isEmpty()) {
+      return new AggregatedValidationResult.FAIL("At least one target block must be selected.");
+    }
+    return super.getAdditionalValidationResult(element);
+  }
+
+  @Override
   public BlockOverlayElement getElementFromGUI() {
     BlockOverlayElement element = new BlockOverlayElement(modElement);
     List<String> selectedBlocks = new ArrayList<>();
     for (MItemBlock mb : targetBlocks.getListElements()) {
-      if (mb != null && mb.getUnmappedValue() != null) {
+      if (mb != null && mb.getUnmappedValue() != null && !mb.getUnmappedValue().trim().isEmpty()) {
         selectedBlocks.add(mb.getUnmappedValue());
       }
     }
     element.targetBlocks = selectedBlocks;
-    element.targetBlock = selectedBlocks.isEmpty() ? "minecraft:stone" : selectedBlocks.get(0);
+    element.targetBlock = selectedBlocks.isEmpty() ? "" : selectedBlocks.get(0);
     element.overlayxml = overlayBlockly.getXML();
     element.visibilityScope = visibilityScope.getSelectedIndex() == 1 ? "LOOKED_AT" : "NEARBY_MATCHING";
     element.visibleOnScreenOnly = true;

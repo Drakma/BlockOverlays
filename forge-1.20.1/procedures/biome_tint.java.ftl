@@ -1,0 +1,1 @@
+String.format("#%06X", <#if field$tint_type == "WATER">net.minecraft.client.renderer.BiomeColors.getAverageWaterColor<#elseif field$tint_type == "GRASS">net.minecraft.client.renderer.BiomeColors.getAverageGrassColor<#else>net.minecraft.client.renderer.BiomeColors.getAverageFoliageColor</#if>(Minecraft.getInstance().level, BlockPos.containing(x, y, z)) & 0xFFFFFF)
