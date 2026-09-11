@@ -86,7 +86,6 @@ private static BlockOverlayTreeStructureData blockOverlayGetTreeStructure(String
 			double centerX = declaredSize.getX() / 2.0;
 			double centerZ = declaredSize.getZ() / 2.0;
 			int maxDimension = Math.max(maxX - minX + 1, Math.max(maxY - minY + 1, maxZ - minZ + 1));
-			BLOCK_OVERLAY_TREE_LOG.info("BlockOverlays: loaded tree structure '{}' from {} ({} blocks, minY={}, maxY={}, maxDimension={})", structureName, foundPath, blocks.size(), minY, maxY, maxDimension);
 			return new BlockOverlayTreeStructureData(java.util.List.copyOf(blocks), centerX, centerZ, minY, maxY, maxDimension);
 		} catch (Exception exception) {
 			BLOCK_OVERLAY_TREE_LOG.error("BlockOverlays: failed to load tree structure '{}'", structureName, exception);

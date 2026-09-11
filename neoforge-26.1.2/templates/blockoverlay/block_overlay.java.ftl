@@ -48,11 +48,31 @@ public class ${className} {
 		.withLocation("blockoverlays_texture_pipeline_${className?lower_case}")
 		.withVertexShader("core/entity")
 		.withFragmentShader("core/entity")
-		.withShaderDefine("EMISSIVE")
 		.withShaderDefine("NO_OVERLAY")
 		.withShaderDefine("NO_CARDINAL_LIGHTING")
 		.withSampler("Sampler0")
+		.withSampler("Sampler2")
 		.withColorTargetState(new com.mojang.blaze3d.pipeline.ColorTargetState(com.mojang.blaze3d.pipeline.BlendFunction.TRANSLUCENT))
+		.withVertexFormat(com.mojang.blaze3d.vertex.DefaultVertexFormat.ENTITY, com.mojang.blaze3d.vertex.VertexFormat.Mode.QUADS)
+		.withCull(false)
+		.withDepthStencilState(com.mojang.blaze3d.pipeline.DepthStencilState.DEFAULT)
+		.build();
+
+	// Opaque counterpart of the pipeline above (no BlendFunction override = opaque, ALPHA_CUTOUT for
+	// the texture's own transparent pixels instead of smooth blending, no sortOnUpload needed since
+	// opaque geometry doesn't need depth sorting). Translucent rendering carries real, well-known
+	// fixed GPU overhead in Minecraft's pipeline (its own sorted render pass) independent of how much
+	// geometry uses it - when the overlay doesn't actually need transparency (the common case), this
+	// avoids that cost entirely, matching the same class of render path every other overlay type uses.
+	private static final com.mojang.blaze3d.pipeline.RenderPipeline BLOCK_OVERLAY_TEXTURE_OPAQUE_PIPELINE = com.mojang.blaze3d.pipeline.RenderPipeline.builder(net.minecraft.client.renderer.RenderPipelines.MATRICES_FOG_SNIPPET)
+		.withLocation("blockoverlays_texture_opaque_pipeline_${className?lower_case}")
+		.withVertexShader("core/entity")
+		.withFragmentShader("core/entity")
+		.withShaderDefine("ALPHA_CUTOUT", 0.1F)
+		.withShaderDefine("NO_OVERLAY")
+		.withShaderDefine("NO_CARDINAL_LIGHTING")
+		.withSampler("Sampler0")
+		.withSampler("Sampler2")
 		.withVertexFormat(com.mojang.blaze3d.vertex.DefaultVertexFormat.ENTITY, com.mojang.blaze3d.vertex.VertexFormat.Mode.QUADS)
 		.withCull(false)
 		.withDepthStencilState(com.mojang.blaze3d.pipeline.DepthStencilState.DEFAULT)
@@ -61,11 +81,34 @@ public class ${className} {
 	@SubscribeEvent
 	public static void onRegisterBlockOverlayPipelines(net.neoforged.neoforge.client.event.RegisterRenderPipelinesEvent event) {
 		event.registerPipeline(BLOCK_OVERLAY_TEXTURE_PIPELINE);
+		event.registerPipeline(BLOCK_OVERLAY_TEXTURE_OPAQUE_PIPELINE);
 	}
 
+	// Building a RenderSetup (and its internal texture-binding map) is not free, and unlike vanilla's
+	// own RenderType constants (e.g. RenderTypes.entityTranslucent), this one was being rebuilt from
+	// scratch on every single submission - every frame, for every matching target block. Cache it
+	// per texture instead, since it never actually changes once built.
+	private static Identifier BLOCK_OVERLAY_TEXTURE_RENDER_TYPE_TEXTURE = null;
+	private static net.minecraft.client.renderer.rendertype.RenderType BLOCK_OVERLAY_TEXTURE_RENDER_TYPE_CACHED = null;
+	private static Identifier BLOCK_OVERLAY_TEXTURE_RENDER_TYPE_OPAQUE_TEXTURE = null;
+	private static net.minecraft.client.renderer.rendertype.RenderType BLOCK_OVERLAY_TEXTURE_RENDER_TYPE_OPAQUE_CACHED = null;
+
 	private static net.minecraft.client.renderer.rendertype.RenderType blockOverlayTextureRenderType(Identifier texture) {
-		return net.minecraft.client.renderer.rendertype.RenderType.create("blockoverlays_texture_${className?lower_case}",
-			net.minecraft.client.renderer.rendertype.RenderSetup.builder(BLOCK_OVERLAY_TEXTURE_PIPELINE).withTexture("Sampler0", texture).sortOnUpload().createRenderSetup());
+		if (BLOCK_OVERLAY_TEXTURE_RENDER_TYPE_CACHED == null || !texture.equals(BLOCK_OVERLAY_TEXTURE_RENDER_TYPE_TEXTURE)) {
+			BLOCK_OVERLAY_TEXTURE_RENDER_TYPE_TEXTURE = texture;
+			BLOCK_OVERLAY_TEXTURE_RENDER_TYPE_CACHED = net.minecraft.client.renderer.rendertype.RenderType.create("blockoverlays_texture_${className?lower_case}",
+				net.minecraft.client.renderer.rendertype.RenderSetup.builder(BLOCK_OVERLAY_TEXTURE_PIPELINE).withTexture("Sampler0", texture).useLightmap().sortOnUpload().createRenderSetup());
+		}
+		return BLOCK_OVERLAY_TEXTURE_RENDER_TYPE_CACHED;
+	}
+
+	private static net.minecraft.client.renderer.rendertype.RenderType blockOverlayTextureRenderTypeOpaque(Identifier texture) {
+		if (BLOCK_OVERLAY_TEXTURE_RENDER_TYPE_OPAQUE_CACHED == null || !texture.equals(BLOCK_OVERLAY_TEXTURE_RENDER_TYPE_OPAQUE_TEXTURE)) {
+			BLOCK_OVERLAY_TEXTURE_RENDER_TYPE_OPAQUE_TEXTURE = texture;
+			BLOCK_OVERLAY_TEXTURE_RENDER_TYPE_OPAQUE_CACHED = net.minecraft.client.renderer.rendertype.RenderType.create("blockoverlays_texture_opaque_${className?lower_case}",
+				net.minecraft.client.renderer.rendertype.RenderSetup.builder(BLOCK_OVERLAY_TEXTURE_OPAQUE_PIPELINE).withTexture("Sampler0", texture).useLightmap().createRenderSetup());
+		}
+		return BLOCK_OVERLAY_TEXTURE_RENDER_TYPE_OPAQUE_CACHED;
 	}
 
 	<#if targetBlockIds?? && targetBlockIds?size gt 0>

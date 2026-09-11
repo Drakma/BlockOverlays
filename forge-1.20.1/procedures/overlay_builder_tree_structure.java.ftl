@@ -6,8 +6,11 @@ if (event instanceof RenderLevelStageEvent) {
 	String _growthMode = "${field$growth_mode!"UNIFORM_SCALE"}";
 	String _structureName = <#if input$structure??>${input$structure}<#else>""</#if>;
 
+	Vec3 _camera = event.getCamera().getPosition();
 	var _structureData = blockOverlayGetTreeStructure(_structureName);
-	if (!_structureData.blocks().isEmpty()) {
+	// A structure can be 100+ blocks, each submitted individually every frame - skip the whole
+	// thing beyond a reasonable view distance so multiple nearby trees don't tank framerate.
+	if (!_structureData.blocks().isEmpty() && _camera.distanceToSqr(x + 0.5, y + 0.5, z + 0.5) <= 4096.0) {
 		// Shape bounds calculation
 		double _shapeTop = 0.0;
 		if (${(input$bounds!"false")}) {
@@ -18,7 +21,6 @@ if (event instanceof RenderLevelStageEvent) {
 		}
 
 		PoseStack _poseStack = event.getPoseStack();
-		Vec3 _camera = event.getCamera().getPosition();
 		int _light = net.minecraft.client.renderer.LightTexture.pack(
 			Minecraft.getInstance().level.getBrightness(net.minecraft.world.level.LightLayer.SKY, BlockPos.containing(x, y + 1, z)),
 			Minecraft.getInstance().level.getBrightness(net.minecraft.world.level.LightLayer.BLOCK, BlockPos.containing(x, y + 1, z))

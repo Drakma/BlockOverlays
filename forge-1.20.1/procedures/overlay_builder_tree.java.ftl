@@ -1,53 +1,56 @@
 <#include "mcitems.ftl">
+<@addTemplate file="block_overlay_growth_cache.java.ftl"/>
 if (event instanceof RenderLevelStageEvent) {
 	float _growth = Math.max(0.0f, Math.min(1.0f, (float) ((Number) ${(input$percentage!"0.5")}).doubleValue()));
 	double _offsetY = ((Number) ${(input$offset_y!"0")}).doubleValue() / 16.0;
 	float _baseScale = (float) ((Number) ${(input$scale!"1.0")}).doubleValue();
 	ItemStack _treeStack = ${mappedMCItemToItemStackCode(input$tree, 1)};
 	Item _treeItem = _treeStack.getItem();
-	BlockState _treeState = null;
-
-	if (_treeItem == net.minecraft.world.item.Items.OAK_SAPLING) {
-		_treeState = net.minecraft.world.level.block.Blocks.OAK_SAPLING.defaultBlockState();
-	} else if (_treeItem == net.minecraft.world.item.Items.SPRUCE_SAPLING) {
-		_treeState = net.minecraft.world.level.block.Blocks.SPRUCE_SAPLING.defaultBlockState();
-	} else if (_treeItem == net.minecraft.world.item.Items.BIRCH_SAPLING) {
-		_treeState = net.minecraft.world.level.block.Blocks.BIRCH_SAPLING.defaultBlockState();
-	} else if (_treeItem == net.minecraft.world.item.Items.JUNGLE_SAPLING) {
-		_treeState = net.minecraft.world.level.block.Blocks.JUNGLE_SAPLING.defaultBlockState();
-	} else if (_treeItem == net.minecraft.world.item.Items.ACACIA_SAPLING) {
-		_treeState = net.minecraft.world.level.block.Blocks.ACACIA_SAPLING.defaultBlockState();
-	} else if (_treeItem == net.minecraft.world.item.Items.DARK_OAK_SAPLING) {
-		_treeState = net.minecraft.world.level.block.Blocks.DARK_OAK_SAPLING.defaultBlockState();
-	} else if (_treeItem == net.minecraft.world.item.Items.MANGROVE_PROPAGULE) {
-		_treeState = net.minecraft.world.level.block.Blocks.MANGROVE_PROPAGULE.defaultBlockState();
-	} else if (_treeItem == net.minecraft.world.item.Items.CHERRY_SAPLING) {
-		_treeState = net.minecraft.world.level.block.Blocks.CHERRY_SAPLING.defaultBlockState();
-	} else if (_treeItem == net.minecraft.world.item.Items.BAMBOO) {
-		_treeState = net.minecraft.world.level.block.Blocks.BAMBOO_SAPLING.defaultBlockState();
-	} else if (_treeItem == net.minecraft.world.item.Items.CRIMSON_FUNGUS) {
-		_treeState = net.minecraft.world.level.block.Blocks.CRIMSON_FUNGUS.defaultBlockState();
-	} else if (_treeItem == net.minecraft.world.item.Items.WARPED_FUNGUS) {
-		_treeState = net.minecraft.world.level.block.Blocks.WARPED_FUNGUS.defaultBlockState();
-	} else if (_treeItem == net.minecraft.world.item.Items.AZALEA) {
-		_treeState = net.minecraft.world.level.block.Blocks.AZALEA.defaultBlockState();
-	} else if (_treeItem == net.minecraft.world.item.Items.FLOWERING_AZALEA) {
-		_treeState = net.minecraft.world.level.block.Blocks.FLOWERING_AZALEA.defaultBlockState();
-	} else if (_treeItem instanceof net.minecraft.world.item.BlockItem _bi) {
-		_treeState = _bi.getBlock().defaultBlockState();
-	} else {
-		var _itemLoc = BuiltInRegistries.ITEM.getKey(_treeItem);
-		if (_itemLoc != null) {
-			String _path = _itemLoc.getPath();
-			var _block = BuiltInRegistries.BLOCK.get(new net.minecraft.resources.ResourceLocation(_itemLoc.getNamespace(), _path));
-			if (_block == null || _block == net.minecraft.world.level.block.Blocks.AIR) {
-				_block = BuiltInRegistries.BLOCK.get(new net.minecraft.resources.ResourceLocation(_itemLoc.getNamespace(), _path + "_sapling"));
-			}
-			if (_block != null && _block != net.minecraft.world.level.block.Blocks.AIR) {
-				_treeState = _block.defaultBlockState();
+	BlockState _treeState = blockOverlayGetCachedTreeResolution(_treeItem, () -> {
+		BlockState _resolved = null;
+		if (_treeItem == net.minecraft.world.item.Items.OAK_SAPLING) {
+			_resolved = net.minecraft.world.level.block.Blocks.OAK_SAPLING.defaultBlockState();
+		} else if (_treeItem == net.minecraft.world.item.Items.SPRUCE_SAPLING) {
+			_resolved = net.minecraft.world.level.block.Blocks.SPRUCE_SAPLING.defaultBlockState();
+		} else if (_treeItem == net.minecraft.world.item.Items.BIRCH_SAPLING) {
+			_resolved = net.minecraft.world.level.block.Blocks.BIRCH_SAPLING.defaultBlockState();
+		} else if (_treeItem == net.minecraft.world.item.Items.JUNGLE_SAPLING) {
+			_resolved = net.minecraft.world.level.block.Blocks.JUNGLE_SAPLING.defaultBlockState();
+		} else if (_treeItem == net.minecraft.world.item.Items.ACACIA_SAPLING) {
+			_resolved = net.minecraft.world.level.block.Blocks.ACACIA_SAPLING.defaultBlockState();
+		} else if (_treeItem == net.minecraft.world.item.Items.DARK_OAK_SAPLING) {
+			_resolved = net.minecraft.world.level.block.Blocks.DARK_OAK_SAPLING.defaultBlockState();
+		} else if (_treeItem == net.minecraft.world.item.Items.MANGROVE_PROPAGULE) {
+			_resolved = net.minecraft.world.level.block.Blocks.MANGROVE_PROPAGULE.defaultBlockState();
+		} else if (_treeItem == net.minecraft.world.item.Items.CHERRY_SAPLING) {
+			_resolved = net.minecraft.world.level.block.Blocks.CHERRY_SAPLING.defaultBlockState();
+		} else if (_treeItem == net.minecraft.world.item.Items.BAMBOO) {
+			_resolved = net.minecraft.world.level.block.Blocks.BAMBOO_SAPLING.defaultBlockState();
+		} else if (_treeItem == net.minecraft.world.item.Items.CRIMSON_FUNGUS) {
+			_resolved = net.minecraft.world.level.block.Blocks.CRIMSON_FUNGUS.defaultBlockState();
+		} else if (_treeItem == net.minecraft.world.item.Items.WARPED_FUNGUS) {
+			_resolved = net.minecraft.world.level.block.Blocks.WARPED_FUNGUS.defaultBlockState();
+		} else if (_treeItem == net.minecraft.world.item.Items.AZALEA) {
+			_resolved = net.minecraft.world.level.block.Blocks.AZALEA.defaultBlockState();
+		} else if (_treeItem == net.minecraft.world.item.Items.FLOWERING_AZALEA) {
+			_resolved = net.minecraft.world.level.block.Blocks.FLOWERING_AZALEA.defaultBlockState();
+		} else if (_treeItem instanceof net.minecraft.world.item.BlockItem _bi) {
+			_resolved = _bi.getBlock().defaultBlockState();
+		} else {
+			var _itemLoc = BuiltInRegistries.ITEM.getKey(_treeItem);
+			if (_itemLoc != null) {
+				String _path = _itemLoc.getPath();
+				var _block = BuiltInRegistries.BLOCK.get(new net.minecraft.resources.ResourceLocation(_itemLoc.getNamespace(), _path));
+				if (_block == null || _block == net.minecraft.world.level.block.Blocks.AIR) {
+					_block = BuiltInRegistries.BLOCK.get(new net.minecraft.resources.ResourceLocation(_itemLoc.getNamespace(), _path + "_sapling"));
+				}
+				if (_block != null && _block != net.minecraft.world.level.block.Blocks.AIR) {
+					_resolved = _block.defaultBlockState();
+				}
 			}
 		}
-	}
+		return _resolved;
+	});
 
 	if (_treeState == null || _treeState.isAir()) {
 		_treeState = world.getBlockState(BlockPos.containing(x, y, z));
@@ -85,4 +88,3 @@ if (event instanceof RenderLevelStageEvent) {
 	_bufferSource.endBatch();
 	_poseStack.popPose();
 }
-

@@ -6,8 +6,11 @@ if (event instanceof SubmitCustomGeometryEvent _overlayEvent) {
 	String _growthMode = "${field$growth_mode!"UNIFORM_SCALE"}";
 	String _structureName = <#if input$structure??>${input$structure}<#else>""</#if>;
 
+	Vec3 _camera = _overlayEvent.getLevelRenderState().cameraRenderState.pos;
 	var _structureData = blockOverlayGetTreeStructure(_structureName);
-	if (!_structureData.blocks().isEmpty()) {
+	// A structure can be 100+ blocks, each submitted individually every frame - skip the whole
+	// thing beyond a reasonable view distance so multiple nearby trees don't tank framerate.
+	if (!_structureData.blocks().isEmpty() && _camera.distanceToSqr(x + 0.5, y + 0.5, z + 0.5) <= 4096.0) {
 		// Shape bounds calculation
 		double _shapeTop = 0.0;
 		if (${(input$bounds!"false")}) {
@@ -18,7 +21,6 @@ if (event instanceof SubmitCustomGeometryEvent _overlayEvent) {
 		}
 
 		PoseStack _poseStack = _overlayEvent.getPoseStack();
-		Vec3 _camera = _overlayEvent.getLevelRenderState().cameraRenderState.pos;
 		int _light = net.minecraft.client.renderer.LevelRenderer.getLightCoords(Minecraft.getInstance().level, net.minecraft.core.BlockPos.containing(x, y + 1, z));
 		var _blockColors = Minecraft.getInstance().getBlockColors();
 		net.minecraft.core.BlockPos _tintPos = net.minecraft.core.BlockPos.containing(x, y + 1, z);

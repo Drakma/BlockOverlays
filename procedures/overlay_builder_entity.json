@@ -1,0 +1,64 @@
+{
+	"message0": "render entity overlay %1 percentage %2 (0 to 1) y-offset %3 scale %4 spin %5",
+	"args0": [
+		{
+			"type": "input_value",
+			"name": "spawn_egg",
+			"check": "MCItem"
+		},
+		{
+			"type": "input_value",
+			"name": "percentage",
+			"check": "Number"
+		},
+		{
+			"type": "input_value",
+			"name": "offset_y",
+			"check": "Number"
+		},
+		{
+			"type": "input_value",
+			"name": "scale",
+			"check": "Number"
+		},
+		{
+			"type": "input_value",
+			"name": "spin",
+			"check": "Boolean"
+		}
+	],
+	"inputsInline": false,
+	"previousStatement": null,
+	"nextStatement": null,
+	"colour": 20,
+	"tooltip": "Renders an in-world hologram of the entity a spawn egg item would spawn (e.g. Zombie Spawn Egg, Pig Spawn Egg). The mob is created but never added to the world, so it stands in its default idle pose - no AI/pathing, works identically in singleplayer and on a dedicated server. Scale 1 = the entity's longest dimension (width or height) fits in one block, matching the tree structure overlay's scale behavior.",
+	"mcreator": {
+		"toolbox_id": "blockoverlays",
+		"toolbox_init": [
+			"<value name=\"spawn_egg\"><block type=\"mcitem_all\"><field name=\"value\">Items.PIG_SPAWN_EGG</field></block></value>",
+			"<value name=\"percentage\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value>",
+			"<value name=\"offset_y\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value>",
+			"<value name=\"scale\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value>",
+			"<value name=\"spin\"><block type=\"logic_boolean\"><field name=\"BOOL\">TRUE</field></block></value>"
+		],
+		"inputs": ["spawn_egg", "percentage", "offset_y", "scale", "spin"],
+		"dependencies": [
+			{
+				"name": "x",
+				"type": "number"
+			},
+			{
+				"name": "y",
+				"type": "number"
+			},
+			{
+				"name": "z",
+				"type": "number"
+			},
+			{
+				"name": "world",
+				"type": "world"
+			}
+		]
+	}
+}

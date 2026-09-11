@@ -1,28 +1,40 @@
 <#include "mcitems.ftl">
+<@addTemplate file="block_overlay_texture_cache.java.ftl"/>
 if (event instanceof RenderLevelStageEvent) {
 	String _placement = ${input$placement};
 	Direction _side = ${input$side};
 	double _scale = ((Number) ${(input$scale!"(1.0 / 3.0)")}).doubleValue();
 	BlockState _targetState = ${mappedBlockToBlockStateCode(input$block)};
-	TextureAtlasSprite _sprite = null;
-	net.minecraft.client.resources.model.BakedModel _model = Minecraft.getInstance().getBlockRenderer().getBlockModel(_targetState);
 	String _blockSideStr = "${field$block_side!"PARTICLE"}";
-	if (!"PARTICLE".equals(_blockSideStr)) {
-		Direction _dir = Direction.byName(_blockSideStr.toLowerCase());
-		java.util.List<net.minecraft.client.renderer.block.model.BakedQuad> _quads = _model.getQuads(_targetState, _dir, net.minecraft.util.RandomSource.create(42L));
-		if (_quads != null && !_quads.isEmpty()) {
-			_sprite = _quads.get(0).getSprite();
-		}
-		if (_sprite == null) {
-			_quads = _model.getQuads(_targetState, null, net.minecraft.util.RandomSource.create(42L));
+	BlockPos _targetPos = BlockPos.containing(x, y, z);
+	long _cacheKey = net.minecraft.core.BlockPos.asLong(_targetPos.getX(), _targetPos.getY(), _targetPos.getZ()) * 6L + _side.get3DDataValue();
+	var _cacheEntry = blockOverlayGetTextureCacheEntry(world, _cacheKey, () -> {
+		net.minecraft.client.resources.model.BakedModel _model = Minecraft.getInstance().getBlockRenderer().getBlockModel(_targetState);
+		TextureAtlasSprite _sprite = null;
+		if (!"PARTICLE".equals(_blockSideStr)) {
+			Direction _dir = Direction.byName(_blockSideStr.toLowerCase());
+			java.util.List<net.minecraft.client.renderer.block.model.BakedQuad> _quads = _model.getQuads(_targetState, _dir, net.minecraft.util.RandomSource.create(42L));
 			if (_quads != null && !_quads.isEmpty()) {
 				_sprite = _quads.get(0).getSprite();
 			}
+			if (_sprite == null) {
+				_quads = _model.getQuads(_targetState, null, net.minecraft.util.RandomSource.create(42L));
+				if (_quads != null && !_quads.isEmpty()) {
+					_sprite = _quads.get(0).getSprite();
+				}
+			}
 		}
-	}
-	if (_sprite == null) {
-		_sprite = Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getParticleIcon(_targetState);
-	}
+		if (_sprite == null) {
+			_sprite = Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getParticleIcon(_targetState);
+		}
+		int _computedLight = net.minecraft.client.renderer.LightTexture.pack(
+			world.getBrightness(net.minecraft.world.level.LightLayer.SKY, _targetPos.relative(_side)),
+			world.getBrightness(net.minecraft.world.level.LightLayer.BLOCK, _targetPos.relative(_side))
+		);
+		return new BlockOverlayTextureCacheEntry(System.currentTimeMillis(), _sprite, _computedLight);
+	});
+	TextureAtlasSprite _sprite = _cacheEntry.sprite();
+	int _light = _cacheEntry.light();
 	PoseStack _poseStack = event.getPoseStack();
 	Vec3 _camera = event.getCamera().getPosition();
 	double _padding = ((Number) ${(input$padding!"0")}).doubleValue() / 16.0;
@@ -33,7 +45,7 @@ if (event instanceof RenderLevelStageEvent) {
 	_poseStack.mulPose(faceRotation(_side));
 	_poseStack.translate(_position.x, _position.y, _position.z);
 	_poseStack.scale((float) _scale, (float) _scale, 1.0f);
-	int _light = net.minecraft.client.renderer.LightTexture.FULL_BRIGHT;
+	blockOverlayCountTextureSubmit();
 	var _bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
 	var _consumer = _bufferSource.getBuffer(RenderType.entityTranslucent(TextureAtlas.LOCATION_BLOCKS));
 	var _pose = _poseStack.last().pose();
@@ -64,10 +76,14 @@ if (event instanceof RenderLevelStageEvent) {
 	int _g = Math.max(0, Math.min(255, Math.round(255.0f * (1.0f - _tintAlpha) + (float) _gTint * _tintAlpha)));
 	int _b = Math.max(0, Math.min(255, Math.round(255.0f * (1.0f - _tintAlpha) + (float) _bTint * _tintAlpha)));
 	int _a = (int) (Math.max(0.0f, Math.min(1.0f, (float) ${(input$transparency!"1.0")})) * 255.0f);
-	_consumer.vertex(_pose, 0.5f, -0.5f, 0).color(_r, _g, _b, _a).uv(_sprite.getU0(), _sprite.getV1()).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(_light).normal(_normal, 0, 0, -1).endVertex();
-	_consumer.vertex(_pose, 0.5f, 0.5f, 0).color(_r, _g, _b, _a).uv(_sprite.getU0(), _sprite.getV0()).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(_light).normal(_normal, 0, 0, -1).endVertex();
-	_consumer.vertex(_pose, -0.5f, 0.5f, 0).color(_r, _g, _b, _a).uv(_sprite.getU1(), _sprite.getV0()).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(_light).normal(_normal, 0, 0, -1).endVertex();
-	_consumer.vertex(_pose, -0.5f, -0.5f, 0).color(_r, _g, _b, _a).uv(_sprite.getU1(), _sprite.getV1()).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(_light).normal(_normal, 0, 0, -1).endVertex();
-	_bufferSource.endBatch(RenderType.entityTranslucent(TextureAtlas.LOCATION_BLOCKS));
+	try {
+		_consumer.vertex(_pose, 0.5f, -0.5f, 0).color(_r, _g, _b, _a).uv(_sprite.getU0(), _sprite.getV1()).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(_light).normal(_normal, 0, 0, -1).endVertex();
+		_consumer.vertex(_pose, 0.5f, 0.5f, 0).color(_r, _g, _b, _a).uv(_sprite.getU0(), _sprite.getV0()).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(_light).normal(_normal, 0, 0, -1).endVertex();
+		_consumer.vertex(_pose, -0.5f, 0.5f, 0).color(_r, _g, _b, _a).uv(_sprite.getU1(), _sprite.getV0()).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(_light).normal(_normal, 0, 0, -1).endVertex();
+		_consumer.vertex(_pose, -0.5f, -0.5f, 0).color(_r, _g, _b, _a).uv(_sprite.getU1(), _sprite.getV1()).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(_light).normal(_normal, 0, 0, -1).endVertex();
+		_bufferSource.endBatch(RenderType.entityTranslucent(TextureAtlas.LOCATION_BLOCKS));
+	} catch (Exception _renderException) {
+		BLOCK_OVERLAY_TEXTURE_CACHE_LOG.error("BlockOverlays: exception submitting texture overlay geometry", _renderException);
+	}
 	_poseStack.popPose();
 }

@@ -1,5 +1,27 @@
 # Changelog - Block Overlays
 
+## 2026.2.237 - 2026-09-10
+
+### Added
+
+- New **Render entity overlay** block: renders a live-model hologram of the entity a spawn egg item would spawn (e.g. Zombie Spawn Egg, Pig Spawn Egg). The entity is created but never added to the world, so it stands in its default idle pose with no AI/pathing — a pure client-side preview, same as every other overlay in this plugin. `scale` matches the tree structure overlay's convention: 1 = the entity's longest dimension fits in one block. Optional slow auto-spin.
+
+### Fixed
+
+- **Entity overlay never rendered anything**: the block's JSON definition filename didn't match its `.java.ftl` template filename, so MCreator silently generated no code for it at all — no error, no log output, just nothing. Renamed to match.
+- **Entity overlay rendered pitch black**: the preview entity was never positioned anywhere in the world, so its baked-in lighting sampled position `(0,0,0)` instead of the target block. Now positioned at the target block right before extracting its render state each frame.
+- **Entity overlay's spin looked stepped/juddery**: it advanced once per 50ms game tick instead of once per render frame, so at any framerate above 20fps the same angle repeated for several frames before jumping. Switched to wall-clock timing.
+- **Texture overlay was full-bright regardless of the light value passed in**: the custom render pipeline had an `EMISSIVE` shader define, which (per the shader source) skips lightmap sampling entirely — no light value could ever have worked while that define was present. Removed it and added the required `Sampler2` (lightmap) sampler declaration.
+- **Crash: "Missing sampler Sampler2"**: fixed by declaring `Sampler2` on the pipeline above, but a `RenderSetup` also needs `.useLightmap()` to actually bind a texture to that sampler slot — without it, the pipeline expected a sampler nothing ever filled, crashing the game the moment it tried to draw.
+- **Severe FPS drop from a single texture/tree/crop overlay instance**: several distinct, stacked causes, all now fixed —
+  - The texture overlay's sprite (via `collectParts`/quad scan) and light value were being recomputed from scratch every single render frame; now cached per position/face, refreshed every 2 seconds.
+  - Its custom `RenderSetup`/`RenderType` (including an internal texture-binding map) was being rebuilt from scratch on every submission instead of once; now cached per texture.
+  - A translucent render pipeline carries real, fixed GPU cost in Minecraft's rendering architecture regardless of how much uses it. Added an opaque/`ALPHA_CUTOUT` fallback pipeline used whenever the overlay's color is fully opaque (the common case), only falling back to translucent when real transparency is requested.
+  - The tree and crop overlays were redoing a long item→BlockState resolution chain, a `BlockStateModelSet` lookup, `collectParts()`, and (crop only) a `Stream`-based min/max computation — every frame, for every visible instance, none of which changes moment to moment. Now cached (item resolution and model parts cached indefinitely per JVM session; nothing here is tied to a specific world/atlas instance).
+  - The tree structure overlay had no distance cutoff at all, submitting a full block model per structure block (100+) every frame for every nearby matching sapling. Added the same distance-based skip already used elsewhere.
+- **Texture overlay occasionally showed a "missing texture" placeholder or wrong tint that self-corrected after a delay**: caused by the new sprite/light caching (above) freezing a transient wrong answer — right after a block is placed or a chunk loads, the model/lighting system can momentarily return an incomplete result. Shortened the cache window (60s → 2s) and made the "missing texture" placeholder specifically never cache with the normal TTL, so it retries every frame until a real texture resolves instead of freezing for up to a minute.
+- Cache correctness: a world-position-keyed cache must also be invalidated when the level/world itself changes, or a `TextureAtlasSprite` cached from a previous world's (possibly since-rebuilt) texture atlas can be served as "still fresh" and render as garbage. Also switched cache timestamps from `world.getGameTime()` (resets on a new world, which could make a stale entry look falsely fresh) to `System.currentTimeMillis()`.
+
 ## 2026.2.215 - 2026-09-10
 
 ### Added
