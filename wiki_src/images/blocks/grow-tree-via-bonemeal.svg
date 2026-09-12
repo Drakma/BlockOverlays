@@ -1,14 +1,54 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="286.62" height="194" viewBox="0 0 286.62 194">
+<svg xmlns="http://www.w3.org/2000/svg" width="284.62" height="184" viewBox="0 0 284.62 184">
   <path d="M 22 12
-      H 274.62
-      a 6 6 0 0 1 6 6
-      V 176
-      a 6 6 0 0 1 -6 6
+      H 270.62
+      a 8 8 0 0 1 8 8
+      V 164
+      a 8 8 0 0 1 -8 8
       H 22
-      a 4 4 0 0 1 -4 -4
-      V 104
-      a 3 4 0 0 0 0 -14
-      V 16
-      a 4 4 0 0 1 4 -4 Z" fill="#72574A" stroke="#4A382F" stroke-width="1.5"/>
-  <text x="30" y="34" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">Grow tree from</text><rect x="151.68" y="26" width="8" height="6" fill="#1a1410"/><path d="M 165.68 16 h 100.94 a 6 6 0 0 1 6 6 v 14 a 6 6 0 0 1 -6 6 h -100.94 a 4 4 0 0 1 -4 -4 v -3 a 3 4 0 0 0 0 -8 v -3 a 4 4 0 0 1 4 -4 z" fill="#5C5340" stroke="#3A3427" stroke-width="1.5"/><text x="213.15" y="34" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">Oak Sapling</text><text x="30" y="68" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">at x</text><rect x="208.62" y="60" width="8" height="6" fill="#1a1410"/><path d="M 222.62 50 h 44 a 6 6 0 0 1 6 6 v 14 a 6 6 0 0 1 -6 6 h -44 a 4 4 0 0 1 -4 -4 v -3 a 3 4 0 0 0 0 -8 v -3 a 4 4 0 0 1 4 -4 z" fill="#4A5172" stroke="#2B3252" stroke-width="1.5"/><text x="241.62" y="68" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">0</text><text x="30" y="102" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">y</text><rect x="208.62" y="94" width="8" height="6" fill="#1a1410"/><path d="M 222.62 84 h 44 a 6 6 0 0 1 6 6 v 14 a 6 6 0 0 1 -6 6 h -44 a 4 4 0 0 1 -4 -4 v -3 a 3 4 0 0 0 0 -8 v -3 a 4 4 0 0 1 4 -4 z" fill="#4A5172" stroke="#2B3252" stroke-width="1.5"/><text x="241.62" y="102" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">0</text><text x="30" y="136" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">z</text><rect x="208.62" y="128" width="8" height="6" fill="#1a1410"/><path d="M 222.62 118 h 44 a 6 6 0 0 1 6 6 v 14 a 6 6 0 0 1 -6 6 h -44 a 4 4 0 0 1 -4 -4 v -3 a 3 4 0 0 0 0 -8 v -3 a 4 4 0 0 1 4 -4 z" fill="#4A5172" stroke="#2B3252" stroke-width="1.5"/><text x="241.62" y="136" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">0</text><text x="30" y="170" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">max bonemeal attempts</text><rect x="208.62" y="162" width="8" height="6" fill="#1a1410"/><path d="M 222.62 152 h 44 a 6 6 0 0 1 6 6 v 14 a 6 6 0 0 1 -6 6 h -44 a 4 4 0 0 1 -4 -4 v -3 a 3 4 0 0 0 0 -8 v -3 a 4 4 0 0 1 4 -4 z" fill="#4A5172" stroke="#2B3252" stroke-width="1.5"/><text x="241.62" y="170" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">200</text>
+      a 8 8 0 0 1 -8 -8
+      V 100
+      c 0,-4 -6,-2 -6,-8 c 0,-5 6,-3 6,-8
+      V 20
+      a 8 8 0 0 1 8 -8 Z" fill="#72574A" stroke="#4A382F" stroke-width="1.5"/>
+  <text x="28" y="33" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">Grow tree from</text><path d="M 163.68 14
+      h 100.94
+      a 6 6 0 0 1 6 6
+      V 36
+      a 6 6 0 0 1 -6 6
+      H 163.68
+      a 6 6 0 0 1 -6 -6
+      c 0,-4 -6,-2 -6,-8 c 0,-5 6,-3 6,-8
+      a 6 6 0 0 1 6 -6 Z" fill="#5C5340" stroke="#3A3427" stroke-width="1.5"/><text x="211.15" y="33" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">Oak Sapling</text><text x="28" y="65" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">at x</text><path d="M 220.62 46
+      h 44
+      a 6 6 0 0 1 6 6
+      V 68
+      a 6 6 0 0 1 -6 6
+      H 220.62
+      a 6 6 0 0 1 -6 -6
+      c 0,-4 -6,-2 -6,-8 c 0,-5 6,-3 6,-8
+      a 6 6 0 0 1 6 -6 Z" fill="#4A5172" stroke="#2B3252" stroke-width="1.5"/><text x="239.62" y="65" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">0</text><text x="28" y="97" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">y</text><path d="M 220.62 78
+      h 44
+      a 6 6 0 0 1 6 6
+      V 100
+      a 6 6 0 0 1 -6 6
+      H 220.62
+      a 6 6 0 0 1 -6 -6
+      c 0,-4 -6,-2 -6,-8 c 0,-5 6,-3 6,-8
+      a 6 6 0 0 1 6 -6 Z" fill="#4A5172" stroke="#2B3252" stroke-width="1.5"/><text x="239.62" y="97" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">0</text><text x="28" y="129" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">z</text><path d="M 220.62 110
+      h 44
+      a 6 6 0 0 1 6 6
+      V 132
+      a 6 6 0 0 1 -6 6
+      H 220.62
+      a 6 6 0 0 1 -6 -6
+      c 0,-4 -6,-2 -6,-8 c 0,-5 6,-3 6,-8
+      a 6 6 0 0 1 6 -6 Z" fill="#4A5172" stroke="#2B3252" stroke-width="1.5"/><text x="239.62" y="129" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">0</text><text x="28" y="161" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">max bonemeal attempts</text><path d="M 220.62 142
+      h 44
+      a 6 6 0 0 1 6 6
+      V 164
+      a 6 6 0 0 1 -6 6
+      H 220.62
+      a 6 6 0 0 1 -6 -6
+      c 0,-4 -6,-2 -6,-8 c 0,-5 6,-3 6,-8
+      a 6 6 0 0 1 6 -6 Z" fill="#4A5172" stroke="#2B3252" stroke-width="1.5"/><text x="239.62" y="161" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">200</text>
 </svg>

@@ -1,16 +1,64 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="465.37999999999994" height="234" viewBox="0 0 465.37999999999994 234">
-  <path d="M 12 15
+<svg xmlns="http://www.w3.org/2000/svg" width="465.37999999999994" height="220" viewBox="0 0 465.37999999999994 220">
+  <path d="M 14 14
       H 24
-      l 4 4 h 8 l 4 -4
-      H 453.37999999999994
+      l 6 4 l 3 0 l 6 -4
+      H 451.37999999999994
+      a 8 8 0 0 1 8 8
+      V 198
+      a 8 8 0 0 1 -8 8
+      H 39
+      l -6 4 l -3 0 l -6 -4
+      H 14
+      a 8 8 0 0 1 -8 -8
+      V 22
+      a 8 8 0 0 1 8 -8 Z" fill="#72574A" stroke="#4A382F" stroke-width="1.5"/>
+  <text x="20" y="35" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">Render tree structure overlay</text><path d="M 382.13999999999993 16
+      h 63.239999999999995
       a 6 6 0 0 1 6 6
-      V 213
+      V 38
       a 6 6 0 0 1 -6 6
-      H 40
-      l -4 4 h -8 l -4 -4
-      H 12
+      H 382.13999999999993
       a 6 6 0 0 1 -6 -6
-      V 21
-      a 6 6 0 0 1 6 -6 Z" fill="#72574A" stroke="#4A382F" stroke-width="1.5"/>
-  <text x="20" y="37" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">Render tree structure overlay</text><rect x="368.13999999999993" y="29" width="8" height="6" fill="#1a1410"/><path d="M 382.13999999999993 19 h 63.239999999999995 a 6 6 0 0 1 6 6 v 14 a 6 6 0 0 1 -6 6 h -63.239999999999995 a 4 4 0 0 1 -4 -4 v -3 a 3 4 0 0 0 0 -8 v -3 a 4 4 0 0 1 4 -4 z" fill="#4A5172" stroke="#2B3252" stroke-width="1.5"/><text x="410.75999999999993" y="37" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">&quot;text&quot;</text><text x="20" y="71" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">percentage</text><rect x="387.37999999999994" y="63" width="8" height="6" fill="#1a1410"/><path d="M 401.37999999999994 53 h 44 a 6 6 0 0 1 6 6 v 14 a 6 6 0 0 1 -6 6 h -44 a 4 4 0 0 1 -4 -4 v -3 a 3 4 0 0 0 0 -8 v -3 a 4 4 0 0 1 4 -4 z" fill="#4A5172" stroke="#2B3252" stroke-width="1.5"/><text x="420.37999999999994" y="71" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">0.5</text><text x="20" y="105" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">(0 to 1) growth mode</text><rect x="190.39999999999998" y="88" width="124.02" height="24" rx="4" fill="#3a2b1c" stroke="#20160c"/><text x="198.39999999999998" y="105" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">uniform scale</text><text x="298.41999999999996" y="105" font-size="11" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#e5c9a3">▼</text><text x="322.41999999999996" y="105" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">y-offset</text><rect x="387.37999999999994" y="97" width="8" height="6" fill="#1a1410"/><path d="M 401.37999999999994 87 h 44 a 6 6 0 0 1 6 6 v 14 a 6 6 0 0 1 -6 6 h -44 a 4 4 0 0 1 -4 -4 v -3 a 3 4 0 0 0 0 -8 v -3 a 4 4 0 0 1 4 -4 z" fill="#4A5172" stroke="#2B3252" stroke-width="1.5"/><text x="420.37999999999994" y="105" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">0</text><text x="20" y="139" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">scale</text><rect x="387.37999999999994" y="131" width="8" height="6" fill="#1a1410"/><path d="M 401.37999999999994 121 h 44 a 6 6 0 0 1 6 6 v 14 a 6 6 0 0 1 -6 6 h -44 a 4 4 0 0 1 -4 -4 v -3 a 3 4 0 0 0 0 -8 v -3 a 4 4 0 0 1 4 -4 z" fill="#4A5172" stroke="#2B3252" stroke-width="1.5"/><text x="420.37999999999994" y="139" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">1</text><text x="20" y="173" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">spin speed</text><rect x="387.37999999999994" y="165" width="8" height="6" fill="#1a1410"/><path d="M 401.37999999999994 155 h 44 a 6 6 0 0 1 6 6 v 14 a 6 6 0 0 1 -6 6 h -44 a 4 4 0 0 1 -4 -4 v -3 a 3 4 0 0 0 0 -8 v -3 a 4 4 0 0 1 4 -4 z" fill="#4A5172" stroke="#2B3252" stroke-width="1.5"/><text x="420.37999999999994" y="173" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">0</text><text x="20" y="207" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">(degrees/sec, 0 = no spin) on shape bounds</text><rect x="375.67999999999995" y="199" width="8" height="6" fill="#1a1410"/><path d="M 389.67999999999995 189 h 55.699999999999996 a 6 6 0 0 1 6 6 v 14 a 6 6 0 0 1 -6 6 h -55.699999999999996 a 4 4 0 0 1 -4 -4 v -3 a 3 4 0 0 0 0 -8 v -3 a 4 4 0 0 1 4 -4 z" fill="#4A5172" stroke="#2B3252" stroke-width="1.5"/><text x="414.53" y="207" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">FALSE</text>
+      c 0,-4 -6,-2 -6,-8 c 0,-5 6,-3 6,-8
+      a 6 6 0 0 1 6 -6 Z" fill="#4A5172" stroke="#2B3252" stroke-width="1.5"/><text x="410.75999999999993" y="35" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">&quot;text&quot;</text><text x="20" y="67" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">percentage</text><path d="M 401.37999999999994 48
+      h 44
+      a 6 6 0 0 1 6 6
+      V 70
+      a 6 6 0 0 1 -6 6
+      H 401.37999999999994
+      a 6 6 0 0 1 -6 -6
+      c 0,-4 -6,-2 -6,-8 c 0,-5 6,-3 6,-8
+      a 6 6 0 0 1 6 -6 Z" fill="#4A5172" stroke="#2B3252" stroke-width="1.5"/><text x="420.37999999999994" y="67" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">0.5</text><text x="20" y="99" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">(0 to 1) growth mode</text><rect x="190.39999999999998" y="82" width="124.02" height="24" rx="4" fill="#3a2b1c" stroke="#20160c"/><text x="198.39999999999998" y="99" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">uniform scale</text><text x="298.41999999999996" y="99" font-size="11" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#e5c9a3">▼</text><text x="322.41999999999996" y="99" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">y-offset</text><path d="M 401.37999999999994 80
+      h 44
+      a 6 6 0 0 1 6 6
+      V 102
+      a 6 6 0 0 1 -6 6
+      H 401.37999999999994
+      a 6 6 0 0 1 -6 -6
+      c 0,-4 -6,-2 -6,-8 c 0,-5 6,-3 6,-8
+      a 6 6 0 0 1 6 -6 Z" fill="#4A5172" stroke="#2B3252" stroke-width="1.5"/><text x="420.37999999999994" y="99" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">0</text><text x="20" y="131" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">scale</text><path d="M 401.37999999999994 112
+      h 44
+      a 6 6 0 0 1 6 6
+      V 134
+      a 6 6 0 0 1 -6 6
+      H 401.37999999999994
+      a 6 6 0 0 1 -6 -6
+      c 0,-4 -6,-2 -6,-8 c 0,-5 6,-3 6,-8
+      a 6 6 0 0 1 6 -6 Z" fill="#4A5172" stroke="#2B3252" stroke-width="1.5"/><text x="420.37999999999994" y="131" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">1</text><text x="20" y="163" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">spin speed</text><path d="M 401.37999999999994 144
+      h 44
+      a 6 6 0 0 1 6 6
+      V 166
+      a 6 6 0 0 1 -6 6
+      H 401.37999999999994
+      a 6 6 0 0 1 -6 -6
+      c 0,-4 -6,-2 -6,-8 c 0,-5 6,-3 6,-8
+      a 6 6 0 0 1 6 -6 Z" fill="#4A5172" stroke="#2B3252" stroke-width="1.5"/><text x="420.37999999999994" y="163" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">0</text><text x="20" y="195" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">(degrees/sec, 0 = no spin) on shape bounds</text><path d="M 389.67999999999995 176
+      h 55.699999999999996
+      a 6 6 0 0 1 6 6
+      V 198
+      a 6 6 0 0 1 -6 6
+      H 389.67999999999995
+      a 6 6 0 0 1 -6 -6
+      c 0,-4 -6,-2 -6,-8 c 0,-5 6,-3 6,-8
+      a 6 6 0 0 1 6 -6 Z" fill="#4A5172" stroke="#2B3252" stroke-width="1.5"/><text x="414.53" y="195" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">FALSE</text>
 </svg>

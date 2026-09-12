@@ -1,16 +1,80 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="268.4" height="302" viewBox="0 0 268.4 302">
-  <path d="M 12 15
+<svg xmlns="http://www.w3.org/2000/svg" width="268.4" height="284" viewBox="0 0 268.4 284">
+  <path d="M 14 14
       H 24
-      l 4 4 h 8 l 4 -4
-      H 256.4
+      l 6 4 l 3 0 l 6 -4
+      H 254.39999999999998
+      a 8 8 0 0 1 8 8
+      V 262
+      a 8 8 0 0 1 -8 8
+      H 39
+      l -6 4 l -3 0 l -6 -4
+      H 14
+      a 8 8 0 0 1 -8 -8
+      V 22
+      a 8 8 0 0 1 8 -8 Z" fill="#72574A" stroke="#4A382F" stroke-width="1.5"/>
+  <text x="20" y="35" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">Render spinning item</text><path d="M 204.39999999999998 16
+      h 44
       a 6 6 0 0 1 6 6
-      V 281
+      V 38
       a 6 6 0 0 1 -6 6
-      H 40
-      l -4 4 h -8 l -4 -4
-      H 12
+      H 204.39999999999998
       a 6 6 0 0 1 -6 -6
-      V 21
-      a 6 6 0 0 1 6 -6 Z" fill="#72574A" stroke="#4A382F" stroke-width="1.5"/>
-  <text x="20" y="37" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">Render spinning item</text><rect x="190.39999999999998" y="29" width="8" height="6" fill="#1a1410"/><path d="M 204.39999999999998 19 h 44 a 6 6 0 0 1 6 6 v 14 a 6 6 0 0 1 -6 6 h -44 a 4 4 0 0 1 -4 -4 v -3 a 3 4 0 0 0 0 -8 v -3 a 4 4 0 0 1 4 -4 z" fill="#5C5340" stroke="#3A3427" stroke-width="1.5"/><text x="223.39999999999998" y="37" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">Air</text><text x="20" y="71" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">at</text><rect x="118.37999999999998" y="63" width="8" height="6" fill="#1a1410"/><path d="M 132.38 53 h 116.02 a 6 6 0 0 1 6 6 v 14 a 6 6 0 0 1 -6 6 h -116.02 a 4 4 0 0 1 -4 -4 v -3 a 3 4 0 0 0 0 -8 v -3 a 4 4 0 0 1 4 -4 z" fill="#72574A" stroke="#4A382F" stroke-width="1.5"/><text x="187.39" y="71" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">MIDDLE_CENTER</text><text x="20" y="105" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">on</text><rect x="178.7" y="97" width="8" height="6" fill="#1a1410"/><path d="M 192.7 87 h 55.699999999999996 a 6 6 0 0 1 6 6 v 14 a 6 6 0 0 1 -6 6 h -55.699999999999996 a 4 4 0 0 1 -4 -4 v -3 a 3 4 0 0 0 0 -8 v -3 a 4 4 0 0 1 4 -4 z" fill="#72574A" stroke="#4A382F" stroke-width="1.5"/><text x="217.54999999999998" y="105" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">NORTH</text><text x="20" y="139" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">face scale</text><rect x="190.39999999999998" y="131" width="8" height="6" fill="#1a1410"/><path d="M 204.39999999999998 121 h 44 a 6 6 0 0 1 6 6 v 14 a 6 6 0 0 1 -6 6 h -44 a 4 4 0 0 1 -4 -4 v -3 a 3 4 0 0 0 0 -8 v -3 a 4 4 0 0 1 4 -4 z" fill="#4A5172" stroke="#2B3252" stroke-width="1.5"/><text x="223.39999999999998" y="139" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">0.5</text><text x="20" y="173" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">bob height</text><rect x="190.39999999999998" y="165" width="8" height="6" fill="#1a1410"/><path d="M 204.39999999999998 155 h 44 a 6 6 0 0 1 6 6 v 14 a 6 6 0 0 1 -6 6 h -44 a 4 4 0 0 1 -4 -4 v -3 a 3 4 0 0 0 0 -8 v -3 a 4 4 0 0 1 4 -4 z" fill="#4A5172" stroke="#2B3252" stroke-width="1.5"/><text x="223.39999999999998" y="173" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">0.1</text><text x="20" y="207" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">spin speed</text><rect x="190.39999999999998" y="199" width="8" height="6" fill="#1a1410"/><path d="M 204.39999999999998 189 h 44 a 6 6 0 0 1 6 6 v 14 a 6 6 0 0 1 -6 6 h -44 a 4 4 0 0 1 -4 -4 v -3 a 3 4 0 0 0 0 -8 v -3 a 4 4 0 0 1 4 -4 z" fill="#4A5172" stroke="#2B3252" stroke-width="1.5"/><text x="223.39999999999998" y="207" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">4</text><text x="20" y="241" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">padding</text><rect x="190.39999999999998" y="233" width="8" height="6" fill="#1a1410"/><path d="M 204.39999999999998 223 h 44 a 6 6 0 0 1 6 6 v 14 a 6 6 0 0 1 -6 6 h -44 a 4 4 0 0 1 -4 -4 v -3 a 3 4 0 0 0 0 -8 v -3 a 4 4 0 0 1 4 -4 z" fill="#4A5172" stroke="#2B3252" stroke-width="1.5"/><text x="223.39999999999998" y="241" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">0</text><text x="20" y="275" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">y-offset</text><rect x="190.39999999999998" y="267" width="8" height="6" fill="#1a1410"/><path d="M 204.39999999999998 257 h 44 a 6 6 0 0 1 6 6 v 14 a 6 6 0 0 1 -6 6 h -44 a 4 4 0 0 1 -4 -4 v -3 a 3 4 0 0 0 0 -8 v -3 a 4 4 0 0 1 4 -4 z" fill="#4A5172" stroke="#2B3252" stroke-width="1.5"/><text x="223.39999999999998" y="275" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">0</text>
+      c 0,-4 -6,-2 -6,-8 c 0,-5 6,-3 6,-8
+      a 6 6 0 0 1 6 -6 Z" fill="#5C5340" stroke="#3A3427" stroke-width="1.5"/><text x="223.39999999999998" y="35" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">Air</text><text x="20" y="67" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">at</text><path d="M 132.38 48
+      h 116.02
+      a 6 6 0 0 1 6 6
+      V 70
+      a 6 6 0 0 1 -6 6
+      H 132.38
+      a 6 6 0 0 1 -6 -6
+      c 0,-4 -6,-2 -6,-8 c 0,-5 6,-3 6,-8
+      a 6 6 0 0 1 6 -6 Z" fill="#72574A" stroke="#4A382F" stroke-width="1.5"/><text x="187.39" y="67" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">MIDDLE_CENTER</text><text x="20" y="99" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">on</text><path d="M 192.7 80
+      h 55.699999999999996
+      a 6 6 0 0 1 6 6
+      V 102
+      a 6 6 0 0 1 -6 6
+      H 192.7
+      a 6 6 0 0 1 -6 -6
+      c 0,-4 -6,-2 -6,-8 c 0,-5 6,-3 6,-8
+      a 6 6 0 0 1 6 -6 Z" fill="#72574A" stroke="#4A382F" stroke-width="1.5"/><text x="217.54999999999998" y="99" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">NORTH</text><text x="20" y="131" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">face scale</text><path d="M 204.39999999999998 112
+      h 44
+      a 6 6 0 0 1 6 6
+      V 134
+      a 6 6 0 0 1 -6 6
+      H 204.39999999999998
+      a 6 6 0 0 1 -6 -6
+      c 0,-4 -6,-2 -6,-8 c 0,-5 6,-3 6,-8
+      a 6 6 0 0 1 6 -6 Z" fill="#4A5172" stroke="#2B3252" stroke-width="1.5"/><text x="223.39999999999998" y="131" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">0.5</text><text x="20" y="163" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">bob height</text><path d="M 204.39999999999998 144
+      h 44
+      a 6 6 0 0 1 6 6
+      V 166
+      a 6 6 0 0 1 -6 6
+      H 204.39999999999998
+      a 6 6 0 0 1 -6 -6
+      c 0,-4 -6,-2 -6,-8 c 0,-5 6,-3 6,-8
+      a 6 6 0 0 1 6 -6 Z" fill="#4A5172" stroke="#2B3252" stroke-width="1.5"/><text x="223.39999999999998" y="163" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">0.1</text><text x="20" y="195" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">spin speed</text><path d="M 204.39999999999998 176
+      h 44
+      a 6 6 0 0 1 6 6
+      V 198
+      a 6 6 0 0 1 -6 6
+      H 204.39999999999998
+      a 6 6 0 0 1 -6 -6
+      c 0,-4 -6,-2 -6,-8 c 0,-5 6,-3 6,-8
+      a 6 6 0 0 1 6 -6 Z" fill="#4A5172" stroke="#2B3252" stroke-width="1.5"/><text x="223.39999999999998" y="195" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">4</text><text x="20" y="227" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">padding</text><path d="M 204.39999999999998 208
+      h 44
+      a 6 6 0 0 1 6 6
+      V 230
+      a 6 6 0 0 1 -6 6
+      H 204.39999999999998
+      a 6 6 0 0 1 -6 -6
+      c 0,-4 -6,-2 -6,-8 c 0,-5 6,-3 6,-8
+      a 6 6 0 0 1 6 -6 Z" fill="#4A5172" stroke="#2B3252" stroke-width="1.5"/><text x="223.39999999999998" y="227" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">0</text><text x="20" y="259" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">y-offset</text><path d="M 204.39999999999998 240
+      h 44
+      a 6 6 0 0 1 6 6
+      V 262
+      a 6 6 0 0 1 -6 6
+      H 204.39999999999998
+      a 6 6 0 0 1 -6 -6
+      c 0,-4 -6,-2 -6,-8 c 0,-5 6,-3 6,-8
+      a 6 6 0 0 1 6 -6 Z" fill="#4A5172" stroke="#2B3252" stroke-width="1.5"/><text x="223.39999999999998" y="259" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">0</text>
 </svg>

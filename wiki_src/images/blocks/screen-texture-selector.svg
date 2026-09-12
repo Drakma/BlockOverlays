@@ -1,14 +1,14 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="236.52" height="58" viewBox="0 0 236.52 58">
+<svg xmlns="http://www.w3.org/2000/svg" width="234.52" height="56" viewBox="0 0 234.52 56">
   <path d="M 22 12
-      H 224.52
-      a 6 6 0 0 1 6 6
-      V 40
-      a 6 6 0 0 1 -6 6
-      H 22
-      a 4 4 0 0 1 -4 -4
+      H 220.52
+      a 8 8 0 0 1 8 8
       V 36
-      a 3 4 0 0 0 0 -14
-      V 16
-      a 4 4 0 0 1 4 -4 Z" fill="#72574A" stroke="#4A382F" stroke-width="1.5"/>
-  <text x="30" y="34" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">Screen texture</text><text x="151.68" y="34" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">texture</text>
+      a 8 8 0 0 1 -8 8
+      H 22
+      a 8 8 0 0 1 -8 -8
+      V 36
+      c 0,-4 -6,-2 -6,-8 c 0,-5 6,-3 6,-8
+      V 20
+      a 8 8 0 0 1 8 -8 Z" fill="#72574A" stroke="#4A382F" stroke-width="1.5"/>
+  <text x="28" y="33" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">Screen texture</text><text x="149.68" y="33" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">texture</text>
 </svg>

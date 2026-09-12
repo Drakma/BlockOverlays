@@ -148,11 +148,27 @@ function buildRows(message0, args0, initMap) {
 }
 
 // ---- SVG rendering ---------------------------------------------------------
+// Shape constants approximate Blockly's real "Geras" renderer geometry
+// (see google/blockly core/renderers/common/constants.ts): CORNER_RADIUS 8,
+// NOTCH_WIDTH 15 (6 + 3 + 6) x NOTCH_HEIGHT 4, PUZZLE_TAB 8w x 15h as a
+// smooth double-bezier bump rather than straight/arc segments.
 const FONT = "font-family='Segoe UI, Verdana, Helvetica, sans-serif'";
-const ROW_H = 34;
+const ROW_H = 32;
 const PAD_X = 14;
-const NOTCH_W = 16;
-const NOTCH_H = 5;
+const CORNER_R = 8;
+const NOTCH_H = 4;
+
+// Chevron notch cut into a horizontal edge, travelling left-to-right (top) or
+// right-to-left (bottom) -- dips by NOTCH_H then returns to the edge level.
+function notchPath(sign) {
+  return `l ${6 * sign} ${NOTCH_H} l ${3 * sign} 0 l ${6 * sign} ${-NOTCH_H}`;
+}
+
+// Smooth puzzle-tab bump on a vertical edge (output/value connection),
+// travelling downward (sign=1) or upward (sign=-1); bulges outward by 6px.
+function tabPath(sign) {
+  return `c 0,${4 * sign} -6,${2 * sign} -6,${8 * sign} c 0,${5 * sign} 6,${3 * sign} 6,${8 * sign}`;
+}
 
 function rowWidth(row) {
   let w = PAD_X;
@@ -196,10 +212,18 @@ function renderRowContent(row, x0, cy, rightEdge) {
     const by = cy - 13;
     const bxRight = rightEdge;
     const bxLeft = bxRight - bw;
-    const nubX = bxLeft - 8;
-    out += `<rect x="${nubX}" y="${cy - 3}" width="8" height="6" fill="#1a1410"/>`;
-    // child value block: rounded rect with a small left-side puzzle notch
-    out += `<path d="M ${bxLeft + 6} ${by} h ${bw - 6} a 6 6 0 0 1 6 6 v 14 a 6 6 0 0 1 -6 6 h ${-(bw - 6)} a 4 4 0 0 1 -4 -4 v -3 a 3 4 0 0 0 0 -8 v -3 a 4 4 0 0 1 4 -4 z" fill="${st.fill}" stroke="${st.stroke}" stroke-width="1.5"/>`;
+    const r = 6; // corner radius for the small nested pill
+    const pillH = 28; // 2*r corners + 16px puzzle-tab bump, no extra margin
+    const by2 = cy - pillH / 2;
+    out += `<path d="M ${bxLeft + r} ${by2}
+      h ${bw - r}
+      a ${r} ${r} 0 0 1 ${r} ${r}
+      V ${by2 + pillH - r}
+      a ${r} ${r} 0 0 1 ${-r} ${r}
+      H ${bxLeft + r}
+      a ${r} ${r} 0 0 1 ${-r} ${-r}
+      ${tabPath(-1)}
+      a ${r} ${r} 0 0 1 ${r} ${-r} Z" fill="${st.fill}" stroke="${st.stroke}" stroke-width="1.5"/>`;
     out += `<text x="${bxLeft + bw / 2}" y="${cy + 5}" font-size="13" ${FONT} fill="${st.text}" text-anchor="middle">${esc(label)}</text>`;
   }
   return { svg: out };
@@ -208,45 +232,45 @@ function renderRowContent(row, x0, cy, rightEdge) {
 function buildBlockSvg(title, rows, shape) {
   let width = 0;
   for (const r of rows) width = Math.max(width, rowWidth(r));
-  const bodyHeight = rows.length * ROW_H;
+  const bodyHeight = Math.max(rows.length * ROW_H, shape === "value" ? 2 * CORNER_R + 16 : 0);
   const topPad = shape === "statement" ? NOTCH_H + 4 : 6;
   const botPad = shape === "statement" ? NOTCH_H + 4 : 6;
-  const leftPad = shape === "value" ? 10 : 0; // room for output plug
+  const leftPad = shape === "value" ? 8 : 0; // room for the output tab bump
   const totalW = width + leftPad + 12;
   const totalH = bodyHeight + topPad + botPad + 12;
 
   let path;
   const bx = leftPad + 6, by = topPad + 6, bw = width, bh = bodyHeight;
   if (shape === "statement") {
-    // rounded rect with a small top notch (indent) and bottom tab, both near the left
+    // rounded rect with a chevron notch cut into the top and a matching bump on the bottom
     const nx = bx + 18;
-    path = `M ${bx + 6} ${by}
+    path = `M ${bx + CORNER_R} ${by}
       H ${nx}
-      l 4 4 h 8 l 4 -4
-      H ${bx + bw - 6}
-      a 6 6 0 0 1 6 6
-      V ${by + bh - 6}
-      a 6 6 0 0 1 -6 6
-      H ${nx + 16}
-      l -4 4 h -8 l -4 -4
-      H ${bx + 6}
-      a 6 6 0 0 1 -6 -6
-      V ${by + 6}
-      a 6 6 0 0 1 6 -6 Z`;
+      ${notchPath(1)}
+      H ${bx + bw - CORNER_R}
+      a ${CORNER_R} ${CORNER_R} 0 0 1 ${CORNER_R} ${CORNER_R}
+      V ${by + bh - CORNER_R}
+      a ${CORNER_R} ${CORNER_R} 0 0 1 ${-CORNER_R} ${CORNER_R}
+      H ${nx + 15}
+      ${notchPath(-1)}
+      H ${bx + CORNER_R}
+      a ${CORNER_R} ${CORNER_R} 0 0 1 ${-CORNER_R} ${-CORNER_R}
+      V ${by + CORNER_R}
+      a ${CORNER_R} ${CORNER_R} 0 0 1 ${CORNER_R} ${-CORNER_R} Z`;
   } else {
-    // value/reporter block: rounded rect with a puzzle tab sticking out the left side
+    // value/reporter block: rounded rect with a smooth puzzle-tab bump on the left edge
     const midY = by + bh / 2;
-    path = `M ${bx + 6} ${by}
-      H ${bx + bw - 6}
-      a 6 6 0 0 1 6 6
-      V ${by + bh - 6}
-      a 6 6 0 0 1 -6 6
-      H ${bx + 6}
-      a 4 4 0 0 1 -4 -4
-      V ${midY + 7}
-      a 3 4 0 0 0 0 -14
-      V ${by + 4}
-      a 4 4 0 0 1 4 -4 Z`;
+    path = `M ${bx + CORNER_R} ${by}
+      H ${bx + bw - CORNER_R}
+      a ${CORNER_R} ${CORNER_R} 0 0 1 ${CORNER_R} ${CORNER_R}
+      V ${by + bh - CORNER_R}
+      a ${CORNER_R} ${CORNER_R} 0 0 1 ${-CORNER_R} ${CORNER_R}
+      H ${bx + CORNER_R}
+      a ${CORNER_R} ${CORNER_R} 0 0 1 ${-CORNER_R} ${-CORNER_R}
+      V ${midY + 8}
+      ${tabPath(-1)}
+      V ${by + CORNER_R}
+      a ${CORNER_R} ${CORNER_R} 0 0 1 ${CORNER_R} ${-CORNER_R} Z`;
   }
 
   let inner = "";

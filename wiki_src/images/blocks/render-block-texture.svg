@@ -1,16 +1,96 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="396.46" height="370" viewBox="0 0 396.46 370">
-  <path d="M 12 15
+<svg xmlns="http://www.w3.org/2000/svg" width="396.46" height="348" viewBox="0 0 396.46 348">
+  <path d="M 14 14
       H 24
-      l 4 4 h 8 l 4 -4
-      H 384.46
+      l 6 4 l 3 0 l 6 -4
+      H 382.46
+      a 8 8 0 0 1 8 8
+      V 326
+      a 8 8 0 0 1 -8 8
+      H 39
+      l -6 4 l -3 0 l -6 -4
+      H 14
+      a 8 8 0 0 1 -8 -8
+      V 22
+      a 8 8 0 0 1 8 -8 Z" fill="#72574A" stroke="#4A382F" stroke-width="1.5"/>
+  <text x="20" y="35" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">Render block texture</text><path d="M 283.06 16
+      h 93.39999999999999
       a 6 6 0 0 1 6 6
-      V 349
+      V 38
       a 6 6 0 0 1 -6 6
-      H 40
-      l -4 4 h -8 l -4 -4
-      H 12
+      H 283.06
       a 6 6 0 0 1 -6 -6
-      V 21
-      a 6 6 0 0 1 6 -6 Z" fill="#72574A" stroke="#4A382F" stroke-width="1.5"/>
-  <text x="20" y="37" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">Render block texture</text><rect x="269.06" y="29" width="8" height="6" fill="#1a1410"/><path d="M 283.06 19 h 93.39999999999999 a 6 6 0 0 1 6 6 v 14 a 6 6 0 0 1 -6 6 h -93.39999999999999 a 4 4 0 0 1 -4 -4 v -3 a 3 4 0 0 0 0 -8 v -3 a 4 4 0 0 1 4 -4 z" fill="#888888" stroke="#5c5c5c" stroke-width="1.5"/><text x="326.76" y="37" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">Blocks.AIR</text><text x="20" y="71" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">side</text><rect x="60.48" y="54" width="161.72" height="24" rx="4" fill="#3a2b1c" stroke="#20160c"/><text x="68.47999999999999" y="71" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">Particle / Default</text><text x="206.2" y="71" font-size="11" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#e5c9a3">▼</text><text x="230.2" y="71" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">at</text><rect x="246.44" y="63" width="8" height="6" fill="#1a1410"/><path d="M 260.44 53 h 116.02 a 6 6 0 0 1 6 6 v 14 a 6 6 0 0 1 -6 6 h -116.02 a 4 4 0 0 1 -4 -4 v -3 a 3 4 0 0 0 0 -8 v -3 a 4 4 0 0 1 4 -4 z" fill="#72574A" stroke="#4A382F" stroke-width="1.5"/><text x="315.45" y="71" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">MIDDLE_CENTER</text><text x="20" y="105" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">on</text><rect x="306.76" y="97" width="8" height="6" fill="#1a1410"/><path d="M 320.76 87 h 55.699999999999996 a 6 6 0 0 1 6 6 v 14 a 6 6 0 0 1 -6 6 h -55.699999999999996 a 4 4 0 0 1 -4 -4 v -3 a 3 4 0 0 0 0 -8 v -3 a 4 4 0 0 1 4 -4 z" fill="#72574A" stroke="#4A382F" stroke-width="1.5"/><text x="345.61" y="105" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">NORTH</text><text x="20" y="139" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">face scale</text><rect x="318.46" y="131" width="8" height="6" fill="#1a1410"/><path d="M 332.46 121 h 44 a 6 6 0 0 1 6 6 v 14 a 6 6 0 0 1 -6 6 h -44 a 4 4 0 0 1 -4 -4 v -3 a 3 4 0 0 0 0 -8 v -3 a 4 4 0 0 1 4 -4 z" fill="#4A5172" stroke="#2B3252" stroke-width="1.5"/><text x="351.46" y="139" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">0.5</text><text x="20" y="173" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">color</text><rect x="261.52" y="165" width="8" height="6" fill="#1a1410"/><path d="M 275.52 155 h 100.94 a 6 6 0 0 1 6 6 v 14 a 6 6 0 0 1 -6 6 h -100.94 a 4 4 0 0 1 -4 -4 v -3 a 3 4 0 0 0 0 -8 v -3 a 4 4 0 0 1 4 -4 z" fill="#4A5172" stroke="#2B3252" stroke-width="1.5"/><text x="322.99" y="173" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">&quot;#ffffffff&quot;</text><text x="20" y="207" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">use color</text><rect x="314.29999999999995" y="199" width="8" height="6" fill="#1a1410"/><path d="M 328.29999999999995 189 h 48.16 a 6 6 0 0 1 6 6 v 14 a 6 6 0 0 1 -6 6 h -48.16 a 4 4 0 0 1 -4 -4 v -3 a 3 4 0 0 0 0 -8 v -3 a 4 4 0 0 1 4 -4 z" fill="#4A5172" stroke="#2B3252" stroke-width="1.5"/><text x="349.37999999999994" y="207" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">TRUE</text><text x="20" y="241" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">transparency</text><rect x="318.46" y="233" width="8" height="6" fill="#1a1410"/><path d="M 332.46 223 h 44 a 6 6 0 0 1 6 6 v 14 a 6 6 0 0 1 -6 6 h -44 a 4 4 0 0 1 -4 -4 v -3 a 3 4 0 0 0 0 -8 v -3 a 4 4 0 0 1 4 -4 z" fill="#4A5172" stroke="#2B3252" stroke-width="1.5"/><text x="351.46" y="241" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">1</text><text x="20" y="275" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">padding</text><rect x="318.46" y="267" width="8" height="6" fill="#1a1410"/><path d="M 332.46 257 h 44 a 6 6 0 0 1 6 6 v 14 a 6 6 0 0 1 -6 6 h -44 a 4 4 0 0 1 -4 -4 v -3 a 3 4 0 0 0 0 -8 v -3 a 4 4 0 0 1 4 -4 z" fill="#4A5172" stroke="#2B3252" stroke-width="1.5"/><text x="351.46" y="275" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">0</text><text x="20" y="309" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">y-offset</text><rect x="318.46" y="301" width="8" height="6" fill="#1a1410"/><path d="M 332.46 291 h 44 a 6 6 0 0 1 6 6 v 14 a 6 6 0 0 1 -6 6 h -44 a 4 4 0 0 1 -4 -4 v -3 a 3 4 0 0 0 0 -8 v -3 a 4 4 0 0 1 4 -4 z" fill="#4A5172" stroke="#2B3252" stroke-width="1.5"/><text x="351.46" y="309" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">0</text><text x="20" y="343" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">on shape bounds</text><rect x="306.76" y="335" width="8" height="6" fill="#1a1410"/><path d="M 320.76 325 h 55.699999999999996 a 6 6 0 0 1 6 6 v 14 a 6 6 0 0 1 -6 6 h -55.699999999999996 a 4 4 0 0 1 -4 -4 v -3 a 3 4 0 0 0 0 -8 v -3 a 4 4 0 0 1 4 -4 z" fill="#4A5172" stroke="#2B3252" stroke-width="1.5"/><text x="345.61" y="343" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">FALSE</text>
+      c 0,-4 -6,-2 -6,-8 c 0,-5 6,-3 6,-8
+      a 6 6 0 0 1 6 -6 Z" fill="#888888" stroke="#5c5c5c" stroke-width="1.5"/><text x="326.76" y="35" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">Blocks.AIR</text><text x="20" y="67" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">side</text><rect x="60.48" y="50" width="161.72" height="24" rx="4" fill="#3a2b1c" stroke="#20160c"/><text x="68.47999999999999" y="67" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">Particle / Default</text><text x="206.2" y="67" font-size="11" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#e5c9a3">▼</text><text x="230.2" y="67" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">at</text><path d="M 260.44 48
+      h 116.02
+      a 6 6 0 0 1 6 6
+      V 70
+      a 6 6 0 0 1 -6 6
+      H 260.44
+      a 6 6 0 0 1 -6 -6
+      c 0,-4 -6,-2 -6,-8 c 0,-5 6,-3 6,-8
+      a 6 6 0 0 1 6 -6 Z" fill="#72574A" stroke="#4A382F" stroke-width="1.5"/><text x="315.45" y="67" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">MIDDLE_CENTER</text><text x="20" y="99" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">on</text><path d="M 320.76 80
+      h 55.699999999999996
+      a 6 6 0 0 1 6 6
+      V 102
+      a 6 6 0 0 1 -6 6
+      H 320.76
+      a 6 6 0 0 1 -6 -6
+      c 0,-4 -6,-2 -6,-8 c 0,-5 6,-3 6,-8
+      a 6 6 0 0 1 6 -6 Z" fill="#72574A" stroke="#4A382F" stroke-width="1.5"/><text x="345.61" y="99" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">NORTH</text><text x="20" y="131" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">face scale</text><path d="M 332.46 112
+      h 44
+      a 6 6 0 0 1 6 6
+      V 134
+      a 6 6 0 0 1 -6 6
+      H 332.46
+      a 6 6 0 0 1 -6 -6
+      c 0,-4 -6,-2 -6,-8 c 0,-5 6,-3 6,-8
+      a 6 6 0 0 1 6 -6 Z" fill="#4A5172" stroke="#2B3252" stroke-width="1.5"/><text x="351.46" y="131" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">0.5</text><text x="20" y="163" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">color</text><path d="M 275.52 144
+      h 100.94
+      a 6 6 0 0 1 6 6
+      V 166
+      a 6 6 0 0 1 -6 6
+      H 275.52
+      a 6 6 0 0 1 -6 -6
+      c 0,-4 -6,-2 -6,-8 c 0,-5 6,-3 6,-8
+      a 6 6 0 0 1 6 -6 Z" fill="#4A5172" stroke="#2B3252" stroke-width="1.5"/><text x="322.99" y="163" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">&quot;#ffffffff&quot;</text><text x="20" y="195" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">use color</text><path d="M 328.29999999999995 176
+      h 48.16
+      a 6 6 0 0 1 6 6
+      V 198
+      a 6 6 0 0 1 -6 6
+      H 328.29999999999995
+      a 6 6 0 0 1 -6 -6
+      c 0,-4 -6,-2 -6,-8 c 0,-5 6,-3 6,-8
+      a 6 6 0 0 1 6 -6 Z" fill="#4A5172" stroke="#2B3252" stroke-width="1.5"/><text x="349.37999999999994" y="195" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">TRUE</text><text x="20" y="227" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">transparency</text><path d="M 332.46 208
+      h 44
+      a 6 6 0 0 1 6 6
+      V 230
+      a 6 6 0 0 1 -6 6
+      H 332.46
+      a 6 6 0 0 1 -6 -6
+      c 0,-4 -6,-2 -6,-8 c 0,-5 6,-3 6,-8
+      a 6 6 0 0 1 6 -6 Z" fill="#4A5172" stroke="#2B3252" stroke-width="1.5"/><text x="351.46" y="227" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">1</text><text x="20" y="259" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">padding</text><path d="M 332.46 240
+      h 44
+      a 6 6 0 0 1 6 6
+      V 262
+      a 6 6 0 0 1 -6 6
+      H 332.46
+      a 6 6 0 0 1 -6 -6
+      c 0,-4 -6,-2 -6,-8 c 0,-5 6,-3 6,-8
+      a 6 6 0 0 1 6 -6 Z" fill="#4A5172" stroke="#2B3252" stroke-width="1.5"/><text x="351.46" y="259" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">0</text><text x="20" y="291" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">y-offset</text><path d="M 332.46 272
+      h 44
+      a 6 6 0 0 1 6 6
+      V 294
+      a 6 6 0 0 1 -6 6
+      H 332.46
+      a 6 6 0 0 1 -6 -6
+      c 0,-4 -6,-2 -6,-8 c 0,-5 6,-3 6,-8
+      a 6 6 0 0 1 6 -6 Z" fill="#4A5172" stroke="#2B3252" stroke-width="1.5"/><text x="351.46" y="291" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">0</text><text x="20" y="323" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">on shape bounds</text><path d="M 320.76 304
+      h 55.699999999999996
+      a 6 6 0 0 1 6 6
+      V 326
+      a 6 6 0 0 1 -6 6
+      H 320.76
+      a 6 6 0 0 1 -6 -6
+      c 0,-4 -6,-2 -6,-8 c 0,-5 6,-3 6,-8
+      a 6 6 0 0 1 6 -6 Z" fill="#4A5172" stroke="#2B3252" stroke-width="1.5"/><text x="345.61" y="323" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">FALSE</text>
 </svg>

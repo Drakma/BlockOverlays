@@ -1,14 +1,62 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="335.24" height="228" viewBox="0 0 335.24 228">
+<svg xmlns="http://www.w3.org/2000/svg" width="333.24" height="216" viewBox="0 0 333.24 216">
   <path d="M 22 12
-      H 323.24
-      a 6 6 0 0 1 6 6
-      V 210
-      a 6 6 0 0 1 -6 6
+      H 319.24
+      a 8 8 0 0 1 8 8
+      V 196
+      a 8 8 0 0 1 -8 8
       H 22
-      a 4 4 0 0 1 -4 -4
-      V 121
-      a 3 4 0 0 0 0 -14
-      V 16
-      a 4 4 0 0 1 4 -4 Z" fill="#72574A" stroke="#4A382F" stroke-width="1.5"/>
-  <text x="30" y="34" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">Capture tree structure at x</text><rect x="257.24" y="26" width="8" height="6" fill="#1a1410"/><path d="M 271.24 16 h 44 a 6 6 0 0 1 6 6 v 14 a 6 6 0 0 1 -6 6 h -44 a 4 4 0 0 1 -4 -4 v -3 a 3 4 0 0 0 0 -8 v -3 a 4 4 0 0 1 4 -4 z" fill="#4A5172" stroke="#2B3252" stroke-width="1.5"/><text x="290.24" y="34" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">0</text><text x="30" y="68" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">y</text><rect x="257.24" y="60" width="8" height="6" fill="#1a1410"/><path d="M 271.24 50 h 44 a 6 6 0 0 1 6 6 v 14 a 6 6 0 0 1 -6 6 h -44 a 4 4 0 0 1 -4 -4 v -3 a 3 4 0 0 0 0 -8 v -3 a 4 4 0 0 1 4 -4 z" fill="#4A5172" stroke="#2B3252" stroke-width="1.5"/><text x="290.24" y="68" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">0</text><text x="30" y="102" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">z</text><rect x="257.24" y="94" width="8" height="6" fill="#1a1410"/><path d="M 271.24 84 h 44 a 6 6 0 0 1 6 6 v 14 a 6 6 0 0 1 -6 6 h -44 a 4 4 0 0 1 -4 -4 v -3 a 3 4 0 0 0 0 -8 v -3 a 4 4 0 0 1 4 -4 z" fill="#4A5172" stroke="#2B3252" stroke-width="1.5"/><text x="290.24" y="102" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">0</text><text x="30" y="136" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">radius</text><rect x="257.24" y="128" width="8" height="6" fill="#1a1410"/><path d="M 271.24 118 h 44 a 6 6 0 0 1 6 6 v 14 a 6 6 0 0 1 -6 6 h -44 a 4 4 0 0 1 -4 -4 v -3 a 3 4 0 0 0 0 -8 v -3 a 4 4 0 0 1 4 -4 z" fill="#4A5172" stroke="#2B3252" stroke-width="1.5"/><text x="290.24" y="136" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">4</text><text x="30" y="170" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">height</text><rect x="257.24" y="162" width="8" height="6" fill="#1a1410"/><path d="M 271.24 152 h 44 a 6 6 0 0 1 6 6 v 14 a 6 6 0 0 1 -6 6 h -44 a 4 4 0 0 1 -4 -4 v -3 a 3 4 0 0 0 0 -8 v -3 a 4 4 0 0 1 4 -4 z" fill="#4A5172" stroke="#2B3252" stroke-width="1.5"/><text x="290.24" y="170" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">10</text><text x="30" y="204" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">save as</text><rect x="170.14000000000001" y="196" width="8" height="6" fill="#1a1410"/><path d="M 184.14000000000001 186 h 131.1 a 6 6 0 0 1 6 6 v 14 a 6 6 0 0 1 -6 6 h -131.1 a 4 4 0 0 1 -4 -4 v -3 a 3 4 0 0 0 0 -8 v -3 a 4 4 0 0 1 4 -4 z" fill="#4A5172" stroke="#2B3252" stroke-width="1.5"/><text x="246.69" y="204" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">&quot;oak_tree_full&quot;</text>
+      a 8 8 0 0 1 -8 -8
+      V 116
+      c 0,-4 -6,-2 -6,-8 c 0,-5 6,-3 6,-8
+      V 20
+      a 8 8 0 0 1 8 -8 Z" fill="#72574A" stroke="#4A382F" stroke-width="1.5"/>
+  <text x="28" y="33" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">Capture tree structure at x</text><path d="M 269.24 14
+      h 44
+      a 6 6 0 0 1 6 6
+      V 36
+      a 6 6 0 0 1 -6 6
+      H 269.24
+      a 6 6 0 0 1 -6 -6
+      c 0,-4 -6,-2 -6,-8 c 0,-5 6,-3 6,-8
+      a 6 6 0 0 1 6 -6 Z" fill="#4A5172" stroke="#2B3252" stroke-width="1.5"/><text x="288.24" y="33" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">0</text><text x="28" y="65" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">y</text><path d="M 269.24 46
+      h 44
+      a 6 6 0 0 1 6 6
+      V 68
+      a 6 6 0 0 1 -6 6
+      H 269.24
+      a 6 6 0 0 1 -6 -6
+      c 0,-4 -6,-2 -6,-8 c 0,-5 6,-3 6,-8
+      a 6 6 0 0 1 6 -6 Z" fill="#4A5172" stroke="#2B3252" stroke-width="1.5"/><text x="288.24" y="65" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">0</text><text x="28" y="97" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">z</text><path d="M 269.24 78
+      h 44
+      a 6 6 0 0 1 6 6
+      V 100
+      a 6 6 0 0 1 -6 6
+      H 269.24
+      a 6 6 0 0 1 -6 -6
+      c 0,-4 -6,-2 -6,-8 c 0,-5 6,-3 6,-8
+      a 6 6 0 0 1 6 -6 Z" fill="#4A5172" stroke="#2B3252" stroke-width="1.5"/><text x="288.24" y="97" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">0</text><text x="28" y="129" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">radius</text><path d="M 269.24 110
+      h 44
+      a 6 6 0 0 1 6 6
+      V 132
+      a 6 6 0 0 1 -6 6
+      H 269.24
+      a 6 6 0 0 1 -6 -6
+      c 0,-4 -6,-2 -6,-8 c 0,-5 6,-3 6,-8
+      a 6 6 0 0 1 6 -6 Z" fill="#4A5172" stroke="#2B3252" stroke-width="1.5"/><text x="288.24" y="129" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">4</text><text x="28" y="161" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">height</text><path d="M 269.24 142
+      h 44
+      a 6 6 0 0 1 6 6
+      V 164
+      a 6 6 0 0 1 -6 6
+      H 269.24
+      a 6 6 0 0 1 -6 -6
+      c 0,-4 -6,-2 -6,-8 c 0,-5 6,-3 6,-8
+      a 6 6 0 0 1 6 -6 Z" fill="#4A5172" stroke="#2B3252" stroke-width="1.5"/><text x="288.24" y="161" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">10</text><text x="28" y="193" font-size="14" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff">save as</text><path d="M 182.14000000000001 174
+      h 131.1
+      a 6 6 0 0 1 6 6
+      V 196
+      a 6 6 0 0 1 -6 6
+      H 182.14000000000001
+      a 6 6 0 0 1 -6 -6
+      c 0,-4 -6,-2 -6,-8 c 0,-5 6,-3 6,-8
+      a 6 6 0 0 1 6 -6 Z" fill="#4A5172" stroke="#2B3252" stroke-width="1.5"/><text x="244.69" y="193" font-size="13" font-family='Segoe UI, Verdana, Helvetica, sans-serif' fill="#ffffff" text-anchor="middle">&quot;oak_tree_full&quot;</text>
 </svg>
