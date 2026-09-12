@@ -1,6 +1,6 @@
 {
 	"name": "Utils",
-	"description": "Dev-time tree structure capture and automation procedures (not for use in shipped gameplay logic).",
+	"description": "Helper blocks for selecting textures/structures, computing directions and placement, and other shared utilities.",
 	"color": 20,
 	"parent_category": "blockoverlays"
 }

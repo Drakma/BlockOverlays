@@ -1,5 +1,5 @@
 {
-	"message0": "render precise text %1 on %2 face at x %3 y %4 alignment %5 color %6 scale %7 transparency %8 padding %9 on shape bounds %10",
+	"message0": "Render precise text %1 on %2 face at x %3 y %4 alignment %5 color %6 scale %7 transparency %8 padding %9 on shape bounds %10",
 	"args0": [
 		{
 			"type": "input_value",
@@ -62,7 +62,7 @@
 	"colour": 20,
 	"tooltip": "Renders text on a block face at precise coordinates with transparency (0 to 1). Padding (pixels) shifts the text inward from the nearest block edge.",
 	"mcreator": {
-		"toolbox_id": "blockoverlays",
+		"toolbox_id": "blockoverlays_renderers",
 		"toolbox_init": [
 			"\u003cvalue name=\"text\"\u003e\u003cblock type=\"text\"\u003e\u003cfield name=\"TEXT\"\u003eText\u003c/field\u003e\u003c/block\u003e\u003c/value\u003e",
 			"\u003cvalue name=\"side\"\u003e\u003cblock type=\"direction_constant\"\u003e\u003c/block\u003e\u003c/value\u003e",

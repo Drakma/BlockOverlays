@@ -1,5 +1,5 @@
 {
-	"message0": "render block texture %1 side %2 at %3 on %4 face scale %5 color %6 use color %7 transparency %8 padding %9 y-offset %10 on shape bounds %11",
+	"message0": "Render block texture %1 side %2 at %3 on %4 face scale %5 color %6 use color %7 transparency %8 padding %9 y-offset %10 on shape bounds %11",
 	"args0": [
 		{
 			"type": "input_value",
@@ -71,7 +71,7 @@
 	"colour": 20,
 	"tooltip": "Renders the selected block's texture on this Block Overlay element's target block with transparency (0 to 1). You can choose which side of the block to sample the texture from (or Particle / Default). Color accepts hex (e.g. #ffffffff or #80ffffff with alpha). Padding (pixels) shifts the texture inward from the anchored edges. Y-offset (pixels) allows moving the texture up or down.",
 	"mcreator": {
-		"toolbox_id": "blockoverlays",
+		"toolbox_id": "blockoverlays_renderers",
 		"toolbox_init": [
 			"\u003cvalue name=\"block\"\u003e\u003cblock type=\"mcitem_allblocks\"\u003e\u003cfield name=\"value\"\u003eBlocks.AIR\u003c/field\u003e\u003c/block\u003e\u003c/value\u003e",
 			"\u003cvalue name=\"placement\"\u003e\u003cblock type=\"overlay_placement\"\u003e\u003cfield name=\"placement\"\u003eMIDDLE_CENTER\u003c/field\u003e\u003c/block\u003e\u003c/value\u003e",

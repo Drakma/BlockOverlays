@@ -45,7 +45,6 @@ if (event instanceof RenderLevelStageEvent) {
 	_poseStack.mulPose(faceRotation(_side));
 	_poseStack.translate(_position.x, _position.y, _position.z);
 	_poseStack.scale((float) _scale, (float) _scale, 1.0f);
-	blockOverlayCountTextureSubmit();
 	var _bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
 	var _consumer = _bufferSource.getBuffer(RenderType.entityTranslucent(TextureAtlas.LOCATION_BLOCKS));
 	var _pose = _poseStack.last().pose();
@@ -83,7 +82,7 @@ if (event instanceof RenderLevelStageEvent) {
 		_consumer.vertex(_pose, -0.5f, -0.5f, 0).color(_r, _g, _b, _a).uv(_sprite.getU1(), _sprite.getV1()).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(_light).normal(_normal, 0, 0, -1).endVertex();
 		_bufferSource.endBatch(RenderType.entityTranslucent(TextureAtlas.LOCATION_BLOCKS));
 	} catch (Exception _renderException) {
-		BLOCK_OVERLAY_TEXTURE_CACHE_LOG.error("BlockOverlays: exception submitting texture overlay geometry", _renderException);
+		// Ignore - a single bad render shouldn't take down the rest of the frame.
 	}
 	_poseStack.popPose();
 }

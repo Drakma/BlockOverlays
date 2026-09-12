@@ -1,5 +1,5 @@
 {
-	"message0": "biome %1 tint",
+	"message0": "Biome %1 tint",
 	"args0": [
 		{
 			"type": "field_dropdown",
@@ -15,7 +15,7 @@
 	"colour": 20,
 	"tooltip": "Returns the current biome's water, grass, or foliage tint at this Block Overlay element's target block (using its x/y/z automatically) as a hex color string (e.g. #5f9c46), smoothed the same way vanilla blends biome colors across nearby chunks. Plug this straight into a Block Overlay's color input. Only usable inside a Block Overlay element, where x/y/z are defined.",
 	"mcreator": {
-		"toolbox_id": "blockoverlays",
+		"toolbox_id": "blockoverlays_utils",
 		"fields": ["tint_type"]
 	}
 }

@@ -1,11 +1,11 @@
 {
-	"message0": "list all tree sapling items",
+	"message0": "List all tree sapling items",
 	"args0": [],
 	"output": "List",
 	"colour": 20,
 	"tooltip": "Scans the item registry for every sapling/fungus/propagule/azalea item that grows into a tree (any block extending SaplingBlock, which covers vanilla saplings and most modded tree saplings too, plus the handful of vanilla growers that don't: mangrove propagule, azalea, flowering azalea, crimson/warped fungus). Returns a list of one-count item stacks you can loop over to batch-run grow/capture. Not included: bamboo and other continuously-growing (non discrete-tree) blocks, and any modded sapling that doesn't extend SaplingBlock.",
 	"mcreator": {
-		"toolbox_id": "blockoverlays_utils",
+		"toolbox_id": "blockoverlays_generation",
 		"inputs": [],
 		"dependencies": []
 	}

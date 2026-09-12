@@ -1,9 +1,9 @@
 {
-	"message0": "position vector of block player is looking at",
+	"message0": "Position vector of block player is looking at",
 	"output": "Vector",
 	"colour": 20,
 	"tooltip": "Returns the integer block position as a Vector, or zero when the client is not targeting a block.",
 	"mcreator": {
-		"toolbox_id": "blockoverlays"
+		"toolbox_id": "blockoverlays_utils"
 	}
 }

@@ -1,5 +1,5 @@
 {
-	"message0": "render text %1 at %2 on %3 face color %4 scale %5 transparency %6 padding %7 on shape bounds %8",
+	"message0": "Render text %1 at %2 on %3 face color %4 scale %5 transparency %6 padding %7 on shape bounds %8",
 	"args0": [
 		{
 			"type": "input_value",
@@ -48,7 +48,7 @@
 	"colour": 20,
 	"tooltip": "Renders text on this Block Overlay element\u0027s target block with transparency (0 to 1). Padding (pixels) shifts the text inward from the anchored edges.",
 	"mcreator": {
-		"toolbox_id": "blockoverlays",
+		"toolbox_id": "blockoverlays_renderers",
 		"toolbox_init": [
 			"\u003cvalue name=\"text\"\u003e\u003cblock type=\"text\"\u003e\u003cfield name=\"TEXT\"\u003eLabel\u003c/field\u003e\u003c/block\u003e\u003c/value\u003e",
 			"\u003cvalue name=\"placement\"\u003e\u003cblock type=\"overlay_placement\"\u003e\u003cfield name=\"placement\"\u003eMIDDLE_CENTER\u003c/field\u003e\u003c/block\u003e\u003c/value\u003e",

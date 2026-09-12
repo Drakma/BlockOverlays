@@ -10,7 +10,7 @@
 [![HOW_TO](https://img.shields.io/badge/HOW_TO-View-blue?style=flat-square)](HOW_TO.md)
 [![Changelog](https://img.shields.io/badge/Changelog-View-blue?style=flat-square)](CHANGE_LOG.md)
 
-MCreator procedure blocks for world-space overlays on NeoForge 26.1.2 and 26.2. Includes a native `Texture` Blockly datatype and workspace image selector.
+MCreator procedure blocks for world-space overlays on Forge 1.20.1, NeoForge 1.21.1, 26.1.2, and 26.2. Includes a native `Texture` Blockly datatype and workspace image selector.
 
 ## Blocks
 
@@ -25,15 +25,16 @@ MCreator procedure blocks for world-space overlays on NeoForge 26.1.2 and 26.2. 
 - Render an item, text, or number fixed to a selected block face with face lighting
 - Render a colored outline around a block, with optional pulse, rainbow, glow, wave, and marquee animated effects and a choice of pixel or 1/16-block line width units
 - Render crop growth and tree growth overlays for farmland/sapling-style blocks
-- Render a captured multi-block tree structure as a scaled, biome-tinted, growth-animated hologram
+- Render a captured multi-block tree structure as a scaled, biome-tinted, growth-animated hologram, with optional spin
+- Render a live preview of the entity a spawn egg would spawn, with optional spin and a look-around or walk animation
 - Read the current biome's smoothed water, grass, or foliage tint as a color input
 - Hide or restore every overlay on a block
 - Place item, text, number, and texture overlays on a reusable 3x3 anchor grid
-- **Utils**: dev-time tools to grow a sapling via real bonemeal logic, capture the result as a `.nbt` structure, clear the capture area, list every tree sapling item in the game, and batch-capture every tree species in one call
+- **Generation**: dev-time tools to grow a sapling via real bonemeal logic, capture the result as a `.nbt` structure, clear the capture area, list every tree sapling item in the game, and batch-capture every tree species in one call
 
 ## Usage
 
-Create a **Block Overlay** workspace element and use its **Overlay logic** Blockly editor. The **Overlay Builder** category contains text, number, item, texture, and outline blocks that automatically render on that element's associated target block; they do not need coordinate inputs. Use normal Blockly logic to control when any number of render blocks run.
+Create a **Block Overlay** workspace element and use its **Overlay logic** Blockly editor. The **Renderers** category contains text, number, item, texture, entity, and outline blocks that automatically render on that element's associated target block; they do not need coordinate inputs. Use normal Blockly logic to control when any number of render blocks run. The **Utils** category holds direction/placement helpers and texture/structure selectors, and **Generation** holds the dev-time tree capture tools described above.
 
 Text, number, texture, and outline blocks use MCreator's visual color picker. Selected RGB colors render fully opaque. The **biome tint** block returns a hex color string for the current biome's smoothed water, grass, or foliage tint and can be plugged directly into any color input in place of a fixed color; it reads its target block's position automatically, so it only works inside a Block Overlay element's Overlay logic procedure.
 

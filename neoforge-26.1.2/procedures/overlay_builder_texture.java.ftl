@@ -80,7 +80,6 @@ if (event instanceof SubmitCustomGeometryEvent _overlayEvent) {
 	var _renderType = _a >= 255
 		? blockOverlayTextureRenderTypeOpaque(net.minecraft.client.renderer.texture.TextureAtlas.LOCATION_BLOCKS)
 		: blockOverlayTextureRenderType(net.minecraft.client.renderer.texture.TextureAtlas.LOCATION_BLOCKS);
-	blockOverlayCountTextureSubmit();
 	try {
 		_overlayEvent.getSubmitNodeCollector().submitCustomGeometry(_poseStack, _renderType, (_pose, _consumer) -> {
 			if (_flipWinding) {
@@ -96,7 +95,7 @@ if (event instanceof SubmitCustomGeometryEvent _overlayEvent) {
 			}
 		});
 	} catch (Exception _renderException) {
-		BLOCK_OVERLAY_TEXTURE_CACHE_LOG.error("BlockOverlays: exception submitting texture overlay geometry", _renderException);
+		// Ignore - a single bad render shouldn't take down the rest of the frame.
 	}
 	_poseStack.popPose();
 }

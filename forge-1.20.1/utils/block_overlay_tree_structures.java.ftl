@@ -4,9 +4,31 @@ private record BlockOverlayTreeStructureBlock(net.minecraft.core.BlockPos pos, n
 private record BlockOverlayTreeStructureData(java.util.List<BlockOverlayTreeStructureBlock> blocks, double centerX, double centerZ, int minY, int maxY, int maxDimension) {
 }
 
-private static final org.slf4j.Logger BLOCK_OVERLAY_TREE_LOG = com.mojang.logging.LogUtils.getLogger();
 private static final BlockOverlayTreeStructureData BLOCK_OVERLAY_EMPTY_TREE_STRUCTURE = new BlockOverlayTreeStructureData(java.util.List.of(), 0.0, 0.0, 0, 0, 1);
 private static final java.util.Map<String, BlockOverlayTreeStructureData> BLOCK_OVERLAY_TREE_STRUCTURE_CACHE = new java.util.HashMap<>();
+
+// Biome tint (color) was being recomputed for every block in the structure, every frame - keyed
+// by (target position, block state) since the same state can legitimately tint differently at
+// different world positions (different biome), but never changes moment to moment.
+private record BlockOverlayTreeTintKey(long pos, net.minecraft.world.level.block.state.BlockState state) {
+}
+
+private record BlockOverlayTreeTintEntry(long timestampMs, int tint) {
+}
+
+private static final long BLOCK_OVERLAY_TREE_TINT_CACHE_INTERVAL_MS = 15_000L;
+private static final java.util.Map<BlockOverlayTreeTintKey, BlockOverlayTreeTintEntry> BLOCK_OVERLAY_TREE_TINT_CACHE = new java.util.HashMap<>();
+
+private static int blockOverlayGetCachedTreeTint(long posKey, net.minecraft.world.level.block.state.BlockState state, java.util.function.IntSupplier compute) {
+	var key = new BlockOverlayTreeTintKey(posKey, state);
+	long now = System.currentTimeMillis();
+	var cached = BLOCK_OVERLAY_TREE_TINT_CACHE.get(key);
+	if (cached != null && now - cached.timestampMs() < BLOCK_OVERLAY_TREE_TINT_CACHE_INTERVAL_MS)
+		return cached.tint();
+	int fresh = compute.getAsInt();
+	BLOCK_OVERLAY_TREE_TINT_CACHE.put(key, new BlockOverlayTreeTintEntry(now, fresh));
+	return fresh;
+}
 
 private static BlockOverlayTreeStructureData blockOverlayGetTreeStructure(String name) {
 	if (name == null || name.isBlank())
@@ -18,16 +40,13 @@ private static BlockOverlayTreeStructureData blockOverlayGetTreeStructure(String
 				"assets/${modid}/structures/" + structureName + ".nbt"
 			};
 			java.io.InputStream foundStream = null;
-			String foundPath = null;
 			for (String path : candidatePaths) {
 				foundStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(path);
 				if (foundStream != null) {
-					foundPath = path;
 					break;
 				}
 			}
 			if (foundStream == null) {
-				BLOCK_OVERLAY_TREE_LOG.warn("BlockOverlays: tree structure '{}' not found on classpath, tried: {}", structureName, String.join(", ", candidatePaths));
 				return BLOCK_OVERLAY_EMPTY_TREE_STRUCTURE;
 			}
 
@@ -76,7 +95,6 @@ private static BlockOverlayTreeStructureData blockOverlayGetTreeStructure(String
 				maxZ = Math.max(maxZ, info.pos().getZ());
 			}
 			if (blocks.isEmpty()) {
-				BLOCK_OVERLAY_TREE_LOG.warn("BlockOverlays: tree structure '{}' loaded from {} but contained zero non-air blocks (raw block infos: {})", structureName, foundPath, infos.size());
 				return BLOCK_OVERLAY_EMPTY_TREE_STRUCTURE;
 			}
 			// Center on the structure's own declared size (the capture region, always a symmetric
@@ -88,7 +106,6 @@ private static BlockOverlayTreeStructureData blockOverlayGetTreeStructure(String
 			int maxDimension = Math.max(maxX - minX + 1, Math.max(maxY - minY + 1, maxZ - minZ + 1));
 			return new BlockOverlayTreeStructureData(java.util.List.copyOf(blocks), centerX, centerZ, minY, maxY, maxDimension);
 		} catch (Exception exception) {
-			BLOCK_OVERLAY_TREE_LOG.error("BlockOverlays: failed to load tree structure '{}'", structureName, exception);
 			return BLOCK_OVERLAY_EMPTY_TREE_STRUCTURE;
 		}
 	});

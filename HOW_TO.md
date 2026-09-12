@@ -1,6 +1,6 @@
 # BlockOverlays Plugin — How-To Guide
 
-A guide on how to render world-space overlays (text, numbers, items, textures, and outlines) in Minecraft using the **BlockOverlays** plugin in MCreator for NeoForge 26.1.2 and 26.2.
+A guide on how to render world-space overlays (text, numbers, items, textures, entities, and outlines) in Minecraft using the **BlockOverlays** plugin in MCreator for Forge 1.20.1, NeoForge 1.21.1, 26.1.2, and 26.2.
 
 ---
 
@@ -20,7 +20,8 @@ A guide on how to render world-space overlays (text, numbers, items, textures, a
 12. [Setting Up a Block Overlay Workspace](#12-setting-up-a-block-overlay-workspace)
 13. [Biome Tint Colors](#13-biome-tint-colors)
 14. [Tree Structure Overlay](#14-tree-structure-overlay)
-15. [Utils: Capturing Tree Structures](#15-utils-capturing-tree-structures)
+15. [Generation: Capturing Tree Structures](#15-generation-capturing-tree-structures)
+16. [Render Entity Overlay](#16-render-entity-overlay)
 
 ---
 
@@ -122,7 +123,7 @@ Returns a `Vector3d` (BlockPos as a vector) of the block the player is currently
 
 ## 8. Overlay Builder Blocks
 
-All builder blocks live in the **Overlay Builder** category and read from a shared `OverlayPlacement`. They do not need coordinate inputs — the Block Overlay element supplies the target block automatically.
+All builder blocks live in the **Renderers** category and read from a shared `OverlayPlacement`. They do not need coordinate inputs — the Block Overlay element supplies the target block automatically.
 
 ### Render Text
 
@@ -180,7 +181,6 @@ Purpose-built overlay builders for showing a growth-stage indicator (e.g. a perc
 
 - **Center spinning item** — an item graphic rendered at the block center, rotating each tick.
 - **Spinning item** — same as the center spinner but anchored to a `placement`.
-- **Spinning tree** — renders a 3D tree model at the placement, rotating each tick. Use the **tree species** block to choose oak / spruce / birch / jungle / acacia / dark oak / mangrove / cherry / azalea / flowering.
 
 ### Variable Item
 
@@ -257,7 +257,7 @@ Typical uses:
 1. In MCreator, create a new workspace element of type **Block Overlay**.
 2. Associate it with a block in your mod (the "target block"). The overlay's render procedure will be invoked for every instance of this block.
 3. Open the **Overlay logic** procedure editor. This is the Blockly canvas that fires every render tick on the client.
-4. Drag **Overlay Builder** blocks from the toolbox into the procedure:
+4. Drag **Renderers** blocks from the toolbox into the procedure:
    - Pick a placement (§5).
    - Pick a side (§6) — use `{front}` for player-facing overlays, or a fixed `Direction` for orientation-stable UI.
    - Wire in the text / number / item / texture / outline you want to render.
@@ -289,7 +289,7 @@ Typical uses:
 ## 14. Tree Structure Overlay
 
 ```
-render tree structure overlay %structure percentage %percentage (0 to 1) growth mode %growth_mode y-offset %offset_y scale %scale on shape bounds %bounds
+render tree structure overlay %structure percentage %percentage (0 to 1) growth mode %growth_mode y-offset %offset_y scale %scale spin speed %spin_speed (degrees/sec, 0 = no spin) on shape bounds %bounds
 ```
 
 Renders a captured multi-block tree — trunk, branches, and canopy, not just a single scaled block — as an in-world hologram on the Block Overlay element's target block.
@@ -301,6 +301,7 @@ Renders a captured multi-block tree — trunk, branches, and canopy, not just a 
   - `bottom-up reveal` — the structure stays at full size, and more of it becomes visible from the ground up as percentage increases (a literal "growing out of the ground" look).
 - `scale` — the size of the structure's **longest axis**, in blocks. `scale 1` means the entire structure (all three dimensions) fits inside a single block's bounding cube; `scale 2` fits in two blocks, `scale 0.5` in half a block, and so on. This matches how `scale` already works on the single-block sapling tree overlay.
 - `offset_y` — vertical offset in pixels, same convention as the other overlay builders.
+- `spin_speed` — rotation around the structure's own vertical axis, in degrees/sec (`0` disables spinning).
 - `bounds` — anchor to the target block's actual shape bounds instead of a full cube (useful for slabs/partial blocks acting as the ground).
 
 The hologram automatically centers itself on the target block regardless of how lopsided the tree's canopy is — centering is based on the structure's own declared capture size (always a symmetric footprint around the trunk), not the bounding box of the placed blocks, which random leaf spread would otherwise skew off-center. Leaves and other biome-tinted blocks (vanilla or modded, if the block registers a tint handler) render with the correct tint for the overlay's actual biome, not a flat default color.
@@ -311,13 +312,13 @@ The hologram automatically centers itself on the target block regardless of how 
 structure %structure
 ```
 
-A double-click picker (like the texture selector) listing every `.nbt` structure already imported into the workspace's Structures panel. Returns a `String` — the exact name to plug into the tree structure overlay's `structure` input, or into any of the Utils capture blocks below.
+A double-click picker (like the texture selector) listing every `.nbt` structure already imported into the workspace's Structures panel. Returns a `String` — the exact name to plug into the tree structure overlay's `structure` input, or into any of the Generation capture blocks below.
 
 ---
 
-## 15. Utils: Capturing Tree Structures
+## 15. Generation: Capturing Tree Structures
 
-The **Utils** subcategory (under the main Block Overlays toolbox category) holds dev-time tools for building the `.nbt` structure files the tree structure overlay renders. These are meant to be wired into a **Command** mod element you create yourself in MCreator (Utils blocks take explicit `x`/`y`/`z` inputs rather than an implicit target block, since a command has no inherent target block) — they are not intended to ship as part of normal gameplay logic.
+The **Generation** subcategory (under the main Block Overlays toolbox category) holds dev-time tools for building the `.nbt` structure files the tree structure overlay renders. These are meant to be wired into a **Command** mod element you create yourself in MCreator (Generation blocks take explicit `x`/`y`/`z` inputs rather than an implicit target block, since a command has no inherent target block) — they are not intended to ship as part of normal gameplay logic.
 
 ### Grow Tree via Bonemeal
 
@@ -366,3 +367,26 @@ The one-block version of the whole pipeline: loops every item from **list all tr
 3. Run the command in a test world. Check the game log and the `generated/<modid>/structure/` folder in that world's save for the captured `.nbt` files.
 4. Import the ones you want into the workspace's Structures panel.
 5. Use **structure selector** (or a text/variable input) on a **render tree structure overlay** block to preview them.
+
+---
+
+## 16. Render Entity Overlay
+
+```
+render entity overlay %spawn_egg percentage %percentage (0 to 1) y-offset %offset_y scale %scale spin speed %spin_speed (degrees/sec, 0 = no spin) on shape bounds %bounds animation %animation
+```
+
+Renders a live-model hologram of the entity a spawn egg item would spawn (e.g. Zombie Spawn Egg, Pig Spawn Egg) on the Block Overlay element's target block. The entity is created but never added to the world, so it has no AI, pathing, or collision — a pure client-side preview that works identically in singleplayer and on a dedicated server.
+
+- `spawn_egg` — an `MCItem` input; must resolve to a spawn egg item (e.g. `Items.ZOMBIE_SPAWN_EGG`).
+- `percentage` — growth-scale amount, `0` (tiny) to `1` (full `scale` size).
+- `offset_y` — vertical offset in pixels, same convention as the other overlay builders.
+- `scale` — `1` means the entity's longest dimension (width or height) fits in exactly one block, matching the tree structure overlay's scale convention rather than the entity's real-world size.
+- `spin_speed` — rotation around the entity's own vertical axis, in degrees/sec (`0` disables spinning).
+- `bounds` — anchor to the target block's actual shape bounds instead of a full cube.
+- `animation` — a dropdown:
+  - **No animation** — the entity stands in its default idle pose.
+  - **Look around** — the head sweeps side to side and tilts slightly, using an irregular, non-repeating motion so it doesn't look like a mechanical back-and-forth.
+  - **Walk** — plays the entity's own walk-cycle animation in place.
+
+Only one preview entity is created per entity type and reused across all overlays of that type, so many instances of the same mob (e.g. several zombie-preview blocks in view) share one cached entity rather than creating a new one per block per frame.

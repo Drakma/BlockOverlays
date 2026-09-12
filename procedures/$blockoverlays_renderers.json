@@ -1,0 +1,6 @@
+{
+	"name": "Renderers",
+	"description": "Blocks that render an in-world overlay visual (texture, item, entity, text, outline, etc.) onto a targeted block.",
+	"color": 20,
+	"parent_category": "blockoverlays"
+}

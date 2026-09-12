@@ -1,5 +1,5 @@
 {
-	"message0": "render number %1 at %2 on %3 face color %4 scale %5 decimals %6 transparency %7 padding %8 on shape bounds %9",
+	"message0": "Render number %1 at %2 on %3 face color %4 scale %5 decimals %6 transparency %7 padding %8 on shape bounds %9",
 	"args0": [
 		{
 			"type": "input_value",
@@ -53,7 +53,7 @@
 	"colour": 20,
 	"tooltip": "Renders a formatted number on this Block Overlay element\u0027s target block with transparency (0 to 1). Padding (pixels) shifts the number inward from the anchored edges.",
 	"mcreator": {
-		"toolbox_id": "blockoverlays",
+		"toolbox_id": "blockoverlays_renderers",
 		"toolbox_init": [
 			"\u003cvalue name=\"number\"\u003e\u003cblock type=\"math_number\"\u003e\u003cfield name=\"NUM\"\u003e0\u003c/field\u003e\u003c/block\u003e\u003c/value\u003e",
 			"\u003cvalue name=\"placement\"\u003e\u003cblock type=\"overlay_placement\"\u003e\u003cfield name=\"placement\"\u003eMIDDLE_CENTER\u003c/field\u003e\u003c/block\u003e\u003c/value\u003e",

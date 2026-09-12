@@ -1,0 +1,6 @@
+{
+	"name": "Generation",
+	"description": "Dev-time tree structure capture and automation procedures (not for use in shipped gameplay logic).",
+	"color": 20,
+	"parent_category": "blockoverlays"
+}

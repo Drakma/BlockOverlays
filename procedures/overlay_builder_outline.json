@@ -1,5 +1,5 @@
 {
-	"message0": "render target block outline color %1 line width %2 width units %3 transparency %4 through walls %5 on shape bounds %6 pulse %7 rainbow %8 glow %9 wave %10 marquee %11 wave phase %12 speed %13 intensity %14 marquee speed %15 glow color %16 wave color %17 glow falloff %18",
+	"message0": "Render target block outline color %1 line width %2 width units %3 transparency %4 through walls %5 on shape bounds %6 pulse %7 rainbow %8 glow %9 wave %10 marquee %11 wave phase %12 speed %13 intensity %14 marquee speed %15 glow color %16 wave color %17 glow falloff %18",
 	"args0": [
 		{
 			"type": "field_color_selector",
@@ -105,7 +105,7 @@
 	"colour": 20,
 	"tooltip": "Renders an outline around this Block Overlay element\u0027s target block. Effects (each independently toggleable): pulse (alpha breathes), rainbow (hue cycles), glow (halo passes with increasing width, separate glow color, three falloff curves), wave (bright band traveling around the shape, separate wave color; marquee crawls it continuously at its own marquee speed). Width is in 1/16-block steps or screen pixels (per frame, computed from camera distance + FOV). Speed scales time-based effects except marquee; intensity (0-1) controls depth.",
 	"mcreator": {
-		"toolbox_id": "blockoverlays",
+		"toolbox_id": "blockoverlays_renderers",
 		"toolbox_init": [
 			"\u003cvalue name=\"width\"\u003e\u003cblock type=\"math_number\"\u003e\u003cfield name=\"NUM\"\u003e1\u003c/field\u003e\u003c/block\u003e\u003c/value\u003e",
 			"\u003cvalue name=\"transparency\"\u003e\u003cblock type=\"math_number\"\u003e\u003cfield name=\"NUM\"\u003e1\u003c/field\u003e\u003c/block\u003e\u003c/value\u003e",

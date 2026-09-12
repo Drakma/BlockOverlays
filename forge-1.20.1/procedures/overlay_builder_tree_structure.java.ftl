@@ -3,6 +3,7 @@ if (event instanceof RenderLevelStageEvent) {
 	float _growth = Math.max(0.0f, Math.min(1.0f, (float) ((Number) ${(input$percentage!"0.5")}).doubleValue()));
 	double _offsetY = ((Number) ${(input$offset_y!"0")}).doubleValue() / 16.0;
 	float _baseScale = (float) ((Number) ${(input$scale!"1.0")}).doubleValue();
+	float _spinSpeed = (float) ((Number) ${(input$spin_speed!"0")}).doubleValue();
 	String _growthMode = "${field$growth_mode!"UNIFORM_SCALE"}";
 	String _structureName = <#if input$structure??>${input$structure}<#else>""</#if>;
 
@@ -35,8 +36,17 @@ if (event instanceof RenderLevelStageEvent) {
 		int _structureHeight = _structureData.maxY() - _structureData.minY() + 1;
 		int _revealedMaxY = _structureData.minY() + Math.max(0, Math.round(_growth * _structureHeight) - 1);
 
+		// Wall-clock driven (not world.getGameTime()) so it updates every render frame instead of
+		// only once per 50ms game tick, matching the entity overlay's spin.
+		float _spinAngle = _spinSpeed != 0.0f ? (float) ((System.nanoTime() / 1_000_000_000.0 * _spinSpeed) % 360.0) : 0.0f;
+
 		_poseStack.pushPose();
 		_poseStack.translate(x - _camera.x + 0.5, y - _camera.y + _offsetY + _shapeTop, z - _camera.z + 0.5);
+		// Rotate before scaling/recentering so the structure spins around its own vertical axis
+		// through the target block's center, regardless of scale.
+		if (_spinAngle != 0.0f) {
+			_poseStack.mulPose(com.mojang.math.Axis.YP.rotationDegrees(_spinAngle));
+		}
 		_poseStack.scale(_scale, _scale, _scale);
 		_poseStack.translate(-_structureData.centerX(), -_structureData.minY(), -_structureData.centerZ());
 

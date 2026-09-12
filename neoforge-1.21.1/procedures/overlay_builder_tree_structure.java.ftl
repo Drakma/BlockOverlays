@@ -3,6 +3,7 @@ if (event instanceof SubmitCustomGeometryEvent _overlayEvent) {
 	float _growth = Math.max(0.0f, Math.min(1.0f, (float) ((Number) ${(input$percentage!"0.5")}).doubleValue()));
 	double _offsetY = ((Number) ${(input$offset_y!"0")}).doubleValue() / 16.0;
 	float _baseScale = (float) ((Number) ${(input$scale!"1.0")}).doubleValue();
+	float _spinSpeed = (float) ((Number) ${(input$spin_speed!"0")}).doubleValue();
 	String _growthMode = "${field$growth_mode!"UNIFORM_SCALE"}";
 	String _structureName = <#if input$structure??>${input$structure}<#else>""</#if>;
 
@@ -33,20 +34,28 @@ if (event instanceof SubmitCustomGeometryEvent _overlayEvent) {
 		int _structureHeight = _structureData.maxY() - _structureData.minY() + 1;
 		int _revealedMaxY = _structureData.minY() + Math.max(0, Math.round(_growth * _structureHeight) - 1);
 
+		// Wall-clock driven (not world.getGameTime()) so it updates every render frame instead of
+		// only once per 50ms game tick, matching the entity overlay's spin.
+		float _spinAngle = _spinSpeed != 0.0f ? (float) ((System.nanoTime() / 1_000_000_000.0 * _spinSpeed) % 360.0) : 0.0f;
+
 		_poseStack.pushPose();
 		_poseStack.translate(x - _camera.x + 0.5, y - _camera.y + _offsetY + _shapeTop, z - _camera.z + 0.5);
+		// Rotate before scaling/recentering so the structure spins around its own vertical axis
+		// through the target block's center, regardless of scale.
+		if (_spinAngle != 0.0f) {
+			_poseStack.mulPose(com.mojang.math.Axis.YP.rotationDegrees(_spinAngle));
+		}
 		_poseStack.scale(_scale, _scale, _scale);
 		_poseStack.translate(-_structureData.centerX(), -_structureData.minY(), -_structureData.centerZ());
 
+		long _tintPosKey = _tintPos.asLong();
 		for (var _block : _structureData.blocks()) {
 			if (_bottomUpReveal && _block.pos().getY() > _revealedMaxY)
 				continue;
 			_poseStack.pushPose();
 			_poseStack.translate(_block.pos().getX(), _block.pos().getY(), _block.pos().getZ());
-			var _model = Minecraft.getInstance().getModelManager().getBlockStateModelSet().get(_block.state());
-			java.util.List<net.minecraft.client.renderer.block.dispatch.BlockStateModelPart> _parts = new java.util.ArrayList<>();
-			_model.collectParts(net.minecraft.util.RandomSource.create(42L), _parts);
-			int[] _tints = new int[] { _blockColors.getColor(_block.state(), world, _tintPos, 0) };
+			var _parts = blockOverlayGetTreeStructureModelParts(_block.state());
+			int[] _tints = new int[] { blockOverlayGetCachedTreeTint(_tintPosKey, _block.state(), () -> _blockColors.getColor(_block.state(), world, _tintPos, 0)) };
 			_overlayEvent.getSubmitNodeCollector().submitBlockModel(_poseStack, net.minecraft.client.renderer.rendertype.RenderTypes.cutoutMovingBlock(), _parts, _tints, _light, OverlayTexture.NO_OVERLAY, 0);
 			_poseStack.popPose();
 		}

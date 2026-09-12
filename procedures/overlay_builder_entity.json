@@ -1,5 +1,5 @@
 {
-	"message0": "render entity overlay %1 percentage %2 (0 to 1) y-offset %3 scale %4 spin %5",
+	"message0": "Render entity overlay %1 percentage %2 (0 to 1) y-offset %3 scale %4 spin speed %5 (degrees/sec, 0 = no spin) on shape bounds %6 animation %7",
 	"args0": [
 		{
 			"type": "input_value",
@@ -23,25 +23,41 @@
 		},
 		{
 			"type": "input_value",
-			"name": "spin",
+			"name": "spin_speed",
+			"check": "Number"
+		},
+		{
+			"type": "input_value",
+			"name": "bounds",
 			"check": "Boolean"
+		},
+		{
+			"type": "field_dropdown",
+			"name": "animation",
+			"options": [
+				["no animation", "NONE"],
+				["look around", "LOOK_AROUND"],
+				["walk", "WALK"]
+			]
 		}
 	],
 	"inputsInline": false,
 	"previousStatement": null,
 	"nextStatement": null,
 	"colour": 20,
-	"tooltip": "Renders an in-world hologram of the entity a spawn egg item would spawn (e.g. Zombie Spawn Egg, Pig Spawn Egg). The mob is created but never added to the world, so it stands in its default idle pose - no AI/pathing, works identically in singleplayer and on a dedicated server. Scale 1 = the entity's longest dimension (width or height) fits in one block, matching the tree structure overlay's scale behavior.",
+	"tooltip": "Renders an in-world hologram of the entity a spawn egg item would spawn (e.g. Zombie Spawn Egg, Pig Spawn Egg). The mob is created but never added to the world, so it has no AI/pathing/collision - works identically in singleplayer and on a dedicated server. Scale 1 = the entity's longest dimension (width or height) fits in one block, matching the tree structure overlay's scale behavior. Spin speed rotates the entity around its own vertical axis at that many degrees per second (0 disables spinning). Animation is purely cosmetic (driven client-side, independent of spin): look around sweeps the head side to side, walk plays the entity's own walk-cycle animation in place. Supports shape bounds.",
 	"mcreator": {
-		"toolbox_id": "blockoverlays",
+		"toolbox_id": "blockoverlays_renderers",
 		"toolbox_init": [
 			"<value name=\"spawn_egg\"><block type=\"mcitem_all\"><field name=\"value\">Items.PIG_SPAWN_EGG</field></block></value>",
 			"<value name=\"percentage\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value>",
 			"<value name=\"offset_y\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value>",
 			"<value name=\"scale\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value>",
-			"<value name=\"spin\"><block type=\"logic_boolean\"><field name=\"BOOL\">TRUE</field></block></value>"
+			"<value name=\"spin_speed\"><block type=\"math_number\"><field name=\"NUM\">80</field></block></value>",
+			"<value name=\"bounds\"><block type=\"logic_boolean\"><field name=\"BOOL\">FALSE</field></block></value>"
 		],
-		"inputs": ["spawn_egg", "percentage", "offset_y", "scale", "spin"],
+		"inputs": ["spawn_egg", "percentage", "offset_y", "scale", "spin_speed", "bounds"],
+		"fields": ["animation"],
 		"dependencies": [
 			{
 				"name": "x",

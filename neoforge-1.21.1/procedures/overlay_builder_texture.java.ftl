@@ -76,7 +76,6 @@ if (event instanceof SubmitCustomGeometryEvent _overlayEvent) {
 	_poseStack.mulPose(faceRotation(_side));
 	_poseStack.translate(_position.x, _position.y, _position.z);
 	_poseStack.scale((float) _scale, (float) _scale, 1.0f);
-	blockOverlayCountTextureSubmit();
 	try {
 		_overlayEvent.getSubmitNodeCollector().submitCustomGeometry(_poseStack, RenderTypes.entityTranslucent(net.minecraft.client.renderer.texture.TextureAtlas.LOCATION_BLOCKS), (_pose, _consumer) -> {
 			_consumer.addVertex(_pose, 0.5f, -0.5f, 0).setColor(_r, _g, _b, _a).setUv(_finalSprite.getU0(), _finalSprite.getV1()).setOverlay(OverlayTexture.NO_OVERLAY).setLight(_light).setNormal(_pose, 0, 0, -1);
@@ -85,7 +84,7 @@ if (event instanceof SubmitCustomGeometryEvent _overlayEvent) {
 			_consumer.addVertex(_pose, -0.5f, -0.5f, 0).setColor(_r, _g, _b, _a).setUv(_finalSprite.getU1(), _finalSprite.getV1()).setOverlay(OverlayTexture.NO_OVERLAY).setLight(_light).setNormal(_pose, 0, 0, -1);
 		});
 	} catch (Exception _renderException) {
-		BLOCK_OVERLAY_TEXTURE_CACHE_LOG.error("BlockOverlays: exception submitting texture overlay geometry", _renderException);
+		// Ignore - a single bad render shouldn't take down the rest of the frame.
 	}
 	_poseStack.popPose();
 }

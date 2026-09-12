@@ -1,5 +1,5 @@
 {
-	"message0": "capture tree structure at x %1 y %2 z %3 radius %4 height %5 save as %6",
+	"message0": "Capture tree structure at x %1 y %2 z %3 radius %4 height %5 save as %6",
 	"args0": [
 		{
 			"type": "input_value",
@@ -37,7 +37,7 @@
 	"colour": 20,
 	"tooltip": "Server-side only. Saves a horizontal (radius*2+1) square region centered on x,z starting at y as a .nbt structure, written to this world save's generated/<modid>/structure/<name>.nbt folder — the same location and format a vanilla Structure Block writes to. 'height' is a scan ceiling, not the literal saved height: the block scans upward for the actual topmost non-air block within that ceiling and trims the capture to that height, so no empty air is saved above the tree. Copy the resulting file into your MCreator workspace's Structures panel afterward to use it with the tree structure overlay. Entities in the region are not captured.",
 	"mcreator": {
-		"toolbox_id": "blockoverlays_utils",
+		"toolbox_id": "blockoverlays_generation",
 		"toolbox_init": [
 			"<value name=\"radius\"><block type=\"math_number\"><field name=\"NUM\">4</field></block></value>",
 			"<value name=\"height\"><block type=\"math_number\"><field name=\"NUM\">10</field></block></value>",

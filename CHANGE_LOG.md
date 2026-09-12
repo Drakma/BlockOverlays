@@ -1,5 +1,25 @@
 # Changelog - Block Overlays
 
+## 2026.2.246 - 2026-09-11
+
+### Added
+
+- **Render entity overlay** animations: a dropdown adds **Look around** (natural, irregular head-turning built from a sum of incommensurate sine waves, with a per-entity-type phase offset so different mobs don't glance in lockstep) and **Walk** (plays the entity's own walk-cycle animation in place, throttled to the game's 20Hz tick rate since `WalkAnimationState` is designed to be advanced once per tick, not once per render frame), alongside **No animation**.
+- **Render entity overlay** and **Render tree structure overlay** both gained `spin speed` (degrees/sec, replacing the entity overlay's old on/off `spin` boolean) and `on shape bounds` (rests the overlay on top of the target block's actual collision shape instead of its full cube, matching the other render blocks).
+- Toolbox reorganized into three subcategories under **Block Overlays**: **Renderers** (every `Render ...` overlay block), **Generation** (the dev-time tree capture/automation blocks, formerly **Utils**), and **Utils** (the remaining helpers: directions, placement, biome tint, selectors, texture/resource-location conversion).
+- All Blockly block text now uses sentence capitalization.
+
+### Fixed
+
+- **Render entity overlay** cast a vanilla ground-shadow decal that raycast against the real level at the entity's set world position, ignoring the overlay's own pose-stack transform, and could appear detached from the rendered hologram. Suppressed per-render: on the modern rendering path by zeroing the extracted render state's shadow radius/pieces before submitting, and on Forge 1.20.1 by toggling the entity render dispatcher's `shouldRenderShadow` flag off for just that call.
+- **Render tree structure overlay**: model-parts and biome tint lookups were recomputed from scratch every frame for every block in the structure; now cached (tint cache keyed by position+state with a 15s TTL, model parts cached indefinitely per state), removing a per-frame cost that scaled with structure size.
+- Texture overlay's sprite/light cache TTL raised from 2s to 15s now that the missing-texture placeholder is already exempted from normal caching, reducing steady-state recomputation without reintroducing the earlier stale-placeholder bug.
+- Removed all diagnostic logging added while chasing the FPS-drop and rendering bugs below.
+
+### Investigated (not a bug in this plugin)
+
+- The long-running "FPS drops only when looking at a nearby block with overlays" issue was root-caused to **any** custom block with a multi-box `VoxelShape` (not this plugin, and not the Jade integration plugin, both of which were suspected and ruled out along the way) — almost certainly an uncached/rebuilt-every-call `getShape()`, evaluated every frame by vanilla's own selection-outline renderer. Documented in project memory as out of scope for this repository.
+
 ## 2026.2.237 - 2026-09-10
 
 ### Added

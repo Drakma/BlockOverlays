@@ -1,11 +1,11 @@
 {
-	"message0": "{front} for facing %1",
+	"message0": "{Front} for facing %1",
 	"args0": [{ "type": "input_value", "name": "facing", "check": "Direction" }],
 	"output": "Direction",
 	"colour": 20,
 	"tooltip": "Returns the facing direction unchanged.",
 	"mcreator": {
-		"toolbox_id": "blockoverlays",
+		"toolbox_id": "blockoverlays_utils",
 		"toolbox_init": [
 			"<value name=\"facing\"><block type=\"direction_constant\"></block></value>"
 		],
