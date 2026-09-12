@@ -9,6 +9,7 @@
 
 [![HOW_TO](https://img.shields.io/badge/HOW_TO-View-blue?style=flat-square)](HOW_TO.md)
 [![Changelog](https://img.shields.io/badge/Changelog-View-blue?style=flat-square)](CHANGE_LOG.md)
+[![Wiki](https://img.shields.io/badge/Wiki-View-blue?style=flat-square)](https://github.com/Drakma/BlockOverlays/wiki)
 
 MCreator procedure blocks for world-space overlays on Forge 1.20.1, NeoForge 1.21.1, 26.1.2, and 26.2. Includes a native `Texture` Blockly datatype and workspace image selector.
 
